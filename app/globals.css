@@ -5,6 +5,11 @@
   --foreground: #171717;
 }
 
+::selection {
+  background-color: #fb923c; /* Tailwind’s orange-400 */
+  color: white; /* so text stays readable */
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
