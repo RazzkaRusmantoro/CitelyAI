@@ -3,17 +3,42 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Link from "next/link";
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
 import OAuthIcoButton from "@/components/OAuthIcoButton";
 
 
+const loginSchema = z.object({
+  email: z.string().min(1, "Enter your email").email({ message: "Invalid email address"}),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+type loginData = z.infer<typeof loginSchema>
+
 export default function Login() {
+    const {
+      register,
+      handleSubmit,
+      formState: { errors, isSubmitting },
+    } = useForm<loginData>({
+      resolver: zodResolver(loginSchema),
+    });
+
+    const onSubmit = (data: loginData) => {
+      console.log("Form data:", data);
+      //sim login for now
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log("Fake login complete");
+          resolve(null);
+        }, 3000);
+      });
+    }
+
+
     return (
         <main className="relative flex flex-col md:flex-row justify-center items-center min-h-screen bg-gray-50 px-4">
 
@@ -24,42 +49,45 @@ export default function Login() {
                       Log in to Account
                     </h1>
 
-                  <span className="mb-3 mt-2 text-sm md:text-base text-center">or use your email for signing in:</span>
-
                   {/* Form Inputs */}
-                  <form className="w-full md:w-[100%] flex flex-col gap-4" autoComplete="off">
+                  <form className="w-full md:w-[100%] flex flex-col gap-4" autoComplete="off"
+                    onSubmit={handleSubmit(onSubmit)}>
                       <div className="relative w-full">
-                          
                           <input
                               type="email"
                               placeholder="Email"
-                              autoComplete="off"
-                              readOnly
-                              id = "email"
-                              name = "email"
+                              {...register("email")}
                               onFocus={(e) => e.target.removeAttribute("readOnly")}
-                              className="w-full p-3 pl-6 rounded border border-gray-300 bg-opacity-20 text-black outline-none focus:border-black placeholder:text-gray appearance-none"
+                              className={`w-full p-3 pl-6 rounded border ${errors.email ? "border-red-500" : "border-gray-300"} 
+                                bg-opacity-20 text-black outline-none focus:border-[#f2c10f] placeholder:text-gray appearance-none`}
                           />
+                          {errors.email && (
+                            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                          )}
                       </div>
 
                       <div className="relative w-full">
                           <input
                               type="password"
                               placeholder="Password"
-                              autoComplete="new-password"
-                              readOnly
-                              id = "password"
-                              name = "password"
-                              onFocus={(e) => e.target.removeAttribute("readOnly")}
-                              className="w-full p-3 pl-6 rounded border border-gray-300 bg-white bg-opacity-20 text-black outline-none focus:border-black placeholder:text-gray appearance-none"
+                              {...register("password")}
+                              className={`w-full p-3 pl-6 rounded border ${ errors.password ? "border-red-500" : "border-gray-300" }
+                                bg-opacity-20 text-black outline-none focus:border-[#f2c10f] transition-all placeholder:text-gray appearance-none`}
                           />
+                          {errors.password && (
+                            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                          )}
                       </div>
 
-                      <button 
-                          className="cursor-pointer w-full md:w-[80%] mx-auto group relative inline-flex h-14 items-center justify-center overflow-hidden rounded-md border border-[#f2c10f] px-10 font-medium text-white transition-all duration-100 [box-shadow:5px_5px_rgb(186_130_9)] hover:translate-x-[3px] hover:translate-y-[3px] hover:[box-shadow:0px_0px_rgb(82_82_82)] bg-[#f2c10f]  text-lg"
+                      <button
+                          disabled={isSubmitting}
+                          className={`${isSubmitting? "cursor-not-allowed" : "cursor-pointer" } w-full md:w-[80%] mx-auto group relative inline-flex h-14 items-center justify-center overflow-hidden rounded-md border border-[#f2c10f] px-10 font-medium text-white transition-all duration-100 [box-shadow:5px_5px_rgb(186_130_9)] hover:translate-x-[3px] hover:translate-y-[3px] hover:[box-shadow:0px_0px_rgb(82_82_82)] bg-[#f2c10f]  text-lg`}
                           type="submit"
                       >
-                          <b>Sign in!</b>
+                          <b>{isSubmitting ? (<span className="flex items-center">
+                                                <AiOutlineLoading3Quarters className="animate-spin mr-2 w-5 h-5"/>
+                                                Signing in
+                                              </span>) : "Sign in!"}</b>
                       </button>
                   </form>
                   <Link href ="/register" className = "text-base mt-5">
