@@ -10,11 +10,19 @@ import {
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/client";
+import type { User } from "@/app/auth/getUser";
 
-export function AppSidebar() {
+interface Props {
+  user: User;
+}
+
+export function AppSidebar({ user }: Props) {
   const [open, setOpen] = useState(false);
 
-
+  const fullName =
+    user?.user_metadata?.full_name ||
+    `${user?.user_metadata?.f_name ?? ""} ${user?.user_metadata?.l_name ?? ""}`.trim() ||
+    "Guest";
 
   const links = [
     {
@@ -48,44 +56,33 @@ export function AppSidebar() {
   ];
 
   return (
-    <div
-      className={cn(
-        "flex h-screen w-full flex-col md:flex-row overflow-hidden bg-gray-100 dark:bg-neutral-800"
-      )}
-    >
-      <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
-          <div className="flex flex-1 flex-col overflow-y-auto px-2">
-            {open ? <Logo /> : <LogoIcon />}
-            <div className="mt-8 flex flex-col gap-2">
-              {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
-              ))}
-            </div>
+    <Sidebar open={open} setOpen={setOpen}>
+      <SidebarBody className="justify-between gap-10">
+        <div className="flex flex-1 flex-col overflow-y-auto px-2">
+          {open ? <Logo /> : <LogoIcon />}
+          <div className="mt-8 flex flex-col gap-2">
+            {links.map((link, idx) => (
+              <SidebarLink key={idx} link={link} />
+            ))}
           </div>
-          <div className="p-2">
-            <SidebarLink
-              link={{
-                label: "Name",
-                href: "#",
-                icon: (
-                  <></>
-                ),
-              }}
-            />
-          </div>
-        </SidebarBody>
-      </Sidebar>
-
-      {/* Optional: filler area to visualize remaining screen */}
-      <div className="flex-1 hidden md:block bg-white dark:bg-neutral-900"></div>
-    </div>
+        </div>
+        <div className="p-2">
+          <SidebarLink
+            link={{
+              label: fullName,
+              href: "#",
+              icon: <></>,
+            }}
+          />
+        </div>
+      </SidebarBody>
+    </Sidebar>
   );
 }
 
 const Logo = () => (
   <a
-    href="#"
+    href="/"
     className="z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
   >
     <div className="h-5 w-6 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
@@ -104,6 +101,5 @@ const LogoIcon = () => (
     href="#"
     className="z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
   >
-    <div className="h-5 w-6 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
   </a>
 );

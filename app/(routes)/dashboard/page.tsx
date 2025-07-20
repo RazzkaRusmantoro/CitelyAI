@@ -1,13 +1,12 @@
-
-import { AppSidebar } from "@/components/Sidebar";
 import { getUser } from "@/app/auth/getUser";
+import DashboardClient from "./dashboard-client";
 
 export default async function Dashboard() {
   const user = await getUser();
 
   return (
     <main className="h-screen w-full bg-neutral-900">
-      <AppSidebar />
+      <DashboardClient user={user} />
     </main>
   );
 }
