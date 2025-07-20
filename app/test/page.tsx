@@ -1,10 +1,6 @@
-
 import { AppSidebar } from "@/components/Sidebar";
-import { getUser } from "@/app/auth/getUser";
 
-export default async function Dashboard() {
-  const user = await getUser();
-
+export default function Page() {
   return (
     <main className="h-screen w-full bg-neutral-900">
       <AppSidebar />
