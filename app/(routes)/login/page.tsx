@@ -1,5 +1,7 @@
 "use client";
 
+import { login } from './action'
+
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
@@ -22,20 +24,33 @@ export default function Login() {
     const {
       register,
       handleSubmit,
+      setError,
       formState: { errors, isSubmitting },
     } = useForm<loginData>({
       resolver: zodResolver(loginSchema),
     });
 
-    const onSubmit = (data: loginData) => {
-      console.log("Form data:", data);
-      //sim login for now
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          console.log("Fake login complete");
-          resolve(null);
-        }, 3000);
-      });
+    const onSubmit = async (data: loginData) => {
+      try {
+            const formData = new FormData();
+            Object.entries(data).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+            const result = await login(formData);
+            
+            if (result?.error) {
+              if (result.error == 'Invalid login credentials') {
+                setError('password', { message: 'Incorrect password'} );
+              } else if (result.error == 'Email not found') {
+                setError('email', { message: 'Email does not exist'} );
+              } else {
+                setError('root', { message: 'An unexpected error occurred'} );
+              }
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 
@@ -45,8 +60,8 @@ export default function Login() {
             <div className="w-125 h-150 flex items-center justify-center mx-auto rounded-xl border border-gray-300 shadow-lg">
 
                 <div className="w-full max-w-lg text-[#161616] flex flex-col items-center justify-start p-6 relative z-10">
-                    <h1 className="text-3xl md:text-3xl font-bold mb-4 mt-6 md:mt-10 text-center">
-                      Log in to Account
+                    <h1 className="relative bottom-7 text-3xl md:text-3xl font-bold mb-4 mt-6 md:mt-10 text-center">
+                      Log in to Account 
                     </h1>
 
                   {/* Form Inputs */}

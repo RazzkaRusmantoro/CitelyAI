@@ -1,10 +1,21 @@
-"use client"; // Add this if you're using Next.js
+"use client";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { getUser, User } from '@/app/auth/getUser';
+import { logout } from '@/app/auth/logout';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await getUser();
+      setUser(userData);
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,7 +25,14 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleAuthClick = async () => {
+    if (user) {
+      await logout();
+    }
+  };
+  
   return (
+    
     <nav className={`flex justify-between items-center px-4 py-3 bg-white border sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
       {/* Logo and Desktop Navigation */}
       <div className="flex items-center">
@@ -32,7 +50,7 @@ const Navbar = () => {
       {/* Desktop Buttons - Hidden on mobile */}
       <div className="hidden md:flex gap-2 lg:gap-4">
         <Link href="/login" className="text-base">
-          <button className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2">Log in</button>
+          <button onClick={handleAuthClick} className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"> {user ? 'Log Out' : 'Log In'} </button>
         </Link>
         <button className="group relative px-4 lg:px-7 py-2 lg:py-3 cursor-pointer rounded-lg bg-gradient-to-br from-yellow-400 via-amber-500 to-yellow-600 text-black font-bold tracking-wider text-sm hover:from-yellow-500 hover:via-amber-600 hover:to-yellow-700 transform hover:rotate-1 transition-all duration-300 ease-out shadow-[0_0_20px_rgba(251,191,36,0.5)] hover:shadow-[0_0_30px_rgba(251,191,36,0.7)] active:scale-90 overflow-hidden before:absolute before:inset-0 before:rounded-lg before:border-2 before:border-amber-400/50 before:transition-all before:duration-300 hover:before:border-amber-300 hover:before:scale-105">
           <span className="flex items-center gap-2 relative z-10 text-white">
