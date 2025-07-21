@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
+import { useRouter } from 'next/navigation';
 
 
 interface Links {
@@ -155,6 +156,8 @@ export const MobileSidebar = ({
   );
 };
 
+import Link from 'next/link';
+
 export const SidebarLink = ({
   link,
   className,
@@ -164,17 +167,23 @@ export const SidebarLink = ({
   className?: string;
 }) => {
   const { open, animate } = useSidebar();
+  const router = useRouter();
+
+  const handleMouseEnter = () => {
+    router.prefetch(link.href);
+  };
+
   return (
-    <a
+    <Link
       href={link.href}
+      prefetch={true}
       className={cn(
-        "flex items-center justify-start gap-2  group/sidebar py-2",
+        "flex items-center justify-start gap-2 group/sidebar py-2",
         className
       )}
       {...props}
     >
       {link.icon}
-
       <motion.span
         animate={{
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
@@ -184,6 +193,6 @@ export const SidebarLink = ({
       >
         {link.label}
       </motion.span>
-    </a>
+    </Link>
   );
 };

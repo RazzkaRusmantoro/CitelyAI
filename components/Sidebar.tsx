@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from 'next/link';
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
   IconArrowLeft,
@@ -45,17 +46,17 @@ export function AppSidebar({ user }: Props) {
   const links = [
     {
       label: "Dashboard",
-      href: "/dashboard",
+      href: "/dashboard/home",
       icon: IconBrandTabler,
     },
     {
       label: "AI Citation Assistant",
-      href: "/dashboard",
+      href: "/dashboard/ai-citation",
       icon: IconFilePencil,
     },
     {
       label: "Academic Source Finder",
-      href: "/dashboard",
+      href: "/",
       icon: IconBook2,
     },
     {
