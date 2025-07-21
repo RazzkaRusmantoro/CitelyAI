@@ -1,6 +1,8 @@
 "use client"
+import {FlipWords} from "@/components/ui/flip-words"
 
 export default function Header() {
+    const words = ["Write Faster.", "Cite Smarter."]
     return (
         <>
             <div className="flex justify-center items-start w-full bg-gray-100 max-w-6xl mx-auto">
@@ -8,7 +10,7 @@ export default function Header() {
                     {/* Left */}
                     <div className="flex flex-col justify-center items-start text-left bg-blue-100">
                         <h2 className="text-4xl md:text-6xl font-semibold">
-                            Cite Smarter. Write Faster.
+                            <FlipWords words={words} />
                         </h2>
                         <p className="text-lg md:text-xl max-w-md">
                             Let AI handle the references, so you don't have to.

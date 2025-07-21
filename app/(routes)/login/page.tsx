@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from './action'
+
 
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from 'react-icons/fa';
@@ -32,25 +32,34 @@ export default function Login() {
 
     const onSubmit = async (data: loginData) => {
       try {
-            const formData = new FormData();
-            Object.entries(data).forEach(([key, value]) => {
-                formData.append(key, value);
-            });
-            const result = await login(formData);
-            
-            if (result?.error) {
-              if (result.error == 'Invalid login credentials') {
-                setError('password', { message: 'Incorrect password'} );
-              } else if (result.error == 'Email not found') {
-                setError('email', { message: 'Email does not exist'} );
-              } else {
-                setError('root', { message: 'An unexpected error occurred'} );
-              }
-            }
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+          credentials: 'include'
+        });
 
-        } catch (error) {
-            console.log(error)
+        const result = await response.json();
+        
+        if (result?.error) {
+          if (result.error === 'Invalid login credentials') {
+            setError('password', { message: 'Incorrect password' });
+          } else if (result.error === 'Email not found') {
+            setError('email', { message: 'Email does not exist' });
+          } else {
+            setError('root', { message: result.error || 'An unexpected error occurred' });
+          }
+        } else {
+          // Force a full page reload to ensure middleware runs
+          window.location.href = '/';
         }
+
+      } catch (error) {
+        console.error('Login error:', error);
+        setError('root', { message: 'Network error occurred' });
+      }
     }
 
 
