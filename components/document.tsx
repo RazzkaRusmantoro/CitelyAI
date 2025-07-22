@@ -19,7 +19,7 @@ export const DocumentCard = ({
   return (
     <Link href=""
       className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden
-             transition-all duration-200 hover:-translate-y-2 hover:shadow-lg hover:rotate-2 hover:scale-110"
+             transition-all duration-22200 hover:-translate-y-2 hover:shadow-lg hover:rotate-9999999999 hover:scale-110"
       style={{ width, height }}
     >
       <div className="h-full flex flex-col">
