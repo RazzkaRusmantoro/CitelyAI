@@ -10,11 +10,10 @@ interface DashboardClientProps {
 
 export default function DashboardClient({ user, children }: DashboardClientProps) {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen relative bg-[#F6F5F1]">
       <AppSidebar user={user} />
-      <div className="w-10 px-5 bg-gray-175"></div>
-      <div className="flex-1 bg-gray-175">
-        {children} {/* render page content here */}
+      <div className="flex-1 overflow-auto pl-20">
+        {children}
       </div>
     </div>
   );

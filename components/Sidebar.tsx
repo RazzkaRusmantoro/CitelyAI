@@ -90,16 +90,15 @@ export function AppSidebar({ user }: Props) {
 
       <div
         className={cn(
-          "fixed left-0 top-0 h-full z-40",
+          "fixed left-0 top-0 h-full z-50",
           "transition-all duration-300 ease-in-out",
-          "border-r-2 border-gray-200 dark:border-gray-700",
           isMobile
             ? open
-              ? "w-64 shadow-xl"
+              ? "w-full shadow-xl bg-white" 
               : "-translate-x-full"
             : open
             ? "w-64 shadow-xl"
-            : "w-17"
+            : "w-20"
         )}
         onMouseEnter={!isMobile ? () => setOpen(true) : undefined}
         onMouseLeave={!isMobile ? () => setOpen(false) : undefined}
@@ -121,7 +120,7 @@ export function AppSidebar({ user }: Props) {
                         icon: (
                           <Icon
                             className={cn(
-                              "h-5 w-5 shrink-0",
+                              "h-6 w-6 shrink-0",
                               isActive
                                 ? "text-orange-500"
                                 : "text-neutral-700 dark:text-neutral-200"
