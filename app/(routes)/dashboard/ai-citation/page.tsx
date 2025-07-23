@@ -1,5 +1,6 @@
 import { DocumentCard } from '@/components/document';
 import UploadBox from '@/components/upload';
+import Link from 'next/link';
 
 
 export default function DashboardCitation() {
@@ -21,7 +22,7 @@ export default function DashboardCitation() {
           <UploadBox/>
 
           <div className="w-full max-w-3xl h-15 bg-white rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 dark:bg-gray-800 p-3 flex items-center justify-center">
-            <button className="bg-yellow-600 hover:bg-yellow-700 text-xs text-white font-medium px-0 py-3 rounded-md transition-al duration-200 w-full h-full flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]">
+            <Link href="/ai-citation" className="bg-yellow-600 hover:bg-yellow-700 text-xs text-white font-medium px-0 py-3 rounded-md transition-al duration-200 w-full h-full flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 className="h-4 w-4" 
@@ -37,7 +38,7 @@ export default function DashboardCitation() {
                 />
               </svg>
               Create a Blank Document
-            </button>
+            </Link>
           </div>
 
           <div className="relative top-10">
