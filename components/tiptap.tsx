@@ -16,7 +16,15 @@ const Tiptap = forwardRef((props, ref) => {
   const supabase = createClient()
 
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit.configure({
+        paragraph: {
+          HTMLAttributes: {
+            class: 'my-paragraph',
+          },
+        },
+      }),
+    ],
     content: '<p></p>',
     editorProps: {
       attributes: {
@@ -50,18 +58,19 @@ const Tiptap = forwardRef((props, ref) => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ html: htmlContent, fileName })
+            body: JSON.stringify({ html: htmlContent, fileName, fileId })
           })
           const blobData = await response.blob()
           blob = new Blob([blobData], { type: fileData.file_type })
           fileName = fileName.endsWith('.docx') ? fileName : `${fileName}.docx`
         } else if (fileData.file_type === 'application/pdf') {
+          console.log("This is the fileId:", fileId)
           const response = await fetch('/api/export-pdf', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ html: htmlContent, fileName })
+            body: JSON.stringify({ html: htmlContent, fileName, fileId })
           })
           const blobData = await response.blob()
           blob = new Blob([blobData], { type: fileData.file_type })
