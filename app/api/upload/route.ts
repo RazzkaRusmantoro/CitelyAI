@@ -9,6 +9,7 @@ import xpath from 'xpath'
 import PizZip from 'pizzip'
 import { array } from 'zod';
 
+
 export async function POST(request: Request) {
     
     try {
@@ -40,7 +41,7 @@ export async function POST(request: Request) {
         const xmlContent = zip.files['word/document.xml'].asText();
 
         const doc = new xmldom.DOMParser().parseFromString(xmlContent)
-        
+
         let htmlContent = '';
         const base64Data = buffer.toString('base64');
 
