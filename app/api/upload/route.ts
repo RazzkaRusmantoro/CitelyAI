@@ -130,15 +130,3 @@ export async function POST(request: Request) {
         );
     }
 }
-
-function extractTextFromDocxXml(xmlContent: string): string {
-    // This is a simple implementation - you might want to use a proper XML parser
-    // Remove XML tags and keep text
-    let text = xmlContent.replace(/<[^>]+>/g, '');
-    
-    // Replace multiple spaces/newlines with a single space
-    text = text.replace(/\s+/g, ' ').trim();
-    
-    // You could add more sophisticated parsing here
-    return text;
-}

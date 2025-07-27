@@ -1,10 +1,20 @@
 'use client'
 
 import Tiptap from '@/components/tiptap'
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+import { createClient } from '@/utils/supabase/client'
+import 'react-pdf/dist/Page/AnnotationLayer.css'
+import 'react-pdf/dist/Page/TextLayer.css'
+import Viewer from '@/components/viewer';
+import TempPDFViewer from '@/components/TempViewer'
+import ExistingPDFViewer from '@/components/ExistingPDFViewer';
+
 
 export default function Citation() {
     const tiptapRef = useRef<{ handleDownload: () => void }>(null)
+    const params = useParams()
+    const fileid = params.fileid as string
 
     const handleDownload = () => {
         tiptapRef.current?.handleDownload()
@@ -21,8 +31,8 @@ export default function Citation() {
                     Download
                 </button>
             </div>
-
-            <Tiptap ref={tiptapRef} />
+            {/* The viewer goes here  */}
+            <ExistingPDFViewer />
         </main>
     )
 }

@@ -128,3 +128,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes radialOrbit {
+  0% {
+    background-position: 50% 50%;
+  }
+
+  25% {
+    background-position: 70% 30%;
+  }
+
+  50% {
+    background-position: 50% 50%;
+  }
+
+  75% {
+    background-position: 30% 70%;
+  }
+
+  100% {
+    background-position: 50% 50%;
+  }
+}
+
+.animate-radial-orbit {
+  background: radial-gradient(circle, #d1b751, #ffe788, #d1b751);
+  background-size: 200% 200%;
+  background-repeat: no-repeat;
+  animation: radialOrbit 15s ease-in-out infinite;
+}

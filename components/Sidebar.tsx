@@ -56,7 +56,7 @@ export function AppSidebar({ user }: Props) {
     },
     {
       label: "Academic Source Finder",
-      href: "/",
+      href: "/dashboard/academic-source-finder",
       icon: IconBook2,
     },
     {

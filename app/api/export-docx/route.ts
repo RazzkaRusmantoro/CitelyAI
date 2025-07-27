@@ -29,7 +29,7 @@ class StructurePreservingEditor {
       const docParagraph = docParagraphs[i]
       
       // Get all text runs in this paragraph
-      const runs = this.select('./w:r', docParagraph) as Element[]
+      const runs = this.select('.//w:r', docParagraph) as Element[]
       const htmlText = htmlParagraph.textContent || ''
       
       // Preserve the exact run structure while updating text
@@ -38,23 +38,15 @@ class StructurePreservingEditor {
   }
 
   private preserveRunStructure(runs: Element[], newText: string) {
-    if (runs.length === 0) return; // No runs to process
-    
     let currentPosition = 0
     let runIndex = 0
     
     // 1. First pass: distribute text to existing runs
     while (runIndex < runs.length && currentPosition < newText.length) {
       const run = runs[runIndex]
+      const textNode = this.select('.//w:t', run)[0] as Element | null
       
-      // Find the first w:t element using DOM methods
-      const textElements = run.getElementsByTagNameNS(
-        'http://schemas.openxmlformats.org/wordprocessingml/2006/main', 
-        't'
-      );
-      
-      if (textElements.length > 0) {
-        const textNode = textElements[0];
+      if (textNode) {
         const originalText = textNode.textContent || ''
         const lengthToTake = Math.min(originalText.length, newText.length - currentPosition)
         
@@ -66,38 +58,22 @@ class StructurePreservingEditor {
     }
     
     // 2. Handle remaining text
-    if (currentPosition < newText.length) {
-      // Add remaining text to last run
-      const lastRun = runs[runs.length - 1]
-      const textElements = lastRun.getElementsByTagNameNS(
-        'http://schemas.openxmlformats.org/wordprocessingml/2006/main', 
-        't'
-      );
-      
-      if (textElements.length > 0) {
-        const lastTextNode = textElements[0]
-        lastTextNode.textContent += newText.substring(currentPosition)
-      } else {
-        // Create a new text node if none exists
-        const textNode = this.doc.createElementNS(
-          'http://schemas.openxmlformats.org/wordprocessingml/2006/main', 
-          'w:t'
-        )
-        textNode.textContent = newText.substring(currentPosition)
-        lastRun.appendChild(textNode)
-      }
-    }
+    if (currentPosition < newText.length && runs.length > 0) {
+  const lastRun = runs[runs.length - 1]
+  const textNodes = this.select('.//w:t', lastRun) as Element[]
+
+  if (textNodes.length > 0) {
+    const lastTextNode = textNodes[0]
+    lastTextNode.textContent += newText.substring(currentPosition)
+  }
+}
     
     // 3. Handle case where we have more runs than needed
     while (runIndex < runs.length) {
       const run = runs[runIndex]
-      const textElements = run.getElementsByTagNameNS(
-        'http://schemas.openxmlformats.org/wordprocessingml/2006/main', 
-        't'
-      );
-      
-      if (textElements.length > 0) {
-        textElements[0].textContent = '' // Clear but preserve the run
+      const textNode = this.select('.//w:t', run)[0] as Element | null
+      if (textNode) {
+        textNode.textContent = '' // Clear but preserve the run
       }
       runIndex++
     }
@@ -136,11 +112,7 @@ export async function POST(request: Request) {
     // 2. Process document with structure preservation
     const arrayBuffer = await originalFile.arrayBuffer()
     const zip = new PizZip(arrayBuffer)
-    const docXml = zip.files['word/document.xml']?.asText()
-    
-    if (!docXml) {
-      throw new Error('Failed to extract document.xml from DOCX')
-    }
+    const docXml = zip.files['word/document.xml'].asText()
     
     const editor = new StructurePreservingEditor(docXml)
     editor.applyEdits(html)
