@@ -34,33 +34,33 @@ export async function POST(request: Request) {
             );
         }
 
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
+        // const arrayBuffer = await file.arrayBuffer();
+        // const buffer = Buffer.from(arrayBuffer);
 
-        const zip = new PizZip(arrayBuffer);
-        const xmlContent = zip.files['word/document.xml'].asText();
+        // const zip = new PizZip(arrayBuffer);
+        // const xmlContent = zip.files['word/document.xml'].asText();
 
-        const doc = new xmldom.DOMParser().parseFromString(xmlContent)
+        // const doc = new xmldom.DOMParser().parseFromString(xmlContent)
 
-        let htmlContent = '';
-        const base64Data = buffer.toString('base64');
+        // let htmlContent = '';
+        // const base64Data = buffer.toString('base64');
 
-        try {
-            if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                const result = await mammoth.extractRawText({ buffer: buffer });
-                htmlContent = result.value;
-            // } else if (file.type === 'application/pdf') {
-            //     htmlContent = await pdfToText(buffer);
-            } else {
-                htmlContent = new TextDecoder().decode(arrayBuffer);
-            }
-        } catch (error) {
-            console.error('File processing error:', error);
-            return NextResponse.json(
-                { error: 'Failed to process file content' },
-                { status: 500 }
-            );
-        }
+        // try {
+        //     if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        //         const result = await mammoth.extractRawText({ buffer: buffer });
+        //         htmlContent = result.value;
+        //     // } else if (file.type === 'application/pdf') {
+        //     //     htmlContent = await pdfToText(buffer);
+        //     } else {
+        //         htmlContent = new TextDecoder().decode(arrayBuffer);
+        //     }
+        // } catch (error) {
+        //     console.error('File processing error:', error);
+        //     return NextResponse.json(
+        //         { error: 'Failed to process file content' },
+        //         { status: 500 }
+        //     );
+        // }
         
         console.log(file.name, file.type, file.size);
 
@@ -69,29 +69,31 @@ export async function POST(request: Request) {
         const baseName = originalName.replace(/\.[^/.]+$/, "");
         const fileName = `${baseName}_${userId}_${Date.now()}_citely.${fileExt}`;
         const fileType = file.type;
+        
+        const filePath = `files/${userId}/${fileName}`;
 
         // Uploading Original Files into Bucket
         const { data, error } = await supabase.storage
             .from('user-uploads')
-            .upload(fileName, file);
+            .upload(filePath, file);
 
         if (error) {
             throw error;
         }
 
         // Uploading Buffer into Bucket
-        const { error: processedUploadError } = await supabase.storage
-            .from('user-uploads')
-            .upload(`processed/${fileName}`, buffer);
+        // const { error: processedUploadError } = await supabase.storage
+        //     .from('user-uploads')
+        //     .upload(`processed/${userId}/${fileName}`, buffer);
 
 
-        if (processedUploadError) {
-            throw processedUploadError;
-        }
+        // if (processedUploadError) {
+        //     throw processedUploadError;
+        // }
 
         const { data: urlData } = supabase.storage
             .from('user-uploads')
-            .getPublicUrl(fileName);
+            .getPublicUrl(filePath);
 
         const { data: fileRecord, error: insertError } = await supabase
             .from('files')
@@ -99,10 +101,10 @@ export async function POST(request: Request) {
                 user_id: userId,
                 filename: fileName,
                 file_type: fileType,
-                content: htmlContent,
-                original_file: base64Data,
+                content: '',
                 file_url: urlData.publicUrl,
-                processed_file_path: `processed/${fileName}`,
+                file_path: filePath,
+                // processed_file_path: `processed/${userId}/${fileName}`,
             })
             .select()
             .single();
@@ -110,7 +112,7 @@ export async function POST(request: Request) {
         if (insertError) {
             await supabase.storage
                 .from('user-uploads')
-                .remove([fileName, `processed/${fileName}`]);
+                // .remove([fileName, `processed/${userId}/${fileName}`]);
                 
             throw insertError;
         }

@@ -75,7 +75,7 @@ export default function Header() {
                 </div>
                 </FadeInOnScroll>
                 <FadeInOnScroll>
-                <div className="border-t border-gray-200 py-20">
+                <div className="border-t border-gray-200 py-20 bg-gray-50">
                     <div className="max-w-7xl mx-auto px-6">
                         <div className="text-center">
                             <h2 className="text-4xl font-semibold text-gray-800 mb-8">Abdur Cader</h2>
@@ -87,7 +87,7 @@ export default function Header() {
                 </div>
                 </FadeInOnScroll>
                 <FadeInOnScroll>
-                <div className="border-t border-gray-200 py-20 bg-gray-50">
+                <div className="border-t border-gray-200 py-20 bg-white">
                     <div className="max-w-7xl mx-auto px-6">
                         <div className="text-center">
                             <h2 className="text-4xl font-semibold text-gray-800 mb-8">How it works</h2>
@@ -107,7 +107,7 @@ export default function Header() {
         preserveAspectRatio="none"
       >
         <path
-          fill="#f9fafb"
+          fill="#ffffffff"
           fillRule="nonzero"
           d="M720 38.936531C571.07999 57.866238 321 119.5040168 0 41.09718v66.4480438h1440V40.491756c-320.2408-78.406837-571.07999-20.484932-720-1.555225z"
         />
