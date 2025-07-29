@@ -113,7 +113,7 @@ export async function POST(request: Request) {
 
                 const { data: urlData } = supabase.storage
                     .from('user-uploads')
-                    .getPublicUrl(filePathDOCX);
+                    .getPublicUrl(filePathPDF);
 
                 const { data: fileRecord, error: insertError } = await supabase
                     .from('files')
@@ -210,7 +210,7 @@ export async function POST(request: Request) {
 
                 const { data: urlData } = supabase.storage
                     .from('user-uploads')
-                    .getPublicUrl(filePathDOCX);
+                    .getPublicUrl(filePathPDF);
 
                 const { data: fileRecord, error: insertError } = await supabase
                     .from('files')

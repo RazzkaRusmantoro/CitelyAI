@@ -46,17 +46,17 @@ export default function ExistingPDFViewer() {
 
         const { data: fileData, error: fileError } = await supabase
           .from("files")
-          .select("file_url, file_path")
+          .select("file_url, file_path_pdf")
           .eq("id", fileId)
           .single();
 
         if (fileError) throw fileError;
 
         if (!fileData?.file_url) {
-          if (fileData?.file_path) {
+          if (fileData?.file_path_pdf) {
             const { data: publicUrlData } = await supabase.storage
               .from("user-uploads")
-              .getPublicUrl(fileData.file_path);
+              .getPublicUrl(fileData.file_path_pdf);
 
             setFileUrl(publicUrlData.publicUrl);
           } else {
