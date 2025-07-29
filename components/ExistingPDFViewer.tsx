@@ -31,8 +31,12 @@ export default function ExistingPDFViewer() {
   const [loaderComplete, setLoaderComplete] = useState(false);
   const loaderStartTime = useRef(Date.now());
 
+  const [isConverting, setIsConverting] = useState(false)
+  const [conversionError, setConversionError] = useState<string | null>(null)
+
   const supabase = createClient();
 
+  {/* FetchFileURL useEffect*/}
   useEffect(() => {
     async function fetchFileUrl() {
       try {
@@ -74,6 +78,7 @@ export default function ExistingPDFViewer() {
     }
   }, [fileId, supabase]);
 
+  {/* Loader useEffect */}
   useEffect(() => {
     if (showLoader) {
       const totalLoaderDuration = loadingStates.length * 1000;
@@ -86,6 +91,7 @@ export default function ExistingPDFViewer() {
     }
   }, [showLoader]);
 
+  {/* Extracting text useEffect */}
   useEffect(() => {
     async function extractTextFromPDF(pdfUrl: string) {
       const loadingTask = pdfjs.getDocument(pdfUrl);
@@ -103,14 +109,57 @@ export default function ExistingPDFViewer() {
         fullText += pageText + "\n\n";
       }
 
-      console.log("FULL TEXT:", fullText); // ← do backend processing here
-      // you can store it in state if needed or post to backend etc
+      return fullText;
+    }
+
+    async function processFile(fileUrl: string) {
+      try {
+        setIsConverting(true);
+        setConversionError(null);
+
+        let fullText = "";
+        
+        if (fileUrl.toLowerCase().endsWith('.pdf')) {
+          fullText = await extractTextFromPDF(fileUrl);
+          console.log("FULL TEXT:", fullText);
+        } else if (fileUrl.toLowerCase().endsWith('.docx') || fileUrl.toLowerCase().endsWith('.doc')) {
+          // Extract PDF Version of Word File
+          console.log("Word document detected");
+
+
+          return;
+        } else {
+          // Extract PDF Version of Text File
+          console.log("Unsupported file type (or text)");
+          return;
+        }
+
+        const response = await fetch('/api/cite', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ fileUrl, fileId, fullText }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Conversion failed: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Conversion successful:', data);
+      } catch (error) {
+        console.error('Error processing file:', error);
+        setConversionError(error instanceof Error ? error.message : 'Unknown error occurred');
+      } finally {
+        setIsConverting(false);
+      }
     }
 
     if (fileUrl) {
-      extractTextFromPDF(fileUrl);
+      processFile(fileUrl);
     }
-  }, [fileUrl]);
+  }, [fileUrl, fileId]);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
