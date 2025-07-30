@@ -139,7 +139,7 @@ export default function ExistingPDFViewer() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ fileUrl, fileId, fullText }),
+          body: JSON.stringify({ fileId }),
         });
 
         if (!response.ok) {

@@ -17,7 +17,9 @@ print("Life")
 # Keyword Extraction API
 from app.routes.key_bert_upload import keyword_extraction_bp
 app.register_blueprint(keyword_extraction_bp, url_prefix='/api')
-print("Yep")
+
+from app.routes.cite import cite_bp
+app.register_blueprint(cite_bp, url_prefix = '/api')
 
 
 if __name__ == '__main__':
