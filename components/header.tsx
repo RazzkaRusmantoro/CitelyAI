@@ -2,6 +2,7 @@
 import { FlipWords } from "@/components/ui/flip-words";
 import { motion } from "framer-motion";
 import FadeInOnScroll from "@/components/FadeInOnScroll";
+import { Carousel } from "@/components/ui/carousel";
 import Link from "next/link";
 import { InfoCard } from "./InfoCard";
 import {
@@ -14,11 +15,34 @@ import {
   Search,
 } from "lucide-react";
 
-import { BackgroundBeams } from "@/components/ui/background-beams"; // You'll need to create this component
+import { BackgroundBeams } from "@/components/ui/background-beams";
+
 
 export default function Header() {
   const words = ["Cite Smarter.", "Powered by AI."];
   const words2 = ["Write Faster.", "Your Assistant."];
+  const slideData = [
+    {
+      title: "Mystic Mountains",
+      button: "Explore Component",
+      src: "https://images.unsplash.com/photo-1494806812796-244fe51b774d?q=80&w=3534&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      title: "Urban Dreams",
+      button: "Explore Component",
+      src: "https://images.unsplash.com/photo-1518710843675-2540dd79065c?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      title: "Neon Nights",
+      button: "Explore Component",
+      src: "https://images.unsplash.com/photo-1590041794748-2d8eb73a571c?q=80&w=3456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      title: "Desert Whispers",
+      button: "Explore Component",
+      src: "https://images.unsplash.com/photo-1679420437432-80cfbf88986c?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+  ];
   return (
     <>
       <FadeInOnScroll>
@@ -66,7 +90,7 @@ export default function Header() {
                   <div className="absolute inset-0 rounded-lg opacity-50 group-hover:opacity-80 transition-opacity duration-300 bg-gradient-to-tl from-amber-200/40 via-transparent to-transparent"></div>
                   <div className="absolute -left-full top-0 h-full w-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-[200%] transition-transform duration-700 ease-out"></div>
                 </Link>
-                <button className="hover:cursor-pointer px-8 py-4 border-2 border-gray-300 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 text-lg">
+                <button className="hover:cursor-pointer bg-white px-8 py-4 border-2 border-gray-300 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300 text-lg">
                   Learn More
                 </button>
               </div>
@@ -93,32 +117,106 @@ export default function Header() {
       <FadeInOnScroll>
         <div className="border-t border-gray-200 py-20 bg-gray-50">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center">
-              <h2 className="text-4xl font-semibold text-gray-800 mb-8">
-                Abdur Cader
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-semibold text-gray-800 mb-4">
+                Why use Citely?
               </h2>
-              <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-normal">
-                He so so so wow
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                The smartest way to manage citations and references with AI-powered tools
               </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* 1 */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-amber-100 group">
+                <div className="w-14 h-14 bg-amber-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-amber-100 transition-colors duration-300">
+                  <TrendingUp className="w-7 h-7 text-amber-600" />
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">Academic Efficiency</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Save hours of manual work with automatic citation generation and formatting in any style.
+                </p>
+              </div>
+
+              {/* 2 */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-100 group">
+                <div className="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors duration-300">
+                  <Braces className="w-7 h-7 text-blue-600" />
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">Smart Formatting</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Perfectly formatted citations in APA, MLA, Chicago, and more with just one click.
+                </p>
+              </div>
+
+              {/* 3 */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-purple-100 group">
+                <div className="w-14 h-14 bg-purple-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-100 transition-colors duration-300">
+                  <Search className="w-7 h-7 text-purple-600" />
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">Source Discovery</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  AI suggests relevant sources based on your writing to strengthen your arguments.
+                </p>
+              </div>
+
+              {/* 4 */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-green-100 group">
+                <div className="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-green-100 transition-colors duration-300">
+                  <MessageCircleCode className="w-7 h-7 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">In-Text Assistance</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Get smart suggestions for where to place citations and how to integrate them naturally.
+                </p>
+              </div>
+
+              {/* 5 */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-red-100 group">
+                <div className="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-red-100 transition-colors duration-300">
+                  <Sparkles className="w-7 h-7 text-red-600" />
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">AI-Powered Analysis</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Our AI checks your citations for completeness and accuracy, flagging potential issues.
+                </p>
+              </div>
+
+              {/* 6 */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-indigo-100 group">
+                <div className="w-14 h-14 bg-indigo-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-indigo-100 transition-colors duration-300">
+                  <Zap className="w-7 h-7 text-indigo-600" />
+                </div>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">Lightning Fast</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Process hundreds of references in seconds with our optimized citation engine.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div className="text-4xl font-bold text-amber-600 mb-2">10x</div>
+                <div className="text-gray-600">Faster citation</div>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div className="text-4xl font-bold text-blue-600 mb-2">24/7</div>
+                <div className="text-gray-600">Instant Citation Assistance</div>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div className="text-4xl font-bold text-purple-600 mb-2">99.9%</div>
+                <div className="text-gray-600">Accuracy rate</div>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div className="text-4xl font-bold text-green-600 mb-2">50k+</div>
+                <div className="text-gray-600">Happy Abdur Rahmans</div>
+              </div>
             </div>
           </div>
         </div>
       </FadeInOnScroll>
-      <FadeInOnScroll>
-        <div className="border-t border-gray-200 py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center">
-              <h2 className="text-4xl font-semibold text-gray-800 mb-8">
-                How it works
-              </h2>
-              <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-normal">
-                OOOOOOOHHHHHHHHHHHH
-              </p>
-            </div>
-          </div>
-        </div>
-      </FadeInOnScroll>
-      <div className="animate-radial-orbit  -mt-1 overflow-hidden font-prompt">
+  
+      <div className="animate-radial-orbit  -mt-1 overflow-hidden font-prompt ">
         <svg
           id="wave_on_score"
           className="w-full -mb-4 scale-y-[-1]"
@@ -127,27 +225,27 @@ export default function Header() {
           preserveAspectRatio="none"
         >
           <path
-            fill="#ffffffff"
+            fill="#F9FAFB"
             fillRule="nonzero"
             d="M720 38.936531C571.07999 57.866238 321 119.5040168 0 41.09718v66.4480438h1440V40.491756c-320.2408-78.406837-571.07999-20.484932-720-1.555225z"
           />
         </svg>
 
-      {/* Section Title + Subtitle */}
-      <FadeInOnScroll>
-        <section className="text-center mb-5 py-20 px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            How it works
-          </h2>
-          <p className="text-xl max-w-2xl mx-auto text-gray-300">
-            Pop in your files and get your writing sourced in seconds.
-          </p>
-        </section>
-      </FadeInOnScroll>
+        {/* Section Title + Subtitle */}
+        <FadeInOnScroll>
+          <section className="text-center mb-5 py-20 px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+              Everything You Need, All in One
+            </h2>
+            <p className="text-2xl max-w-2xl mx-auto text-white">
+              [Insert all our AI tools here to showcase]
+            </p>
+          </section>
+        </FadeInOnScroll>
 
         {/* 3-Step Info Cards */}
         <FadeInOnScroll>
-          <section className="grid md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <section className="grid md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-10">
             <InfoCard
               svg={<Github />}
               title="Connect Your Sources"
