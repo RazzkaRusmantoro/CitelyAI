@@ -119,7 +119,7 @@ export default function Header() {
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
             How it works
           </h2>
-          <p className="text-xl max-w-2xl mx-auto text-gray-300">
+          <p className="text-xl max-w-2xl mx-auto text-white">
             Pop in your files and get your writing sourced in seconds.
           </p>
         </section>

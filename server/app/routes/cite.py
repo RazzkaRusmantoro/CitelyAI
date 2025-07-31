@@ -90,6 +90,8 @@ def cite():
                         "paragraph_index": sentences[i]['paragraph_index']
                     })
 
+        print("These are the matched pairs:", matched_pairs)
+
         # 4. Get citations from OpenAI
         response = client.chat.completions.create(
             model="gpt-4",
