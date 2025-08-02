@@ -12,11 +12,8 @@ import {
   IconSparkles,
   IconFilePencil,
   IconBook2,
-<<<<<<< HEAD
-=======
   IconFileText,
   IconListCheck
->>>>>>> 40395e14c62a27fa125924aeb4e054513d6723ee
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -68,11 +65,11 @@ export function AppSidebar({ user }: Props) {
       icon: IconBook2,
     },
     {
-<<<<<<< HEAD
       label: "Academic Citer",
       href: "/dashboard/custom-link-citation",
       icon: MessageSquareQuote,
-=======
+    },
+    {
       label: "Paper Summarizer",
       href: "/dashboard/paper-summarizer",
       icon: IconFileText,
@@ -81,7 +78,6 @@ export function AppSidebar({ user }: Props) {
       label: "Bibliography Manager",
       href: "/dashboard/bibliography-manager",
       icon: IconListCheck,
->>>>>>> 40395e14c62a27fa125924aeb4e054513d6723ee
     },
     {
       label: "Profile",
