@@ -11,7 +11,7 @@ import { MultiStepLoader as Loader } from "@/components/multi-step-loader";
 
 // PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-
+  
 const loadingStates = [
   { text: "Locating your file" },
   { text: "Preparing document" },
@@ -31,18 +31,69 @@ export default function ExistingPDFViewer() {
   const [loaderComplete, setLoaderComplete] = useState(false);
   const loaderStartTime = useRef(Date.now());
 
-  const [isConverting, setIsConverting] = useState(false)
-  const [conversionError, setConversionError] = useState<string | null>(null)
+  const [isConverting, setIsConverting] = useState(false);
+  const [conversionError, setConversionError] = useState<string | null>(null);
+  const [citationComplete, setCitationComplete] = useState(false);
+  const citationCalledRef = useRef(false); // Add this ref to track if citation was called
 
   const supabase = createClient();
 
-  {/* FetchFileURL useEffect*/}
+  // First effect: Handle the loader animation
   useEffect(() => {
+    if (showLoader) {
+      const totalLoaderDuration = loadingStates.length * 4000;
+      const timer = setTimeout(() => {
+        setLoaderComplete(true);
+        setShowLoader(false);
+      }, totalLoaderDuration);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showLoader]);
+
+  // Second effect: Initiate the citation process when fileId is available
+  useEffect(() => {
+    if (!fileId || citationCalledRef.current) return; // Skip if already called
+    citationCalledRef.current = true; // Mark as called
+
+    async function processCitations() {
+      try {
+        setIsConverting(true);
+        setConversionError(null);
+
+        const response = await fetch('/api/cite', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ fileId }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Citation failed: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Citation successful:', data);
+        setCitationComplete(true);
+      } catch (error) {
+        console.error('Error processing citations:', error);
+        setConversionError(error instanceof Error ? error.message : 'Unknown error occurred');
+      } finally {
+        setIsConverting(false);
+      }
+    }
+
+    processCitations();
+  }, [fileId]);
+
+  // Third effect: Fetch file URL only after citations are complete
+  useEffect(() => {
+    if (!citationComplete || !fileId) return;
+
     async function fetchFileUrl() {
       try {
         setLoading(true);
-        setShowLoader(true);
-        loaderStartTime.current = Date.now();
 
         const { data: fileData, error: fileError } = await supabase
           .from("files")
@@ -73,93 +124,8 @@ export default function ExistingPDFViewer() {
       }
     }
 
-    if (fileId) {
-      fetchFileUrl();
-    }
-  }, [fileId, supabase]);
-
-  {/* Loader useEffect */}
-  useEffect(() => {
-    if (showLoader) {
-      const totalLoaderDuration = loadingStates.length * 1000;
-      const timer = setTimeout(() => {
-        setLoaderComplete(true);
-        setShowLoader(false);
-      }, totalLoaderDuration);
-
-      return () => clearTimeout(timer);
-    }
-  }, [showLoader]);
-
-  {/* Extracting text useEffect */}
-  useEffect(() => {
-    async function extractTextFromPDF(pdfUrl: string) {
-      const loadingTask = pdfjs.getDocument(pdfUrl);
-      const pdf = await loadingTask.promise;
-      let fullText = "";
-
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-
-        const pageText = textContent.items
-          .map((item) => ("str" in item ? item.str : ""))
-          .join(" ");
-
-        fullText += pageText + "\n\n";
-      }
-
-      return fullText;
-    }
-
-    async function processFile(fileUrl: string) {
-      try {
-        setIsConverting(true);
-        setConversionError(null);
-
-        let fullText = "";
-        
-        if (fileUrl.toLowerCase().endsWith('.pdf')) {
-          fullText = await extractTextFromPDF(fileUrl);
-          console.log("FULL TEXT:", fullText);
-        } else if (fileUrl.toLowerCase().endsWith('.docx') || fileUrl.toLowerCase().endsWith('.doc')) {
-          // Extract PDF Version of Word File
-          console.log("Word document detected");
-
-
-          return;
-        } else {
-          // Extract PDF Version of Text File
-          console.log("Unsupported file type (or text)");
-          return;
-        }
-
-        const response = await fetch('/api/cite', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ fileId }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Conversion failed: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log('Conversion successful:', data);
-      } catch (error) {
-        console.error('Error processing file:', error);
-        setConversionError(error instanceof Error ? error.message : 'Unknown error occurred');
-      } finally {
-        setIsConverting(false);
-      }
-    }
-
-    if (fileUrl) {
-      processFile(fileUrl);
-    }
-  }, [fileUrl, fileId]);
+    fetchFileUrl();
+  }, [citationComplete, fileId, supabase]);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
@@ -174,7 +140,40 @@ export default function ExistingPDFViewer() {
   }
 
   if (error) return <div>Error: {error}</div>;
-  if (!fileUrl) return <div>No file found</div>;
+  if (conversionError) return <div>Citation Error: {conversionError}</div>;
+  if (!fileUrl) {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div
+        aria-label="Orange and tan hamster running in a metal wheel"
+        role="img"
+        className="wheel-and-hamster"
+      >
+        <div className="wheel"></div>
+        <div className="hamster">
+          <div className="hamster__body">
+            <div className="hamster__head">
+              <div className="hamster__ear"></div>
+              <div className="hamster__eye"></div>
+              <div className="hamster__nose"></div>
+            </div>
+            <div className="hamster__limb hamster__limb--fr"></div>
+            <div className="hamster__limb hamster__limb--fl"></div>
+            <div className="hamster__limb hamster__limb--br"></div>
+            <div className="hamster__limb hamster__limb--bl"></div>
+            <div className="hamster__tail"></div>
+          </div>
+        </div>
+        <div className="spoke"></div>
+      </div>
+
+      <div className="mt-6 text-lg font-medium text-center">
+        Loading Citations...
+      </div>
+    </div>
+  );
+}
+
 
   return (
     <div className="flex flex-col items-center relative">
