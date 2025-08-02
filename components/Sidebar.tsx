@@ -11,7 +11,9 @@ import {
   IconMenu2,
   IconSparkles,
   IconFilePencil,
-  IconBook2
+  IconBook2,
+  IconFileText,
+  IconListCheck
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -58,6 +60,16 @@ export function AppSidebar({ user }: Props) {
       label: "Academic Source Finder",
       href: "/dashboard/academic-source-finder",
       icon: IconBook2,
+    },
+    {
+      label: "Paper Summarizer",
+      href: "/dashboard/paper-summarizer",
+      icon: IconFileText,
+    },
+    {
+      label: "Bibliography Manager",
+      href: "/dashboard/bibliography-manager",
+      icon: IconListCheck,
     },
     {
       label: "Profile",
