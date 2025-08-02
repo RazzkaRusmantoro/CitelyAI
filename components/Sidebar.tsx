@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Link from 'next/link';
+import Link from "next/link";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
   IconArrowLeft,
@@ -11,13 +11,14 @@ import {
   IconMenu2,
   IconSparkles,
   IconFilePencil,
-  IconBook2
+  IconBook2,
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/client";
 import type { User } from "@/app/auth/getUser";
 import { usePathname } from "next/navigation";
+import { MessageSquareQuote } from "lucide-react";
 
 interface Props {
   user: User;
@@ -40,7 +41,9 @@ export function AppSidebar({ user }: Props) {
 
   const fullName =
     user?.user_metadata?.full_name ||
-    `${user?.user_metadata?.f_name ?? ""} ${user?.user_metadata?.l_name ?? ""}`.trim() ||
+    `${user?.user_metadata?.f_name ?? ""} ${
+      user?.user_metadata?.l_name ?? ""
+    }`.trim() ||
     "Guest";
 
   const links = [
@@ -58,6 +61,11 @@ export function AppSidebar({ user }: Props) {
       label: "Academic Source Finder",
       href: "/dashboard/academic-source-finder",
       icon: IconBook2,
+    },
+    {
+      label: "Academic Citer",
+      href: "/dashboard/custom-link-citation",
+      icon: MessageSquareQuote,
     },
     {
       label: "Profile",
@@ -80,13 +88,13 @@ export function AppSidebar({ user }: Props) {
     <>
       {/* Mobile menu button */}
       {isMobile && !open && (
-  <button
-    onClick={() => setOpen(true)}
-    className="fixed z-50 p-2 m-2 rounded-md md:hidden"
-  >
-    <IconMenu2 size={24} />
-  </button>
-)}
+        <button
+          onClick={() => setOpen(true)}
+          className="fixed z-50 p-2 m-2 rounded-md md:hidden"
+        >
+          <IconMenu2 size={24} />
+        </button>
+      )}
 
       <div
         className={cn(
@@ -94,7 +102,7 @@ export function AppSidebar({ user }: Props) {
           "transition-all duration-300 ease-in-out",
           isMobile
             ? open
-              ? "w-full shadow-xl bg-white" 
+              ? "w-full shadow-xl bg-white"
               : "-translate-x-full"
             : open
             ? "w-64 shadow-xl"
