@@ -91,7 +91,7 @@ export const DesktopSidebar = ({
       layout
       className={cn(
         "h-full px-4 py-4 hidden md:flex md:flex-col bg-white dark:bg-gray-900",
-        "border-r border-gray-200 dark:border-gray-700 overflow-hidden",
+        "border-r border-gray-200 dark:border-gray-700 overflow-hidden", // fully hide overflow
         className
       )}
       animate={{
@@ -118,7 +118,8 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-white dark:bg-gray-900 w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-white dark:bg-gray-900 w-full overflow-x-hidden", // hide both axes
+          className
         )}
         {...props}
       >
@@ -139,7 +140,7 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 p-10 z-[100] flex flex-col justify-between bg-white dark:bg-gray-900",
+                "fixed h-full w-full inset-0 p-10 z-[100] flex flex-col justify-between bg-white dark:bg-gray-900 overflow-x-hidden",
                 className
               )}
             >
@@ -195,9 +196,9 @@ export const SidebarLink = ({
         transition={{ duration: 0.2 }}
         className={cn(
           "inline-block text-neutral-700 dark:text-neutral-200 text-sm whitespace-pre",
-          "overflow-hidden", // Prevent text from overflowing during transition
-          !open && "w-0", // Ensure width is 0 when closed
-          "group-hover/sidebar:translate-x-1 transition-transform duration-150" // Hover animation
+          "overflow-hidden",
+          !open && "w-0",
+          "group-hover/sidebar:translate-x-1 transition-transform duration-150"
         )}
       >
         {link.label}

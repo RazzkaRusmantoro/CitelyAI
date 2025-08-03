@@ -136,7 +136,7 @@ export function AppSidebar({ user }: Props) {
       <div
         className={cn(
           "fixed left-0 top-0 h-full z-50 bg-white dark:bg-gray-900",
-          "transition-all duration-300 ease-in-out",
+          "transition-all duration-300 ease-in-out overflow-x-hidden",
           isMobile
             ? open
               ? "w-full shadow-xl"
@@ -147,29 +147,29 @@ export function AppSidebar({ user }: Props) {
         onMouseLeave={!isMobile ? () => setOpen(false) : undefined}
       >
         <Sidebar open={open} setOpen={setOpen}>
-          <SidebarBody className="justify-between scrollbar-none h-full">
-            <div className="flex flex-1 flex-col scrollbar-none overflow-y-auto px-2">
+          <SidebarBody className="justify-between scrollbar-none overflow-x-hidden h-full">
+            <div className="flex flex-1 flex-col scrollbar-none overflow-y-auto overflow-x-hidden px-2">
               {open ? <Logo /> : <LogoIcon />}
               <div className="mt-6 flex flex-col">
                 {categories.map((category, catIdx) => (
                   <div key={catIdx} className="flex flex-col">
-                    {/* Divider with fixed height */}
+                    {/* Divider */}
                     <div className="border-b border-neutral-200 dark:border-neutral-700 mx-2 h-[1px] my-2" />
 
-                    {/* Category name with fixed height */}
-                    <div className="h-6 px-4 flex items-center">
+                    {/* Category name */}
+                    <div className="h-6 px-4 flex items-center overflow-hidden">
                       <motion.span
                         className="text-xs font-medium uppercase text-neutral-500 dark:text-neutral-400 tracking-wider whitespace-nowrap"
                         animate={{
                           opacity: open ? 1 : 0,
                         }}
-                        transition={{ duration: 0.15, delay: open ? 0.25 : 0 }} // fade after expand
+                        transition={{ duration: 0.15, delay: open ? 0.25 : 0 }}
                       >
                         {category.name}
                       </motion.span>
                     </div>
 
-                    {/* Links with consistent spacing */}
+                    {/* Links */}
                     <div className="py-1">
                       {category.links.map((link, idx) => (
                         <div key={idx} className="h-10 flex items-center">
