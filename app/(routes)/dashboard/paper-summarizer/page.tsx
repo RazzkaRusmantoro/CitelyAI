@@ -239,9 +239,6 @@ export default function DashboardSummarizer() {
               
               <div className="flex-1">
                 <div className="h-96 p-4">
-                    {error && (
-                    <div className="text-red-500 mb-2">{error}</div>
-                    )}
                     {summary ? (
                     <div className="w-full h-full overflow-auto">
                         <ReactMarkdown

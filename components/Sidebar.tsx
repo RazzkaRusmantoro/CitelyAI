@@ -13,7 +13,8 @@ import {
   IconFilePencil,
   IconBook2,
   IconFileText,
-  IconListCheck
+  IconListCheck,
+  IconSunglassesFilled
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -73,6 +74,11 @@ export function AppSidebar({ user }: Props) {
       label: "Paper Summarizer",
       href: "/dashboard/paper-summarizer",
       icon: IconFileText,
+    },
+    {
+      label: "Research Skimmer",
+      href: "/dashboard/research-skimmer",
+      icon: IconSunglassesFilled,
     },
     {
       label: "Bibliography Manager",
