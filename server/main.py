@@ -27,7 +27,11 @@ app.register_blueprint(cite_link_bp, url_prefix='/api')
 from app.routes.update_citation import update_citation_bp
 app.register_blueprint(update_citation_bp)
 
+from app.routes.summarize import summarize_bp
+app.register_blueprint(summarize_bp, url_prefix='/api')
 
+from app.routes.summarize_link import summarize_link_bp
+app.register_blueprint(summarize_link_bp, url_prefix = '/api')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
