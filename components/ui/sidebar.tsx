@@ -1,10 +1,10 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { useState, createContext, useContext } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-import { useRouter } from 'next/navigation';
-
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Links {
   label: string;
@@ -47,7 +47,7 @@ export const SidebarProvider = ({
   const setOpen = setOpenProp !== undefined ? setOpenProp : setOpenState;
 
   return (
-    <SidebarContext.Provider value={{ open, setOpen, animate: animate }}>
+    <SidebarContext.Provider value={{ open, setOpen, animate }}>
       {children}
     </SidebarContext.Provider>
   );
@@ -87,23 +87,24 @@ export const DesktopSidebar = ({
 }: React.ComponentProps<typeof motion.div>) => {
   const { open, setOpen, animate } = useSidebar();
   return (
-    <>
-      <motion.div
-        className={cn(
-          "h-full px-4 py-4 hidden  md:flex md:flex-col bg-white w-[20px] shrink-0",
-          "border-r-2 border-gray-200 dark:border-gray-700",
-          className
-        )}
-        animate={{
-          width: animate ? (open ? "16rem" : "5rem") : "16rem",
-        }}
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    </>
+    <motion.div
+      layout
+      className={cn(
+        "h-full px-4 py-4 hidden md:flex md:flex-col bg-white dark:bg-gray-900",
+        "border-r border-gray-200 dark:border-gray-700 overflow-hidden",
+        className
+      )}
+      animate={{
+        width: animate ? (open ? "16rem" : "5rem") : "16rem",
+      }}
+      initial={{ width: "5rem" }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      {...props}
+    >
+      {children}
+    </motion.div>
   );
 };
 
@@ -117,7 +118,7 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-white w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-white dark:bg-gray-900 w-full"
         )}
         {...props}
       >
@@ -138,7 +139,7 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0  p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-full inset-0 p-10 z-[100] flex flex-col justify-between bg-white dark:bg-gray-900",
                 className
               )}
             >
@@ -157,8 +158,6 @@ export const MobileSidebar = ({
   );
 };
 
-import Link from 'next/link';
-
 export const SidebarLink = ({
   link,
   className,
@@ -167,7 +166,7 @@ export const SidebarLink = ({
   link: Links;
   className?: string;
 }) => {
-  const { open, animate } = useSidebar();
+  const { open } = useSidebar();
   const router = useRouter();
 
   const handleMouseEnter = () => {
@@ -178,6 +177,7 @@ export const SidebarLink = ({
     <Link
       href={link.href}
       prefetch={true}
+      onMouseEnter={handleMouseEnter}
       className={cn(
         "flex items-center justify-start gap-2 group/sidebar py-2",
         className
@@ -186,11 +186,19 @@ export const SidebarLink = ({
     >
       {link.icon}
       <motion.span
+        initial={false}
         animate={{
-          display: animate ? (open ? "inline-block" : "none") : "inline-block",
-          opacity: animate ? (open ? 1 : 0) : 1,
+          opacity: open ? 1 : 0,
+          width: open ? "auto" : 0,
+          marginLeft: open ? 8 : 0,
         }}
-        className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        transition={{ duration: 0.2 }}
+        className={cn(
+          "inline-block text-neutral-700 dark:text-neutral-200 text-sm whitespace-pre",
+          "overflow-hidden", // Prevent text from overflowing during transition
+          !open && "w-0", // Ensure width is 0 when closed
+          "group-hover/sidebar:translate-x-1 transition-transform duration-150" // Hover animation
+        )}
       >
         {link.label}
       </motion.span>
