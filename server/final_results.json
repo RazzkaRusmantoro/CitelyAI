@@ -1,0 +1,209 @@
+[
+  {
+    "original_sentence": "Refers to any kind of machine learning method in which the agent receives a delayed reward in the next time step to evaluate its previous action.",
+    "cited_sentence": "Refers to any kind of machine learning method in which the agent receives a delayed reward in the next time step to evaluate its previous action (Yu, 2021).",
+    "paragraph_index": 4,
+    "citation": "(Yu, 2021)",
+    "confidence": 0.5598079562187195,
+    "paper_id": "17969ce5da62814ef16781d5b7f0cdf93f6e4367",
+    "paper_title": "Proximal Policy Optimization with Future rewards"
+  },
+  {
+    "original_sentence": "Agent learns to make decisions by interacting with an environment.",
+    "cited_sentence": "Agent learns to make decisions by interacting with an environment (Liu, 2024).",
+    "paragraph_index": 5,
+    "citation": "(Liu, 2024)",
+    "confidence": 0.671753466129303,
+    "paper_id": "84998e592368ad4150b462b20ff980dc97308e3f",
+    "paper_title": "QFuture: Learning Future Expectation Cognition in Multiagent Reinforcement Learning"
+  },
+  {
+    "original_sentence": "The environment responds with a new state and a reward.",
+    "cited_sentence": "The environment responds with a new state and a reward (Cao, 2024).",
+    "paragraph_index": 8,
+    "citation": "(Cao, 2024)",
+    "confidence": 0.563526451587677,
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic"
+  },
+  {
+    "original_sentence": "The agent updates its policy to maximize future rewards.",
+    "cited_sentence": "The agent updates its policy to maximize future rewards (Zhang, 2022).",
+    "paragraph_index": 9,
+    "citation": "(Zhang, 2022)",
+    "confidence": 0.615591287612915,
+    "paper_id": "aa76febe2e6f6a96f1daa83828f2340bf871042e",
+    "paper_title": "Global Convergence of Localized Policy Iteration in Networked Multi-Agent Reinforcement Learning"
+  },
+  {
+    "original_sentence": "A reinforcement learning setup is composed of two components, an agent and an environment.",
+    "cited_sentence": "A reinforcement learning setup is composed of two components, an agent and an environment (Escontrela, 2023).",
+    "paragraph_index": 10,
+    "citation": "(Escontrela, 2023)",
+    "confidence": 0.6758771538734436,
+    "paper_id": "63857fddb2a4bdf9d9cf88f6dd4eceaf09cadef1",
+    "paper_title": "Video Prediction Models as Rewards for Reinforcement Learning"
+  },
+  {
+    "original_sentence": "The strategy that the agent employs to determine next action based on current state.",
+    "cited_sentence": "The strategy that the agent employs to determine next action based on current state (Peng, 2020).",
+    "paragraph_index": 21,
+    "citation": "(Peng, 2020)",
+    "confidence": 0.5157836675643921,
+    "paper_id": "7e61f1787cbf97bb59eb7f5f383e654d66947f0d",
+    "paper_title": "FACMAC: Factored Multi-Agent Centralised Policy Gradients"
+  },
+  {
+    "original_sentence": "The agent builds a model of the environment by learning the transition (probability landing in s’ giving state s and action a; T(s′|s,a)) and reward functions (R(s,a)).",
+    "cited_sentence": "The agent builds a model of the environment by learning the transition (probability landing in s’ giving state s and action a; T(s′|s,a)) and reward functions (R(s,a)) (Escontrela, 2023).",
+    "paragraph_index": 32,
+    "citation": "(Escontrela, 2023)",
+    "confidence": 0.646850049495697,
+    "paper_id": "63857fddb2a4bdf9d9cf88f6dd4eceaf09cadef1",
+    "paper_title": "Video Prediction Models as Rewards for Reinforcement Learning"
+  },
+  {
+    "original_sentence": "Learns directly from experience or trial and error.",
+    "cited_sentence": "Learns directly from experience or trial and error (Cao, 2024).",
+    "paragraph_index": 37,
+    "citation": "(Cao, 2024)",
+    "confidence": 0.5220992565155029,
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic"
+  },
+  {
+    "original_sentence": "Learns the value of actions by trying them and observing rewards.",
+    "cited_sentence": "Learns the value of actions by trying them and observing rewards (Escontrela, 2023).",
+    "paragraph_index": 38,
+    "citation": "(Escontrela, 2023)",
+    "confidence": 0.6260222792625427,
+    "paper_id": "63857fddb2a4bdf9d9cf88f6dd4eceaf09cadef1",
+    "paper_title": "Video Prediction Models as Rewards for Reinforcement Learning"
+  },
+  {
+    "original_sentence": "On-policy agent learns the value based on its current action as derived from the current policy.",
+    "cited_sentence": "On-policy agent learns the value based on its current action as derived from the current policy (Peng, 2020).",
+    "paragraph_index": 42,
+    "citation": "(Peng, 2020)",
+    "confidence": 0.6419429779052734,
+    "paper_id": "7e61f1787cbf97bb59eb7f5f383e654d66947f0d",
+    "paper_title": "FACMAC: Factored Multi-Agent Centralised Policy Gradients"
+  },
+  {
+    "original_sentence": "Off-policy learns it based on action a’ obtained from another policy.",
+    "cited_sentence": "Off-policy learns it based on action a’ obtained from another policy (Haarnoja, 2018).",
+    "paragraph_index": 43,
+    "citation": "(Haarnoja, 2018)",
+    "confidence": 0.5598166584968567,
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor"
+  },
+  {
+    "original_sentence": "Policy iteration runs a loop between policy evaluation and policy improvement.",
+    "cited_sentence": "Policy iteration runs a loop between policy evaluation and policy improvement (Cao, 2024).",
+    "paragraph_index": 53,
+    "citation": "(Cao, 2024)",
+    "confidence": 0.5206000804901123,
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic"
+  },
+  {
+    "original_sentence": "The ‘Q’ in Q-learning stands for quality.",
+    "cited_sentence": "The ‘Q’ in Q-learning stands for quality (Qu, 2025).",
+    "paragraph_index": 56,
+    "citation": "(Qu, 2025)",
+    "confidence": 0.5283302664756775,
+    "paper_id": "4e9a900ad062a558699abfe6577af63910df43cc",
+    "paper_title": "From Rules to Rewards: Reinforcement Learning for Interest Rate Adjustment in DeFi Lending"
+  },
+  {
+    "original_sentence": "When q-learning is performed, we create what’s called a q-table or matrix that follows the shape of [state, action] and we initialize our values to zero.",
+    "cited_sentence": "When q-learning is performed, we create what’s called a q-table or matrix that follows the shape of [state, action] and we initialize our values to zero (Haarnoja, 2018).",
+    "paragraph_index": 60,
+    "citation": "(Haarnoja, 2018)",
+    "confidence": 0.5900876522064209,
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor"
+  },
+  {
+    "original_sentence": "Pick a random action to try something new (which might lead to better results in the future).",
+    "cited_sentence": "Pick a random action to try something new (which might lead to better results in the future) (Haarnoja, 2018).",
+    "paragraph_index": 70,
+    "citation": "(Haarnoja, 2018)",
+    "confidence": 0.5292332172393799,
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor"
+  },
+  {
+    "original_sentence": "With probability ε, the agent explores (random action).",
+    "cited_sentence": "With probability ε, the agent explores (random action) (Zhang, 2022).",
+    "paragraph_index": 72,
+    "citation": "(Zhang, 2022)",
+    "confidence": 0.5556235313415527,
+    "paper_id": "aa76febe2e6f6a96f1daa83828f2340bf871042e",
+    "paper_title": "Global Convergence of Localized Policy Iteration in Networked Multi-Agent Reinforcement Learning"
+  },
+  {
+    "original_sentence": "With probability 1-ε, it exploits (chooses the best action).",
+    "cited_sentence": "With probability 1-ε, it exploits (chooses the best action) (Haarnoja, 2018).",
+    "paragraph_index": 73,
+    "citation": "(Haarnoja, 2018)",
+    "confidence": 0.5148336887359619,
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor"
+  },
+  {
+    "original_sentence": "The discount factor determines how much future rewards matter compared to immediate rewards.",
+    "cited_sentence": "The discount factor determines how much future rewards matter compared to immediate rewards (Yu, 2021).",
+    "paragraph_index": 94,
+    "citation": "(Yu, 2021)",
+    "confidence": 0.5275698304176331,
+    "paper_id": "17969ce5da62814ef16781d5b7f0cdf93f6e4367",
+    "paper_title": "Proximal Policy Optimization with Future rewards"
+  },
+  {
+    "original_sentence": "An MDP helps an agent decide what to do next, step-by-step, in an environment that changes in response to its actions, might have random outcomes, and gives rewards based on choices.",
+    "cited_sentence": "An MDP helps an agent decide what to do next, step-by-step, in an environment that changes in response to its actions, might have random outcomes, and gives rewards based on choices (Liu, 2024).",
+    "paragraph_index": 209,
+    "citation": "(Liu, 2024)",
+    "confidence": 0.5366851091384888,
+    "paper_id": "84998e592368ad4150b462b20ff980dc97308e3f",
+    "paper_title": "QFuture: Learning Future Expectation Cognition in Multiagent Reinforcement Learning"
+  },
+  {
+    "original_sentence": "A rule for deciding how good a policy is based on the rewards it gets over time.",
+    "cited_sentence": "A rule for deciding how good a policy is based on the rewards it gets over time (Cao, 2024).",
+    "paragraph_index": 231,
+    "citation": "(Cao, 2024)",
+    "confidence": 0.5173339247703552,
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic"
+  },
+  {
+    "original_sentence": "Policies often result in long or infinite sequences of rewards, so we need a way to turn that long sequence into one final number that tells us how good the policy is.",
+    "cited_sentence": "Policies often result in long or infinite sequences of rewards, so we need a way to turn that long sequence into one final number that tells us how good the policy is (Zhang, 2021).",
+    "paragraph_index": 232,
+    "citation": "(Zhang, 2021)",
+    "confidence": 0.5383155345916748,
+    "paper_id": "9213bed2e948eee3dacc2a26b4ef813658dda07b",
+    "paper_title": "Centralized Model and Exploration Policy for Multi-Agent RL"
+  },
+  {
+    "original_sentence": "Future rewards are worth less than immediate rewards.",
+    "cited_sentence": "Future rewards are worth less than immediate rewards (Cao, 2024).",
+    "paragraph_index": 235,
+    "citation": "(Cao, 2024)",
+    "confidence": 0.5231035947799683,
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic"
+  },
+  {
+    "original_sentence": "Vπ : S → ℜ, a value function represents the expected objective value obtained following policy π from each state in S.",
+    "cited_sentence": "Vπ : S → ℜ, a value function represents the expected objective value obtained following policy π from each state in S (Cao, 2024).",
+    "paragraph_index": 249,
+    "citation": "(Cao, 2024)",
+    "confidence": 0.5048161745071411,
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic"
+  }
+]

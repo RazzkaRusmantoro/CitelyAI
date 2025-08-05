@@ -178,7 +178,27 @@ export async function POST(request: Request) {
         }
 
         const { results: citations } = await flaskResponse.json();
-        
+        const citedSentences = citations.map((c: any) => c.cited_sentence).filter(Boolean);
+        const citationTexts = citations.map((c: any) => c.citation).filter(Boolean);
+
+        const referencesData = citations.map((citation: any) => ({
+            cited_sentence: citation.cited_sentence,
+            paper_id: citation.paper_id,
+            paper_title: citation.paper_title
+        }));
+
+        const { error: supabaseError } = await supabase
+            .from('files')
+            .update({ 
+                references: referencesData 
+            })
+            .eq('id', fileId);
+
+        if (supabaseError) {
+            console.error('Error saving references to Supabase:', supabaseError);
+        }
+
+                
         // 5. Add citations by reconstructing paragraphs
         let modificationsMade = 0;
         const failedMatches: string[] = [];
@@ -461,6 +481,9 @@ export async function POST(request: Request) {
             localFilePath: localFilePath,
             modificationsMade: modificationsMade,
             failedMatches: failedMatches,
+            citedSentences: citedSentences,
+            citationTexts: citationTexts,
+            results: citations,
             message: 'Document processing complete'
         });
 
