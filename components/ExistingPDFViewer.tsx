@@ -1,13 +1,18 @@
-// components/ExistingPDFViewer.tsx
 "use client";
 
 import { Document, Page, pdfjs } from "react-pdf";
+import type { TextItem } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useSearchParams } from "next/navigation";
 import { MultiStepLoader as Loader } from "@/components/multi-step-loader";
+
+interface ExistingPDFViewerProps {
+  onLoadComplete?: () => void;
+}
+
 
 // PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -20,7 +25,7 @@ const loadingStates = [
   { text: "Ready to view" },
 ];
 
-export default function ExistingPDFViewer() {
+export default function ExistingPDFViewer({ onLoadComplete }: ExistingPDFViewerProps) {
   const searchParams = useSearchParams();
   const fileId = searchParams.get("fileId");
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -29,14 +34,35 @@ export default function ExistingPDFViewer() {
   const [error, setError] = useState<string | null>(null);
   const [showLoader, setShowLoader] = useState(true);
   const [loaderComplete, setLoaderComplete] = useState(false);
-  const loaderStartTime = useRef(Date.now());
+  const [citationTexts, setCitationTexts] = useState<string[]>([]); // Store citation texts
 
   const [isConverting, setIsConverting] = useState(false);
   const [conversionError, setConversionError] = useState<string | null>(null);
   const [citationComplete, setCitationComplete] = useState(false);
-  const citationCalledRef = useRef(false); // Add this ref to track if citation was called
+  const citationCalledRef = useRef(false);
 
   const supabase = createClient();
+
+  // Custom text renderer to highlight citation texts
+  const textRenderer = useCallback(
+    (textItem: TextItem) => {
+      if (citationTexts.length === 0) return textItem.str;
+      
+      // Create a regex pattern that matches any of the citation texts
+      const pattern = new RegExp(
+        citationTexts.map(text => escapeRegExp(text)).join('|'),
+        'gi'
+      );
+      
+      return textItem.str.replace(pattern, (match) => `<mark>${match}</mark>`);
+    },
+    [citationTexts]
+  );
+
+  // Helper function to escape regex special characters
+  function escapeRegExp(string: string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
 
   // First effect: Handle the loader animation
   useEffect(() => {
@@ -53,8 +79,8 @@ export default function ExistingPDFViewer() {
 
   // Second effect: Initiate the citation process when fileId is available
   useEffect(() => {
-    if (!fileId || citationCalledRef.current) return; // Skip if already called
-    citationCalledRef.current = true; // Mark as called
+    if (!fileId || citationCalledRef.current) return;
+    citationCalledRef.current = true;
 
     async function processCitations() {
       try {
@@ -75,6 +101,12 @@ export default function ExistingPDFViewer() {
 
         const data = await response.json();
         console.log('Citation successful:', data);
+        
+        // Store the citation texts from the response
+        if (data.citationTexts && Array.isArray(data.citationTexts)) {
+          setCitationTexts(data.citationTexts);
+        }
+        
         setCitationComplete(true);
       } catch (error) {
         console.error('Error processing citations:', error);
@@ -129,6 +161,9 @@ export default function ExistingPDFViewer() {
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
+     if (onLoadComplete) {
+      onLoadComplete();
+    }
   }
 
   if (!loaderComplete) {
@@ -142,38 +177,37 @@ export default function ExistingPDFViewer() {
   if (error) return <div>Error: {error}</div>;
   if (conversionError) return <div>Citation Error: {conversionError}</div>;
   if (!fileUrl) {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div
-        aria-label="Orange and tan hamster running in a metal wheel"
-        role="img"
-        className="wheel-and-hamster"
-      >
-        <div className="wheel"></div>
-        <div className="hamster">
-          <div className="hamster__body">
-            <div className="hamster__head">
-              <div className="hamster__ear"></div>
-              <div className="hamster__eye"></div>
-              <div className="hamster__nose"></div>
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <div
+          aria-label="Orange and tan hamster running in a metal wheel"
+          role="img"
+          className="wheel-and-hamster"
+        >
+          <div className="wheel"></div>
+          <div className="hamster">
+            <div className="hamster__body">
+              <div className="hamster__head">
+                <div className="hamster__ear"></div>
+                <div className="hamster__eye"></div>
+                <div className="hamster__nose"></div>
+              </div>
+              <div className="hamster__limb hamster__limb--fr"></div>
+              <div className="hamster__limb hamster__limb--fl"></div>
+              <div className="hamster__limb hamster__limb--br"></div>
+              <div className="hamster__limb hamster__limb--bl"></div>
+              <div className="hamster__tail"></div>
             </div>
-            <div className="hamster__limb hamster__limb--fr"></div>
-            <div className="hamster__limb hamster__limb--fl"></div>
-            <div className="hamster__limb hamster__limb--br"></div>
-            <div className="hamster__limb hamster__limb--bl"></div>
-            <div className="hamster__tail"></div>
           </div>
+          <div className="spoke"></div>
         </div>
-        <div className="spoke"></div>
-      </div>
 
-      <div className="mt-6 text-lg font-medium text-center">
-        Loading Citations...
+        <div className="mt-6 text-lg font-medium text-center">
+          Loading Citations...
+        </div>
       </div>
-    </div>
-  );
-}
-
+    );
+  }
 
   return (
     <div className="flex flex-col items-center relative">
@@ -189,6 +223,7 @@ export default function ExistingPDFViewer() {
             width={800}
             className="mb-4 border border-gray-300"
             loading={<div>Loading page {index + 1}...</div>}
+            customTextRenderer={textRenderer}
           />
         ))}
       </Document>

@@ -160,7 +160,9 @@ def cite():
                 "is_valid_content": bool,
                 "needs_citation": bool,
                 "citation": "(Author, Year)" or null,
-                "confidence": float
+                "confidence": float,
+                "paper_id": string,
+                "paper_title": string
             }]
             }"""
 
@@ -192,7 +194,9 @@ def cite():
                             None
                         ),
                         "citation": item["citation"],
-                        "confidence": item.get("confidence", 0)
+                        "confidence": item.get("confidence", 0),
+                        "paper_id": item["paper_id"],
+                        "paper_title": item["paper_title"],
                     }
                     for item in analysis.get("analysis", [])
                     if item.get("is_valid_content", False) 

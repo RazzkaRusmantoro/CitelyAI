@@ -216,57 +216,86 @@ export default function Header() {
         </div>
       </FadeInOnScroll>
   
-      <div className="animate-radial-orbit  -mt-1 overflow-hidden font-prompt ">
-        <svg
-          id="wave_on_score"
-          className="w-full -mb-4 scale-y-[-1]"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1440 107"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="#F9FAFB"
-            fillRule="nonzero"
-            d="M720 38.936531C571.07999 57.866238 321 119.5040168 0 41.09718v66.4480438h1440V40.491756c-320.2408-78.406837-571.07999-20.484932-720-1.555225z"
-          />
-        </svg>
+      <div className="animate-radial-orbit -mt-1 overflow-hidden font-prompt">
+  <svg
+    id="wave_on_score"
+    className="w-full -mb-4 scale-y-[-1]"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1440 107"
+    preserveAspectRatio="none"
+  >
+    <path
+      fill="#F9FAFB"
+      fillRule="nonzero"
+      d="M720 38.936531C571.07999 57.866238 321 119.5040168 0 41.09718v66.4480438h1440V40.491756c-320.2408-78.406837-571.07999-20.484932-720-1.555225z"
+    />
+  </svg>
 
-        {/* Section Title + Subtitle */}
-        <FadeInOnScroll>
-          <section className="text-center mb-5 py-20 px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-              Everything You Need, All in One
-            </h2>
-            <p className="text-2xl max-w-2xl mx-auto text-white">
-              [Insert all our AI tools here to showcase]
-            </p>
-          </section>
-        </FadeInOnScroll>
+  {/* Section Title + Subtitle */}
+  <FadeInOnScroll>
+    <section className="text-center mb-5 py-20 px-4 sm:px-6 lg:px-8">
+      <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+        Everything You Need, All in One
+      </h2>
+      <p className="text-2xl max-w-2xl mx-auto text-white">
+        Our comprehensive suite of AI-powered research tools
+      </p>
+    </section>
+  </FadeInOnScroll>
 
-        {/* 3-Step Info Cards */}
-        <FadeInOnScroll>
-          <section className="grid md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-10">
-            <InfoCard
-              svg={<Github />}
-              title="Connect Your Sources"
-              para="Link your files or input citations to get started instantly."
-              step={1}
-            />
-            <InfoCard
-              svg={<Zap />}
-              title="Add a Citation"
-              para="Paste a link, DOI, or ISBN and we'll format it for you."
-              step={2}
-            />
-            <InfoCard
-              svg={<Sparkles />}
-              title="Get AI Assistance"
-              para="Let AI polish, format, and suggest sources with ease."
-              step={3}
-            />
-          </section>
-        </FadeInOnScroll>
-      </div>
+  <FadeInOnScroll>
+    <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-10">
+      {/* Basic AI Citation Assistant */}
+      <InfoCard
+        svg={<Sparkles className="w-6 h-6" />}
+        title="Basic AI Citation Assistant"
+        para="Generate citations instantly in any format with our free AI assistant."
+        step={1}
+      />
+      
+      {/* Premium AI Citation Assistant */}
+      <InfoCard
+        svg={<Zap className="w-6 h-6" />}
+        title="Premium AI Citation Assistant"
+        para="Advanced citation generation with style suggestions and error detection."
+        step={2}
+      />
+      
+      {/* Academic Source Finder */}
+      <InfoCard
+        svg={<Search className="w-6 h-6" />}
+        title="Academic Source Finder"
+        para="AI-powered search for relevant academic sources based on your topic."
+        step={3}
+      />
+      
+      {/* Paper Summarizer */}
+      <InfoCard
+        svg={<MessageCircleCode className="w-6 h-6" />}
+        title="Paper Summarizer"
+        para="Get concise summaries of research papers with key takeaways."
+        step={4}
+      />
+      
+      {/* Research Skimmer */}
+      <InfoCard
+        svg={<TrendingUp className="w-6 h-6" />}
+        title="Research Skimmer"
+        para="Quickly extract key information from multiple sources at once."
+        step={5}
+      />
+      
+      {/* Bibliography Manager */}
+      <InfoCard
+        svg={<Braces className="w-6 h-6" />}
+        title="Bibliography Manager"
+        para="Organize, sort, and export your references with one click."
+        step={6}
+        
+      />
+    </section>
+  </FadeInOnScroll>
+</div>
     </>
   );
 }

@@ -1,0 +1,482 @@
+[
+  {
+    "original_sentence": "Refers to any kind of machine learning method in which the agent receives a delayed reward in the next time step to evaluate its previous action.",
+    "paragraph_index": 4,
+    "paper_title": "Proximal Policy Optimization with Future rewards",
+    "paper_id": "17969ce5da62814ef16781d5b7f0cdf93f6e4367",
+    "abstract_sentence": "In this article, a new method is proposed, referring to Asynchronous Advantage Actor-Critic (A3C)[9], the basic PPO algorithm is trained in parallel, and a method that considers future rewards is introduced, and the future rewards are also calculated to the current.",
+    "similarity_score": 0.5598079562187195,
+    "citation": "(Yu, 2021)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "Agent learns to make decisions by interacting with an environment.",
+    "paragraph_index": 5,
+    "paper_title": "QFuture: Learning Future Expectation Cognition in Multiagent Reinforcement Learning",
+    "paper_id": "84998e592368ad4150b462b20ff980dc97308e3f",
+    "abstract_sentence": "In multiagent reinforcement learning (MARL), agents must learn to cooperate by observing the environment and selecting actions that maximize their rewards.",
+    "similarity_score": 0.671753466129303,
+    "citation": "(Liu, 2024)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "The agent observes the current state of the environment.",
+    "paragraph_index": 6,
+    "paper_title": "QFuture: Learning Future Expectation Cognition in Multiagent Reinforcement Learning",
+    "paper_id": "84998e592368ad4150b462b20ff980dc97308e3f",
+    "abstract_sentence": "In multiagent reinforcement learning (MARL), agents must learn to cooperate by observing the environment and selecting actions that maximize their rewards.",
+    "similarity_score": 0.4681369662284851,
+    "citation": "(Liu, 2024)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "It chooses an action based on its current policy.",
+    "paragraph_index": 7,
+    "paper_title": "FACMAC: Factored Multi-Agent Centralised Policy Gradients",
+    "paper_id": "7e61f1787cbf97bb59eb7f5f383e654d66947f0d",
+    "abstract_sentence": "This allows for more coordinated policy changes and fully reaps the benefits of a centralised critic.",
+    "similarity_score": 0.4626235365867615,
+    "citation": "(Peng, 2020)",
+    "citation_count": 274
+  },
+  {
+    "original_sentence": "The environment responds with a new state and a reward.",
+    "paragraph_index": 8,
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic",
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "abstract_sentence": "This critic is prompted with the task description, question, policy model\u2019s output, and environment\u2019s reward signal as input, and provides token or span-level dense rewards that reflect the quality of each segment of the output.",
+    "similarity_score": 0.563526451587677,
+    "citation": "(Cao, 2024)",
+    "citation_count": 16
+  },
+  {
+    "original_sentence": "The agent updates its policy to maximize future rewards.",
+    "paragraph_index": 9,
+    "paper_title": "Global Convergence of Localized Policy Iteration in Networked Multi-Agent Reinforcement Learning",
+    "paper_id": "aa76febe2e6f6a96f1daa83828f2340bf871042e",
+    "abstract_sentence": "The goal of the agents is to cooperatively maximize the average of their entropy-regularized long-term rewards.",
+    "similarity_score": 0.615591287612915,
+    "citation": "(Zhang, 2022)",
+    "citation_count": 26
+  },
+  {
+    "original_sentence": "A reinforcement learning setup is composed of two components, an agent and an environment.",
+    "paragraph_index": 10,
+    "paper_title": "Video Prediction Models as Rewards for Reinforcement Learning",
+    "paper_id": "63857fddb2a4bdf9d9cf88f6dd4eceaf09cadef1",
+    "abstract_sentence": "Specifying reward signals that allow agents to learn complex behaviors is a long-standing challenge in reinforcement learning.",
+    "similarity_score": 0.6758771538734436,
+    "citation": "(Escontrela, 2023)",
+    "citation_count": 65
+  },
+  {
+    "original_sentence": "All the possible moves that the agent can take.",
+    "paragraph_index": 15,
+    "paper_title": "Global Convergence of Localized Policy Iteration in Networked Multi-Agent Reinforcement Learning",
+    "paper_id": "aa76febe2e6f6a96f1daa83828f2340bf871042e",
+    "abstract_sentence": "In particular, we show that, despite restricting each agent's attention to only its \u03ba-hop neighborhood, the agents are able to learn a policy with an optimality gap that decays polynomially in \u03ba.",
+    "similarity_score": 0.4219982624053955,
+    "citation": "(Zhang, 2022)",
+    "citation_count": 26
+  },
+  {
+    "original_sentence": "The strategy that the agent employs to determine next action based on current state.",
+    "paragraph_index": 21,
+    "paper_title": "FACMAC: Factored Multi-Agent Centralised Policy Gradients",
+    "paper_id": "7e61f1787cbf97bb59eb7f5f383e654d66947f0d",
+    "abstract_sentence": "Like MADDPG, a popular multi-agent actor-critic method, our approach uses deep deterministic policy gradients to learn policies.",
+    "similarity_score": 0.5157836675643921,
+    "citation": "(Peng, 2020)",
+    "citation_count": 274
+  },
+  {
+    "original_sentence": "The expected long-term return without discount as opposed to the short-term reward R.",
+    "paragraph_index": 23,
+    "paper_title": "Training a Helpful and Harmless Assistant with Reinforcement Learning from Human Feedback",
+    "paper_id": "0286b2736a114198b25fb5553c671c33aed5d477",
+    "abstract_sentence": "Finally, we investigate the robustness of RLHF training, and identify a roughly linear relation between the RL reward and the square root of the KL divergence between the policy and its initialization.",
+    "similarity_score": 0.4550238847732544,
+    "citation": "(Bai, 2022)",
+    "citation_count": 2752
+  },
+  {
+    "original_sentence": "The agent builds a model of the environment by learning the transition (probability landing in s\u2019 giving state s and action a; T(s\u2032|s,a)) and reward functions (R(s,a)).",
+    "paragraph_index": 32,
+    "paper_title": "Video Prediction Models as Rewards for Reinforcement Learning",
+    "paper_id": "63857fddb2a4bdf9d9cf88f6dd4eceaf09cadef1",
+    "abstract_sentence": "Specifying reward signals that allow agents to learn complex behaviors is a long-standing challenge in reinforcement learning.",
+    "similarity_score": 0.646850049495697,
+    "citation": "(Escontrela, 2023)",
+    "citation_count": 65
+  },
+  {
+    "original_sentence": "It uses the to simulate possible futures and plan ahead.",
+    "paragraph_index": 33,
+    "paper_title": "QFuture: Learning Future Expectation Cognition in Multiagent Reinforcement Learning",
+    "paper_id": "84998e592368ad4150b462b20ff980dc97308e3f",
+    "abstract_sentence": "Furthermore, a return-based regularizer is designed to reflect \u201cexpectation\u201d and ensure informativeness in the future expectation representation module (FERM) which encodes the future trajectory.",
+    "similarity_score": 0.4376875162124634,
+    "citation": "(Liu, 2024)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "However, doesn\u2019t scale well to large or continuous state-action spaces.",
+    "paragraph_index": 34,
+    "paper_title": "Hierarchical Diffusion Policy for Kinematics-Aware Multi-Task Robotic Manipulation",
+    "paper_id": "7359b10949dc8dd271388976b133aad214d59281",
+    "abstract_sentence": "The factorised policy representation allows HDP to tackle both long-horizon task planning while generating fine-grained low-level actions.",
+    "similarity_score": 0.43322253227233887,
+    "citation": "(Ma, 2024)",
+    "citation_count": 62
+  },
+  {
+    "original_sentence": "The agent does not learn or use a model of the environment.",
+    "paragraph_index": 36,
+    "paper_title": "QFuture: Learning Future Expectation Cognition in Multiagent Reinforcement Learning",
+    "paper_id": "84998e592368ad4150b462b20ff980dc97308e3f",
+    "abstract_sentence": "However, this learning process can be hampered by myopia, wherein agents\u2019 strategies fail to consider the long-term consequences of their actions.",
+    "similarity_score": 0.4836574196815491,
+    "citation": "(Liu, 2024)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "Learns directly from experience or trial and error.",
+    "paragraph_index": 37,
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic",
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "abstract_sentence": "In this paper, we introduce a novel framework leveraging the critique ability of LLMs to produce dense rewards throughout the learning process.",
+    "similarity_score": 0.5220992565155029,
+    "citation": "(Cao, 2024)",
+    "citation_count": 16
+  },
+  {
+    "original_sentence": "Learns the value of actions by trying them and observing rewards.",
+    "paragraph_index": 38,
+    "paper_title": "Video Prediction Models as Rewards for Reinforcement Learning",
+    "paper_id": "63857fddb2a4bdf9d9cf88f6dd4eceaf09cadef1",
+    "abstract_sentence": "Specifying reward signals that allow agents to learn complex behaviors is a long-standing challenge in reinforcement learning.",
+    "similarity_score": 0.6260222792625427,
+    "citation": "(Escontrela, 2023)",
+    "citation_count": 65
+  },
+  {
+    "original_sentence": "On-policy vs.",
+    "paragraph_index": 41,
+    "paper_title": "Centralized Model and Exploration Policy for Multi-Agent RL",
+    "paper_id": "9213bed2e948eee3dacc2a26b4ef813658dda07b",
+    "abstract_sentence": "Our key insight is that using just a polynomial number of samples, one can learn a centralized model that generalizes across different policies.",
+    "similarity_score": 0.44705381989479065,
+    "citation": "(Zhang, 2021)",
+    "citation_count": 16
+  },
+  {
+    "original_sentence": "On-policy agent learns the value based on its current action as derived from the current policy.",
+    "paragraph_index": 42,
+    "paper_title": "FACMAC: Factored Multi-Agent Centralised Policy Gradients",
+    "paper_id": "7e61f1787cbf97bb59eb7f5f383e654d66947f0d",
+    "abstract_sentence": "Like MADDPG, a popular multi-agent actor-critic method, our approach uses deep deterministic policy gradients to learn policies.",
+    "similarity_score": 0.6419429779052734,
+    "citation": "(Peng, 2020)",
+    "citation_count": 274
+  },
+  {
+    "original_sentence": "Off-policy learns it based on action a\u2019 obtained from another policy.",
+    "paragraph_index": 43,
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "abstract_sentence": "By combining off-policy updates with a stable stochastic actor-critic formulation, our method achieves state-of-the-art performance on a range of continuous control benchmark tasks, outperforming prior on-policy and off-policy methods.",
+    "similarity_score": 0.5598166584968567,
+    "citation": "(Haarnoja, 2018)",
+    "citation_count": 8663
+  },
+  {
+    "original_sentence": "Policy iteration runs a loop between policy evaluation and policy improvement.",
+    "paragraph_index": 53,
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic",
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "abstract_sentence": "Our approach incorporates a critic language model alongside the policy model.",
+    "similarity_score": 0.5206000804901123,
+    "citation": "(Cao, 2024)",
+    "citation_count": 16
+  },
+  {
+    "original_sentence": "The \u2018Q\u2019 in Q-learning stands for quality.",
+    "paragraph_index": 56,
+    "paper_title": "From Rules to Rewards: Reinforcement Learning for Interest Rate Adjustment in DeFi Lending",
+    "paper_id": "4e9a900ad062a558699abfe6577af63910df43cc",
+    "abstract_sentence": "Using historical data from Aave protocol, we evaluate three RL approaches: Conservative Q-Learning (CQL), Behavior Cloning (BC), and TD3 with Behavior Cloning (TD3-BC).",
+    "similarity_score": 0.5283302664756775,
+    "citation": "(Qu, 2025)",
+    "citation_count": 0
+  },
+  {
+    "original_sentence": "Quality in this case represents how useful a given action is in gaining some future award.",
+    "paragraph_index": 57,
+    "paper_title": "Regret-Optimized Portfolio Enhancement through Deep Reinforcement Learning and Future Looking Rewards",
+    "paper_id": "048f734acf9f97c1c6392baf4ad1f5d12e101e6b",
+    "abstract_sentence": "We focus on two key evaluation measures: return and maximum drawdown.",
+    "similarity_score": 0.4004860520362854,
+    "citation": "(Karzanov, 2025)",
+    "citation_count": 0
+  },
+  {
+    "original_sentence": "When q-learning is performed, we create what\u2019s called a q-table or matrix that follows the shape of [state, action] and we initialize our values to zero.",
+    "paragraph_index": 60,
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "abstract_sentence": "Prior deep RL methods based on this framework have been formulated as Q-learning methods.",
+    "similarity_score": 0.5900876522064209,
+    "citation": "(Haarnoja, 2018)",
+    "citation_count": 8663
+  },
+  {
+    "original_sentence": "This q-table becomes a reference table for our agent to select the best action based on the q-value.",
+    "paragraph_index": 62,
+    "paper_title": "From Rules to Rewards: Reinforcement Learning for Interest Rate Adjustment in DeFi Lending",
+    "paper_id": "4e9a900ad062a558699abfe6577af63910df43cc",
+    "abstract_sentence": "Using historical data from Aave protocol, we evaluate three RL approaches: Conservative Q-Learning (CQL), Behavior Cloning (BC), and TD3 with Behavior Cloning (TD3-BC).",
+    "similarity_score": 0.46359962224960327,
+    "citation": "(Qu, 2025)",
+    "citation_count": 0
+  },
+  {
+    "original_sentence": "The next step is for the agent to interact with the environment and make updates to the state action pairs on the q-table.",
+    "paragraph_index": 63,
+    "paper_title": "From Rules to Rewards: Reinforcement Learning for Interest Rate Adjustment in DeFi Lending",
+    "paper_id": "4e9a900ad062a558699abfe6577af63910df43cc",
+    "abstract_sentence": "Using historical data from Aave protocol, we evaluate three RL approaches: Conservative Q-Learning (CQL), Behavior Cloning (BC), and TD3 with Behavior Cloning (TD3-BC).",
+    "similarity_score": 0.49246805906295776,
+    "citation": "(Qu, 2025)",
+    "citation_count": 0
+  },
+  {
+    "original_sentence": "Use what it already knows by choosing the action with the highest value from its Q-table (best guess for now).",
+    "paragraph_index": 68,
+    "paper_title": "From Rules to Rewards: Reinforcement Learning for Interest Rate Adjustment in DeFi Lending",
+    "paper_id": "4e9a900ad062a558699abfe6577af63910df43cc",
+    "abstract_sentence": "Using historical data from Aave protocol, we evaluate three RL approaches: Conservative Q-Learning (CQL), Behavior Cloning (BC), and TD3 with Behavior Cloning (TD3-BC).",
+    "similarity_score": 0.43251317739486694,
+    "citation": "(Qu, 2025)",
+    "citation_count": 0
+  },
+  {
+    "original_sentence": "Pick a random action to try something new (which might lead to better results in the future).",
+    "paragraph_index": 70,
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "abstract_sentence": "That is, to succeed at the task while acting as randomly as possible.",
+    "similarity_score": 0.5292332172393799,
+    "citation": "(Haarnoja, 2018)",
+    "citation_count": 8663
+  },
+  {
+    "original_sentence": "With probability \u03b5, the agent explores (random action).",
+    "paragraph_index": 72,
+    "paper_title": "Global Convergence of Localized Policy Iteration in Networked Multi-Agent Reinforcement Learning",
+    "paper_id": "aa76febe2e6f6a96f1daa83828f2340bf871042e",
+    "abstract_sentence": "In particular, we show that, despite restricting each agent's attention to only its \u03ba-hop neighborhood, the agents are able to learn a policy with an optimality gap that decays polynomially in \u03ba.",
+    "similarity_score": 0.5556235313415527,
+    "citation": "(Zhang, 2022)",
+    "citation_count": 26
+  },
+  {
+    "original_sentence": "With probability 1-\u03b5, it exploits (chooses the best action).",
+    "paragraph_index": 73,
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "abstract_sentence": "That is, to succeed at the task while acting as randomly as possible.",
+    "similarity_score": 0.5148336887359619,
+    "citation": "(Haarnoja, 2018)",
+    "citation_count": 8663
+  },
+  {
+    "original_sentence": "Controls how much the agent updates its knowledge when it receives new information.",
+    "paragraph_index": 92,
+    "paper_title": "Learning Future Representation with Synthetic Observations for Sample-efficient Reinforcement Learning",
+    "paper_id": "b6af09722063318e9b890760aedbe2672c3489a2",
+    "abstract_sentence": "LFS allows the agent to access and learn observations that have not yet appeared in advance, so as to quickly understand and exploit them when they occur later.",
+    "similarity_score": 0.4889456629753113,
+    "citation": "(Liu, 2024)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "The discount factor determines how much future rewards matter compared to immediate rewards.",
+    "paragraph_index": 94,
+    "paper_title": "Proximal Policy Optimization with Future rewards",
+    "paper_id": "17969ce5da62814ef16781d5b7f0cdf93f6e4367",
+    "abstract_sentence": "In this article, a new method is proposed, referring to Asynchronous Advantage Actor-Critic (A3C)[9], the basic PPO algorithm is trained in parallel, and a method that considers future rewards is introduced, and the future rewards are also calculated to the current.",
+    "similarity_score": 0.5275698304176331,
+    "citation": "(Yu, 2021)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "High \u03b3, agent cares a lot about long-term rewards.",
+    "paragraph_index": 95,
+    "paper_title": "Global Convergence of Localized Policy Iteration in Networked Multi-Agent Reinforcement Learning",
+    "paper_id": "aa76febe2e6f6a96f1daa83828f2340bf871042e",
+    "abstract_sentence": "The goal of the agents is to cooperatively maximize the average of their entropy-regularized long-term rewards.",
+    "similarity_score": 0.4532705545425415,
+    "citation": "(Zhang, 2022)",
+    "citation_count": 26
+  },
+  {
+    "original_sentence": "Low \u03b3, agent focuses on immediate rewards more.",
+    "paragraph_index": 96,
+    "paper_title": "Video Prediction Models as Rewards for Reinforcement Learning",
+    "paper_id": "63857fddb2a4bdf9d9cf88f6dd4eceaf09cadef1",
+    "abstract_sentence": "Specifying reward signals that allow agents to learn complex behaviors is a long-standing challenge in reinforcement learning.",
+    "similarity_score": 0.46494191884994507,
+    "citation": "(Escontrela, 2023)",
+    "citation_count": 65
+  },
+  {
+    "original_sentence": "Selecting a small portion of a large dataset so you can study or analyse it without using all the data.",
+    "paragraph_index": 107,
+    "paper_title": "Learning Future Representation with Synthetic Observations for Sample-efficient Reinforcement Learning",
+    "paper_id": "b6af09722063318e9b890760aedbe2672c3489a2",
+    "abstract_sentence": "Specifically, we propose a training-free method to synthesize observations that may contain future information, as well as a data selection approach to eliminate unqualified synthetic noise.",
+    "similarity_score": 0.4269484281539917,
+    "citation": "(Liu, 2024)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "Goal is to find a projection that captures the largest amount of variation in data.",
+    "paragraph_index": 131,
+    "paper_title": "Constraints as Rewards: Reinforcement Learning for Robots without Reward Functions",
+    "paper_id": "36aeaf346cbdb8ff41d744bbccbe889b00c8f2cb",
+    "abstract_sentence": "In addition, we will demonstrate that constraints, expressed as inequalities, provide an intuitive interpretation of the optimization target designed for the task.",
+    "similarity_score": 0.4021984338760376,
+    "citation": "(Ishihara, 2025)",
+    "citation_count": 0
+  },
+  {
+    "original_sentence": "Reduces the number of features in your data while keeping the most important information to simplify complex data.",
+    "paragraph_index": 132,
+    "paper_title": "Proximal Policy Optimization with Future rewards",
+    "paper_id": "17969ce5da62814ef16781d5b7f0cdf93f6e4367",
+    "abstract_sentence": "It solves the stability problem, but the update policy is slow, and it is easy to produce over-fitting when the training times are too many.",
+    "similarity_score": 0.4582217335700989,
+    "citation": "(Yu, 2021)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "Build new features by combining existing ones using formulas or logic (fleet utilization from the CSCI323 project).",
+    "paragraph_index": 150,
+    "paper_title": "From Rules to Rewards: Reinforcement Learning for Interest Rate Adjustment in DeFi Lending",
+    "paper_id": "4e9a900ad062a558699abfe6577af63910df43cc",
+    "abstract_sentence": "TD3-BC demonstrates superior performance in balancing utilization, capital stability, and risk, outperforming existing models.",
+    "similarity_score": 0.4019666910171509,
+    "citation": "(Qu, 2025)",
+    "citation_count": 0
+  },
+  {
+    "original_sentence": "Usually, to make it easier to work with or to reveal patterns.",
+    "paragraph_index": 165,
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "abstract_sentence": "That is, to succeed at the task while acting as randomly as possible.",
+    "similarity_score": 0.46185219287872314,
+    "citation": "(Haarnoja, 2018)",
+    "citation_count": 8663
+  },
+  {
+    "original_sentence": "Without normalization, a feature could dominate the learning process just because of its scale or frequency.",
+    "paragraph_index": 168,
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic",
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "abstract_sentence": "This sparsity of rewards can lead to inefficient and unstable learning.",
+    "similarity_score": 0.42310237884521484,
+    "citation": "(Cao, 2024)",
+    "citation_count": 16
+  },
+  {
+    "original_sentence": "An MDP helps an agent decide what to do next, step-by-step, in an environment that changes in response to its actions, might have random outcomes, and gives rewards based on choices.",
+    "paragraph_index": 209,
+    "paper_title": "QFuture: Learning Future Expectation Cognition in Multiagent Reinforcement Learning",
+    "paper_id": "84998e592368ad4150b462b20ff980dc97308e3f",
+    "abstract_sentence": "In multiagent reinforcement learning (MARL), agents must learn to cooperate by observing the environment and selecting actions that maximize their rewards.",
+    "similarity_score": 0.5366851091384888,
+    "citation": "(Liu, 2024)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "The outcome is always the same every time you take the action in the same state.",
+    "paragraph_index": 219,
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "abstract_sentence": "That is, to succeed at the task while acting as randomly as possible.",
+    "similarity_score": 0.4124411344528198,
+    "citation": "(Haarnoja, 2018)",
+    "citation_count": 8663
+  },
+  {
+    "original_sentence": "The outcome is uncertain as the action can lead to multiple possible results, with certain probabilities.",
+    "paragraph_index": 221,
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "abstract_sentence": "That is, to succeed at the task while acting as randomly as possible.",
+    "similarity_score": 0.4632337987422943,
+    "citation": "(Haarnoja, 2018)",
+    "citation_count": 8663
+  },
+  {
+    "original_sentence": "A rule for deciding how good a policy is based on the rewards it gets over time.",
+    "paragraph_index": 231,
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic",
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "abstract_sentence": "This critic is prompted with the task description, question, policy model\u2019s output, and environment\u2019s reward signal as input, and provides token or span-level dense rewards that reflect the quality of each segment of the output.",
+    "similarity_score": 0.5173339247703552,
+    "citation": "(Cao, 2024)",
+    "citation_count": 16
+  },
+  {
+    "original_sentence": "Policies often result in long or infinite sequences of rewards, so we need a way to turn that long sequence into one final number that tells us how good the policy is.",
+    "paragraph_index": 232,
+    "paper_title": "Centralized Model and Exploration Policy for Multi-Agent RL",
+    "paper_id": "9213bed2e948eee3dacc2a26b4ef813658dda07b",
+    "abstract_sentence": "Our key insight is that using just a polynomial number of samples, one can learn a centralized model that generalizes across different policies.",
+    "similarity_score": 0.5383155345916748,
+    "citation": "(Zhang, 2021)",
+    "citation_count": 16
+  },
+  {
+    "original_sentence": "Future rewards are worth less than immediate rewards.",
+    "paragraph_index": 235,
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic",
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "abstract_sentence": "This sparsity of rewards can lead to inefficient and unstable learning.",
+    "similarity_score": 0.5231035947799683,
+    "citation": "(Cao, 2024)",
+    "citation_count": 16
+  },
+  {
+    "original_sentence": ", the agent dies) and you often want to solve tasks faster.",
+    "paragraph_index": 236,
+    "paper_title": "Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor",
+    "paper_id": "811df72e210e20de99719539505da54762a11c6d",
+    "abstract_sentence": "That is, to succeed at the task while acting as randomly as possible.",
+    "similarity_score": 0.5437549352645874,
+    "citation": "(Haarnoja, 2018)",
+    "citation_count": 8663
+  },
+  {
+    "original_sentence": "Mathematical model system where the future state depends only on the current state, making it simpler to analyze sequential probabilistic events.",
+    "paragraph_index": 245,
+    "paper_title": "QFuture: Learning Future Expectation Cognition in Multiagent Reinforcement Learning",
+    "paper_id": "84998e592368ad4150b462b20ff980dc97308e3f",
+    "abstract_sentence": "We model future expectation cognition as random variables in FECM, which learn representation by maximizing mutual information with the future trajectory based on current information.",
+    "similarity_score": 0.47077712416648865,
+    "citation": "(Liu, 2024)",
+    "citation_count": 3
+  },
+  {
+    "original_sentence": "V\u03c0 : S \u2192 \u211c, a value function represents the expected objective value obtained following policy \u03c0 from each state in S.",
+    "paragraph_index": 249,
+    "paper_title": "DRLC: Reinforcement Learning with Dense Rewards from LLM Critic",
+    "paper_id": "c9240006dbe3be68b2e4a7b18ad40ea5f75bed9d",
+    "abstract_sentence": "This critic is prompted with the task description, question, policy model\u2019s output, and environment\u2019s reward signal as input, and provides token or span-level dense rewards that reflect the quality of each segment of the output.",
+    "similarity_score": 0.5048161745071411,
+    "citation": "(Cao, 2024)",
+    "citation_count": 16
+  }
+]
