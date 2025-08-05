@@ -5,6 +5,7 @@ import FadeInOnScroll from "@/components/FadeInOnScroll";
 import { Carousel } from "@/components/ui/carousel";
 import Link from "next/link";
 import { InfoCard } from "./InfoCard";
+import { Footer } from "@/components/Footer";
 import {
   Github,
   Sparkles,
@@ -16,7 +17,6 @@ import {
 } from "lucide-react";
 
 import { BackgroundBeams } from "@/components/ui/background-beams";
-
 
 export default function Header() {
   const words = ["Cite Smarter.", "Powered by AI."];
@@ -122,7 +122,8 @@ export default function Header() {
                 Why use Citely?
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                The smartest way to manage citations and references with AI-powered tools
+                The smartest way to manage citations and references with
+                AI-powered tools
               </p>
             </div>
 
@@ -132,9 +133,12 @@ export default function Header() {
                 <div className="w-14 h-14 bg-amber-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-amber-100 transition-colors duration-300">
                   <TrendingUp className="w-7 h-7 text-amber-600" />
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">Academic Efficiency</h3>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                  Academic Efficiency
+                </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Save hours of manual work with automatic citation generation and formatting in any style.
+                  Save hours of manual work with automatic citation generation
+                  and formatting in any style.
                 </p>
               </div>
 
@@ -143,9 +147,12 @@ export default function Header() {
                 <div className="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors duration-300">
                   <Braces className="w-7 h-7 text-blue-600" />
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">Smart Formatting</h3>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                  Smart Formatting
+                </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Perfectly formatted citations in APA, MLA, Chicago, and more with just one click.
+                  Perfectly formatted citations in APA, MLA, Chicago, and more
+                  with just one click.
                 </p>
               </div>
 
@@ -154,9 +161,12 @@ export default function Header() {
                 <div className="w-14 h-14 bg-purple-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-100 transition-colors duration-300">
                   <Search className="w-7 h-7 text-purple-600" />
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">Source Discovery</h3>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                  Source Discovery
+                </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  AI suggests relevant sources based on your writing to strengthen your arguments.
+                  AI suggests relevant sources based on your writing to
+                  strengthen your arguments.
                 </p>
               </div>
 
@@ -165,9 +175,12 @@ export default function Header() {
                 <div className="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-green-100 transition-colors duration-300">
                   <MessageCircleCode className="w-7 h-7 text-green-600" />
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">In-Text Assistance</h3>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                  In-Text Assistance
+                </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Get smart suggestions for where to place citations and how to integrate them naturally.
+                  Get smart suggestions for where to place citations and how to
+                  integrate them naturally.
                 </p>
               </div>
 
@@ -176,9 +189,12 @@ export default function Header() {
                 <div className="w-14 h-14 bg-red-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-red-100 transition-colors duration-300">
                   <Sparkles className="w-7 h-7 text-red-600" />
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">AI-Powered Analysis</h3>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                  AI-Powered Analysis
+                </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Our AI checks your citations for completeness and accuracy, flagging potential issues.
+                  Our AI checks your citations for completeness and accuracy,
+                  flagging potential issues.
                 </p>
               </div>
 
@@ -187,115 +203,126 @@ export default function Header() {
                 <div className="w-14 h-14 bg-indigo-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-indigo-100 transition-colors duration-300">
                   <Zap className="w-7 h-7 text-indigo-600" />
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">Lightning Fast</h3>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+                  Lightning Fast
+                </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Process hundreds of references in seconds with our optimized citation engine.
+                  Process hundreds of references in seconds with our optimized
+                  citation engine.
                 </p>
               </div>
             </div>
 
             <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <div className="text-4xl font-bold text-amber-600 mb-2">10x</div>
+                <div className="text-4xl font-bold text-amber-600 mb-2">
+                  10x
+                </div>
                 <div className="text-gray-600">Faster citation</div>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <div className="text-4xl font-bold text-blue-600 mb-2">24/7</div>
+                <div className="text-4xl font-bold text-blue-600 mb-2">
+                  24/7
+                </div>
                 <div className="text-gray-600">Instant Citation Assistance</div>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <div className="text-4xl font-bold text-purple-600 mb-2">99.9%</div>
+                <div className="text-4xl font-bold text-purple-600 mb-2">
+                  99.9%
+                </div>
                 <div className="text-gray-600">Accuracy rate</div>
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <div className="text-4xl font-bold text-green-600 mb-2">50k+</div>
+                <div className="text-4xl font-bold text-green-600 mb-2">
+                  50k+
+                </div>
                 <div className="text-gray-600">Happy Abdur Rahmans</div>
               </div>
             </div>
           </div>
         </div>
       </FadeInOnScroll>
-  
+
       <div className="animate-radial-orbit -mt-1 overflow-hidden font-prompt">
-  <svg
-    id="wave_on_score"
-    className="w-full -mb-4 scale-y-[-1]"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 1440 107"
-    preserveAspectRatio="none"
-  >
-    <path
-      fill="#F9FAFB"
-      fillRule="nonzero"
-      d="M720 38.936531C571.07999 57.866238 321 119.5040168 0 41.09718v66.4480438h1440V40.491756c-320.2408-78.406837-571.07999-20.484932-720-1.555225z"
-    />
-  </svg>
+        <svg
+          id="wave_on_score"
+          className="w-full -mb-4 scale-y-[-1]"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 107"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="#F9FAFB"
+            fillRule="nonzero"
+            d="M720 38.936531C571.07999 57.866238 321 119.5040168 0 41.09718v66.4480438h1440V40.491756c-320.2408-78.406837-571.07999-20.484932-720-1.555225z"
+          />
+        </svg>
 
-  {/* Section Title + Subtitle */}
-  <FadeInOnScroll>
-    <section className="text-center mb-5 py-20 px-4 sm:px-6 lg:px-8">
-      <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-        Everything You Need, All in One
-      </h2>
-      <p className="text-2xl max-w-2xl mx-auto text-white">
-        Our comprehensive suite of AI-powered research tools
-      </p>
-    </section>
-  </FadeInOnScroll>
+        {/* Section Title + Subtitle */}
+        <FadeInOnScroll>
+          <section className="text-center mb-5 py-20 px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+              Everything You Need, All in One
+            </h2>
+            <p className="text-2xl max-w-2xl mx-auto text-white">
+              Our comprehensive suite of AI-powered research tools
+            </p>
+          </section>
+        </FadeInOnScroll>
 
-  <FadeInOnScroll>
-    <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-10">
-      {/* Basic AI Citation Assistant */}
-      <InfoCard
-        svg={<Sparkles className="w-6 h-6" />}
-        title="Basic AI Citation Assistant"
-        para="Generate citations instantly in any format with our free AI assistant."
-        step={1}
-      />
-      
-      {/* Premium AI Citation Assistant */}
-      <InfoCard
-        svg={<Zap className="w-6 h-6" />}
-        title="Premium AI Citation Assistant"
-        para="Advanced citation generation with style suggestions and error detection."
-        step={2}
-      />
-      
-      {/* Academic Source Finder */}
-      <InfoCard
-        svg={<Search className="w-6 h-6" />}
-        title="Academic Source Finder"
-        para="AI-powered search for relevant academic sources based on your topic."
-        step={3}
-      />
-      
-      {/* Paper Summarizer */}
-      <InfoCard
-        svg={<MessageCircleCode className="w-6 h-6" />}
-        title="Paper Summarizer"
-        para="Get concise summaries of research papers with key takeaways."
-        step={4}
-      />
-      
-      {/* Research Skimmer */}
-      <InfoCard
-        svg={<TrendingUp className="w-6 h-6" />}
-        title="Research Skimmer"
-        para="Quickly extract key information from multiple sources at once."
-        step={5}
-      />
-      
-      {/* Bibliography Manager */}
-      <InfoCard
-        svg={<Braces className="w-6 h-6" />}
-        title="Bibliography Manager"
-        para="Organize, sort, and export your references with one click."
-        step={6}
-        
-      />
-    </section>
-  </FadeInOnScroll>
-</div>
+        <FadeInOnScroll>
+          <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-10">
+            {/* Basic AI Citation Assistant */}
+            <InfoCard
+              svg={<Sparkles className="w-6 h-6" />}
+              title="Basic AI Citation Assistant"
+              para="Generate citations instantly in any format with our free AI assistant."
+              step={1}
+            />
+
+            {/* Premium AI Citation Assistant */}
+            <InfoCard
+              svg={<Zap className="w-6 h-6" />}
+              title="Premium AI Citation Assistant"
+              para="Advanced citation generation with style suggestions and error detection."
+              step={2}
+            />
+
+            {/* Academic Source Finder */}
+            <InfoCard
+              svg={<Search className="w-6 h-6" />}
+              title="Academic Source Finder"
+              para="AI-powered search for relevant academic sources based on your topic."
+              step={3}
+            />
+
+            {/* Paper Summarizer */}
+            <InfoCard
+              svg={<MessageCircleCode className="w-6 h-6" />}
+              title="Paper Summarizer"
+              para="Get concise summaries of research papers with key takeaways."
+              step={4}
+            />
+
+            {/* Research Skimmer */}
+            <InfoCard
+              svg={<TrendingUp className="w-6 h-6" />}
+              title="Research Skimmer"
+              para="Quickly extract key information from multiple sources at once."
+              step={5}
+            />
+
+            {/* Bibliography Manager */}
+            <InfoCard
+              svg={<Braces className="w-6 h-6" />}
+              title="Bibliography Manager"
+              para="Organize, sort, and export your references with one click."
+              step={6}
+            />
+          </section>
+        </FadeInOnScroll>
+      </div>
+      <Footer />
     </>
   );
 }
