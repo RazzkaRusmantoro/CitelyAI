@@ -1,0 +1,63 @@
+
+import { createClient } from '@/utils/supabase/server';
+import { getUser } from '@/app/auth/getUser';
+import { BibliographyTable } from '@/components/bibliography-table';
+
+interface Reference {
+  id: string;
+  title: string;
+  abstract?: string;
+  authors?: { name: string }[];
+  year?: number;
+  url?: string;
+}
+
+export default async function BibliographyDashboard() {
+  const supabase = await createClient();
+  const user = await getUser();
+  const userId = user?.id;
+
+  let references: Reference[] = [];
+  
+  if (userId) {
+    const { data: bibliography } = await supabase
+      .from('bibliography')
+      .select('references')
+      .eq('user_id', userId)
+      .single();
+
+    references = bibliography?.references || [];
+  }
+
+  return (
+    <main className="min-h-full w-full">
+      <div className="w-full">
+        <div className="relative top-20 mx-20 space-y-2">
+          <div className="">
+            <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
+              Bibliography Manager
+            </h1>
+            <p className="text-xl md:text-2xl font-medium text-gray-800 dark:text-gray-300">
+              Save and Record References for Future Use
+            </p>
+          </div>
+
+          <div className="mt-8">
+            {references.length > 0 || !userId ? (
+              <BibliographyTable 
+                initialReferences={references} 
+                userId={userId!} 
+              />
+            ) : (
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-8 text-center mr-4">
+                <p className="text-gray-600 dark:text-gray-400">
+                  Your bibliography is empty. Start by adding some references!
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
