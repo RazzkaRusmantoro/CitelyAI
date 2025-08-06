@@ -40,21 +40,33 @@ const Navbar = () => {
       {/* Logo and Desktop Navigation */}
       <div className="flex items-center">
         {/* Logo */}
-        <div className="text-2xl md:text-3xl font-semibold text-black md:ml-4 lg:ml-10">
+        <Link
+          href="/"
+          className="text-2xl md:text-3xl font-semibold text-black md:ml-4 lg:ml-10"
+        >
           Citely
-        </div>
+        </Link>
 
         {/* Desktop Navigation Links - Hidden on mobile */}
         <div className="hidden md:flex gap-4 lg:gap-6 px-4 lg:px-20">
-          <button className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2">
+          <Link
+            href="/ai-tools"
+            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"
+          >
             AI Tools
-          </button>
-          <button className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2">
+          </Link>
+          <Link
+            href="https://www.youtube.com/@TheBackRoams"
+            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"
+          >
             BackRoams
-          </button>
-          <button className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2">
+          </Link>
+          <Link
+            href="/pricing"
+            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"
+          >
             Pricing
-          </button>
+          </Link>
         </div>
       </div>
 
