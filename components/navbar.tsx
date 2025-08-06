@@ -67,6 +67,12 @@ const Navbar = () => {
           >
             Pricing
           </Link>
+          <Link
+            href="/user"
+            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"
+          >
+            Your Account (idk where to put this button)
+          </Link>
         </div>
       </div>
 
