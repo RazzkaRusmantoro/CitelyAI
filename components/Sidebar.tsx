@@ -61,8 +61,13 @@ export function AppSidebar({ user }: Props) {
       name: "CITATION TOOLS",
       links: [
         {
-          label: "AI Citation Assistant",
+          label: "AI Citation Basic",
           href: "/dashboard/ai-citation",
+          icon: IconFilePencil,
+        },
+        {
+          label: "AI Citation Pro",
+          href: "/dashboard/ai-citation-pro",
           icon: IconFilePencil,
         },
         {
@@ -91,8 +96,8 @@ export function AppSidebar({ user }: Props) {
           icon: IconFileText,
         },
         {
-          label: "Research Skimmer",
-          href: "/dashboard/research-skimmer",
+          label: "Source Credibility",
+          href: "/dashboard/source-credibility-checker",
           icon: IconSunglassesFilled,
         },
       ],

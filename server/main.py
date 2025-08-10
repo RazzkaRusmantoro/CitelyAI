@@ -33,5 +33,8 @@ app.register_blueprint(summarize_bp, url_prefix='/api')
 from app.routes.summarize_link import summarize_link_bp
 app.register_blueprint(summarize_link_bp, url_prefix = '/api')
 
+from app.routes.source_checker import source_checker_bp
+app.register_blueprint(source_checker_bp, url_prefix = '/api')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -8,9 +8,11 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useSearchParams } from "next/navigation";
 import { MultiStepLoader as Loader } from "@/components/multi-step-loader";
+import { Highlighter } from 'lucide-react'; // Import a highlight icon
 
 interface ExistingPDFViewerProps {
   onLoadComplete?: () => void;
+  highlightEnabled?: boolean;
 }
 
 
@@ -25,7 +27,7 @@ const loadingStates = [
   { text: "Ready to view" },
 ];
 
-export default function ExistingPDFViewer({ onLoadComplete }: ExistingPDFViewerProps) {
+export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = true }: ExistingPDFViewerProps) {
   const searchParams = useSearchParams();
   const fileId = searchParams.get("fileId");
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -43,20 +45,22 @@ export default function ExistingPDFViewer({ onLoadComplete }: ExistingPDFViewerP
 
   const supabase = createClient();
 
+  
+
   // Custom text renderer to highlight citation texts
   const textRenderer = useCallback(
     (textItem: TextItem) => {
-      if (citationTexts.length === 0) return textItem.str;
+      // Only highlight if enabled AND we have citation texts
+      if (!highlightEnabled || citationTexts.length === 0) return textItem.str;
       
-      // Create a regex pattern that matches any of the citation texts
       const pattern = new RegExp(
         citationTexts.map(text => escapeRegExp(text)).join('|'),
         'gi'
       );
       
-      return textItem.str.replace(pattern, (match) => `<mark>${match}</mark>`);
+      return textItem.str.replace(pattern, (match) => `<mark class="bg-yellow-200">${match}</mark>`);
     },
-    [citationTexts]
+    [citationTexts, highlightEnabled] // Add highlightEnabled to dependencies
   );
 
   // Helper function to escape regex special characters
@@ -166,6 +170,8 @@ export default function ExistingPDFViewer({ onLoadComplete }: ExistingPDFViewerP
     }
   }
 
+  
+
   if (!loaderComplete) {
     return (
       <div className="w-full flex items-center justify-center">
@@ -211,6 +217,7 @@ export default function ExistingPDFViewer({ onLoadComplete }: ExistingPDFViewerP
 
   return (
     <div className="flex flex-col items-center relative">
+      
       <Document
         file={fileUrl}
         onLoadSuccess={onDocumentLoadSuccess}

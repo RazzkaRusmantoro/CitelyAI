@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useSearchParams } from 'next/navigation'
 import ExistingPDFViewer from '@/components/ExistingPDFViewer';
-import { ChevronDown, ChevronRight, ExternalLink, Copy } from 'lucide-react';
+import { ChevronDown, ChevronRight, ExternalLink, Copy, Highlighter } from 'lucide-react';
 
 interface Reference {
   cited_sentence: string;
@@ -27,6 +27,7 @@ type CitationStyle = 'APA' | 'MLA' | 'Chicago' | 'Harvard';
 
 export default function Citation() {
     const searchParams = useSearchParams()
+    const [highlightEnabled, setHighlightEnabled] = useState(true);
     const fileId = searchParams.get('fileId')
     const supabase = createClient()
     const [uniqueReferences, setUniqueReferences] = useState<Reference[]>([])
@@ -268,16 +269,34 @@ export default function Citation() {
     }
 
     return (
-        <main className='relative flex min-h-screen bg-[#F6F5F1] p-4'>
-            <div className='flex w-full gap-6'>
+        <main className='relative flex min-h-screen bg-[#F6F5F1] p-4 overflow-hidden'>
+            <div className='flex w-full gap-6 h-[calc(100vh-2rem)]'>
                 {/* PDF Viewer */}
-                <div className='w-[70%] rounded-lg overflow-hidden'>
-                    <ExistingPDFViewer onLoadComplete={() => setPdfLoaded(true)} />
+                <div className='w-[70%] rounded-lg overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none]'>
+                    <style jsx>{`
+                    .overflow-y-auto::-webkit-scrollbar {
+                        display: none;
+                    }
+                    `}</style>
+                    <ExistingPDFViewer onLoadComplete={() => setPdfLoaded(true)} highlightEnabled={highlightEnabled} />
                 </div>
                 
                 {/* References Panel */}
-                <div className='w-[50%]'>
-                    <div className='sticky top-4 h-[calc(100vh-2rem)] bg-white rounded-lg shadow-md p-6 overflow-y-auto'>
+                <div className='w-[30%]'>
+                    <div className='sticky top-4 h-full bg-white rounded-lg shadow-md p-6 overflow-y-auto'>
+                        <div className="flex justify-end mb-4">
+                            <button
+                                onClick={() => setHighlightEnabled(!highlightEnabled)}
+                                className={`hover:cursor-pointer flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium ${
+                                highlightEnabled
+                                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                } transition-colors shadow-md`}
+                            >
+                                <Highlighter className="h-4 w-4" />
+                                {highlightEnabled ? 'Disable Highlighting' : 'Enable Highlighting'}
+                            </button>
+                        </div>
                         <div className='space-y-4'>
                             {/* References Section */}
                             <div className='p-4 border border-gray-200 rounded-lg'>
@@ -438,7 +457,6 @@ export default function Citation() {
                                             >
                                                 <Copy className="h-4 w-4 text-gray-600" />
                                             </button>
-          
                                         </div>
 
                                         <div className="text-xs text-gray-500">

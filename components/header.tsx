@@ -307,8 +307,8 @@ export default function Header() {
             {/* Research Skimmer */}
             <InfoCard
               svg={<TrendingUp className="w-6 h-6" />}
-              title="Research Skimmer"
-              para="Quickly extract key information from multiple sources at once."
+              title="Source Credibility Checker"
+              para="Evaluates the reliability and factual accuracy of any given source."
               step={5}
             />
 
@@ -321,8 +321,9 @@ export default function Header() {
             />
           </section>
         </FadeInOnScroll>
+        <Footer />
       </div>
-      <Footer />
+      
     </>
   );
 }

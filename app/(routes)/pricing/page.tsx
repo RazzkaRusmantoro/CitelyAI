@@ -1,4 +1,5 @@
 "use client";
+
 import { motion } from "framer-motion";
 import {
   Check,
@@ -20,68 +21,94 @@ import {
 import { Button } from "@/components/ui/button";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import FadeInOnScroll from "@/components/FadeInOnScroll";
+import { Footer } from "@/components/Footer";
+import { useRouter } from "next/navigation";
 
 export default function Pricing() {
+  const router = useRouter();
+
+  const handleCheckout = async (price: number) => {
+    try {
+      const response = await fetch('/api/stripe-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ price }),
+      });
+
+      const data = await response.json();
+      if (data.url) {
+        router.push(data.url);
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+    }
+  };
+
   const tiers = [
     {
       name: "Free",
       price: "$0",
       description:
         "Good for casual users or students who need quick citations occasionally",
-      cta: "Get Started",
+      cta: "Current Plan",
       featured: false,
       icon: <Sparkles className="w-6 h-6 text-amber-500" />,
       features: [
-        "1 document upload per day (DOCX/PDF)",
-        "Up to 3 AI-suggested citations per doc",
-        "Link-to-citation (3/day limit)",
-        "Bibliography manager (read-only)",
-        "Basic formats (APA & MLA)",
+        "5 documents per day (DOCX/PDF)",
+        "Bibliography manager",
+        "Academic Source Finder",
+        "Source Credibility Checker",
+        "Academic Citer"
       ],
     },
     {
       name: "Basic",
       price: "$9",
+      priceValue: 900,
       description: "For active students or writers doing regular academic work",
       cta: "Upgrade Now",
       featured: true,
       icon: <Zap className="w-6 h-6 text-blue-500" />,
       features: [
-        "Unlimited document uploads",
-        "Unlimited AI citation suggestions",
-        "Interactive TipTap editor with hover comments",
-        "Export bibliographies (APA/MLA/Chicago)",
-        "Unlimited link-to-citation",
-        "Paper summarizer (5 summaries/month)",
+        "All Previous Plan's Benefits",
+        "30 documents per day (DOCX/PDF)",
+        "Bibliography manager",
+        "Academic Source Finder",
+        "Source Credibility Checker",
+        "Academic Citer",
       ],
     },
     {
       name: "Pro",
       price: "$24",
+      priceValue: 2400,
       description:
         "For researchers, postgrads, and professionals writing constantly",
       cta: "Go Pro",
       featured: false,
       icon: <Rocket className="w-6 h-6 text-purple-500" />,
       features: [
-        "Harvard + custom citation styles",
+        "All Previous Plan's Benefits",
         "Priority AI processing",
+        "Premium AI Citation Assistant Interactive Tool",
         "Advanced bibliography manager with folders",
-        "Unlimited paper summarizer",
-        "Document insights & citation stats",
         "Early access to new AI features",
       ],
     },
   ];
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden min-h-screen flex flex-col">
       {/* Background Beams */}
       <div className="absolute inset-0 -z-10">
         <BackgroundBeams />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-24 sm:py-32">
+      <div className="flex-grow"></div>
+
+      <div className="max-w-7xl mx-auto px-6 pb-24 w-full py-24 sm:py-18">
         <FadeInOnScroll>
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
@@ -136,11 +163,17 @@ export default function Pricing() {
                   <CardFooter>
                     <Button
                       size="lg"
-                      className={`w-full ${
+                      className={`w-full hover:cursor-pointer ${
                         tier.featured
                           ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700"
                           : "bg-gray-900 hover:bg-gray-800"
                       }`}
+                      onClick={() => {
+                        if (tier.priceValue) {
+                          handleCheckout(tier.priceValue);
+                        }
+                      }}
+                      disabled={!tier.priceValue}
                     >
                       {tier.cta}
                     </Button>
@@ -202,6 +235,8 @@ export default function Pricing() {
           </div>
         </FadeInOnScroll>
       </div>
+      
+      <Footer />
     </div>
   );
 }

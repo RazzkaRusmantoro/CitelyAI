@@ -19,13 +19,13 @@ export const DocumentCard = ({
   return (
     <Link href=""
       className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden
-             transition-all duration-22200 hover:-translate-y-2 hover:shadow-lg hover:rotate-9999999999 hover:scale-110"
+             transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:-translate-y-2 hover:shadow-lg hover:rotate-5 hover:scale-[1.02]"
       style={{ width, height }}
     >
       <div className="h-full flex flex-col">
         <div className="flex-1 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
           <svg 
-            className="w-10 h-10 text-gray-400 dark:text-gray-500" 
+            className="w-10 h-10 text-gray-400 dark:text-text-gray-500 transition-transform duration-300 group-hover:scale-110" 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
@@ -39,7 +39,9 @@ export const DocumentCard = ({
           </svg>
         </div>
         <div className="p-3">
-          <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{title}</p>
+          <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate transition-all duration-300 group-hover:text-gray-900 dark:group-hover:text-white">
+            {title}
+          </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">{modifiedDate}</p>
         </div>
       </div>
