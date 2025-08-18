@@ -2,6 +2,8 @@
 
 import { AppSidebar } from "@/components/Sidebar";
 import type { User } from "@/app/auth/getUser";
+import { useState, useRef, useMemo } from "react";
+import Link from "next/link";
 
 interface DashboardClientProps {
   user: User | null;
@@ -9,6 +11,43 @@ interface DashboardClientProps {
 }
 
 export default function DashboardClient({ user, children }: DashboardClientProps) {
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const menuItems = [
+    { name: "Profile", description: "View your account", href: "/profile" },
+    { name: "Dashboard", description: "Your main workspace", href: "/dashboard/home" },
+    { name: "AI Citation Basic", description: "Simple citation generator", href: "/dashboard/ai-citation" },
+    { name: "AI Citation Pro", description: "Advanced citation tools", href: "/dashboard/ai-citation-pro" },
+    { name: "Academic Citer", description: "Academic references", href: "/dashboard/custom-link-citation" },
+    { name: "Bibliography Manager", description: "Organize your sources", href: "/dashboard/bibliography-manager" },
+    { name: "Academic Source Finder", description: "Discover research papers", href: "/dashboard/academic-source-finder" },
+    { name: "Paper Summary", description: "Summarize documents", href: "/dashboard/paper-summarizer" },
+    { name: "Source Credibility", description: "Evaluate source quality", href: "/dashboard/source-credibility-checker" },
+    { name: "Pricing", description: "Plans & features", href: "/pricing" }
+  ];
+
+  const filteredItems = useMemo(() => {
+    if (!searchQuery.trim()) return menuItems;
+    
+    const query = searchQuery.toLowerCase();
+    return menuItems.filter(item => 
+      item.name.toLowerCase().includes(query) || 
+      item.description.toLowerCase().includes(query)
+    );
+  }, [searchQuery, menuItems]);
+
+  const handleBlur = (e: React.FocusEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.relatedTarget as Node)) {
+      setIsSearchFocused(false);
+    }
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <div className="flex h-screen relative bg-gradient-to-b from-white to-gray-50">
       
@@ -28,7 +67,45 @@ export default function DashboardClient({ user, children }: DashboardClientProps
                   type="text"
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                   placeholder="Search..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={handleBlur}
                 />
+                {isSearchFocused && (
+                  <div 
+                    ref={dropdownRef}
+                    className="absolute z-[9999] mt-2 w-full bg-white shadow-lg rounded-md border border-gray-200 py-1 max-h-96 overflow-y-auto"
+                  >
+                    <div className="px-4 py-2 sticky top-0 bg-white">
+                      <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                        {searchQuery.trim() ? "SEARCH RESULTS" : "SUGGESTED"}
+                      </span>
+                    </div>
+                    <div className="space-y-1 px-2 pb-2">
+                      {filteredItems.length > 0 ? (
+                        filteredItems.map((item, index) => (
+                          <Link
+                            key={index}
+                            href={item.href}
+                            className="w-full px-3 py-1 text-left text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors duration-150 flex items-center justify-between cursor-pointer block"
+                            onClick={() => {
+                              setIsSearchFocused(false);
+                              setSearchQuery("");
+                            }}
+                          >
+                            <span>{item.name}</span>
+                            <span className="text-xs text-gray-400">{item.description}</span>
+                          </Link>
+                        ))
+                      ) : (
+                        <div className="px-3 py-2 text-sm text-gray-500">
+                          No results found for "{searchQuery}"
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
