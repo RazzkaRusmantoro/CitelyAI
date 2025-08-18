@@ -444,6 +444,8 @@ export default function Header() {
                       </svg>
                     </div>
                     
+                    {/* This is very temporary i just dont know what to put here so to fill it
+                    its here for now... */}
                     <div className="text-center md:text-left">
                       <div className="text-2xl font-medium text-gray-800 mb-4">
                         "Your comment/testimonial goes here. Describe how Citely has helped you in your academic work and research process."
