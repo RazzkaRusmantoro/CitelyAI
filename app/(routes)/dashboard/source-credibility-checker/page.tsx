@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from 'react';
-import { IconSearch, IconInfoCircle, IconChecklist, IconStar, IconWriting, IconScale } from '@tabler/icons-react';
+import { IconSearch, IconInfoCircle, IconChecklist, IconStar, IconWriting, IconScale, IconBulb } from '@tabler/icons-react';
 
-// Define types for the analysis results
 type CredibilityBreakdown = {
   factual_accuracy: number;
   source_reputation: number;
   author_expertise: number;
   content_bias: number;
   transparency: number;
-  [key: string]: number; // Index signature for dynamic access
+  [key: string]: number; 
 };
 
 type AnalysisResults = {
@@ -88,7 +87,7 @@ export default function DashboardCredibility() {
 
   return (
     <main className="min-h-screen w-full bg-white dark:bg-gray-900">
-      <div className="w-full max-w-7xl mx-auto px-4 py-20">
+      <div className="w-full max-w-7xl mx-auto px-4 py-10">
         <div className="space-y-8"> 
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
@@ -258,9 +257,9 @@ export default function DashboardCredibility() {
 
           {/* How it works section */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center mb-4">
-              <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-full mr-3">
-                <IconInfoCircle className="h-5 w-5 text-blue-600 dark:text-blue-400" strokeWidth={2} />
+            <div className="flex items-center mb-6">
+              <div className="bg-gradient-to-r from-amber-400 to-orange-500 p-2 rounded-full mr-3">
+                <IconInfoCircle className="h-5 w-5 text-white" strokeWidth={1.5} />
               </div>
               <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
                 How Our Source Credibility Checker Works
@@ -268,9 +267,9 @@ export default function DashboardCredibility() {
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="flex items-start">
-                <div className="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded-full mr-3 mt-1 flex-shrink-0">
-                  <IconChecklist className="h-5 w-5 text-yellow-600 dark:text-yellow-400" strokeWidth={2} />
+              <div className="flex items-start p-4 hover:bg-amber-50 dark:hover:bg-amber-900/10 rounded-lg transition-colors">
+                <div className="bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20 p-3 rounded-full mr-4 flex-shrink-0">
+                  <IconChecklist className="h-5 w-5 text-amber-600 dark:text-amber-400" strokeWidth={1.5} />
                 </div>
                 <div>
                   <h3 className="font-medium text-lg text-gray-800 dark:text-gray-200 mb-2">Factual Accuracy</h3>
@@ -280,9 +279,9 @@ export default function DashboardCredibility() {
                 </div>
               </div>
               
-              <div className="flex items-start">
-                <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-full mr-3 mt-1 flex-shrink-0">
-                  <IconStar className="h-5 w-5 text-purple-600 dark:text-purple-400" strokeWidth={2} />
+              <div className="flex items-start p-4 hover:bg-amber-50 dark:hover:bg-amber-900/10 rounded-lg transition-colors">
+                <div className="bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20 p-3 rounded-full mr-4 flex-shrink-0">
+                  <IconStar className="h-5 w-5 text-amber-600 dark:text-amber-400" strokeWidth={1.5} />
                 </div>
                 <div>
                   <h3 className="font-medium text-lg text-gray-800 dark:text-gray-200 mb-2">Source Reputation</h3>
@@ -292,9 +291,9 @@ export default function DashboardCredibility() {
                 </div>
               </div>
               
-              <div className="flex items-start">
-                <div className="bg-green-100 dark:bg-green-900/30 p-2 rounded-full mr-3 mt-1 flex-shrink-0">
-                  <IconWriting className="h-5 w-5 text-green-600 dark:text-green-400" strokeWidth={2} />
+              <div className="flex items-start p-4 hover:bg-amber-50 dark:hover:bg-amber-900/10 rounded-lg transition-colors">
+                <div className="bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20 p-3 rounded-full mr-4 flex-shrink-0">
+                  <IconWriting className="h-5 w-5 text-amber-600 dark:text-amber-400" strokeWidth={1.5} />
                 </div>
                 <div>
                   <h3 className="font-medium text-lg text-gray-800 dark:text-gray-200 mb-2">Content Analysis</h3>
@@ -304,9 +303,9 @@ export default function DashboardCredibility() {
                 </div>
               </div>
               
-              <div className="flex items-start">
-                <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-full mr-3 mt-1 flex-shrink-0">
-                  <IconScale className="h-5 w-5 text-red-600 dark:text-red-400" strokeWidth={2} />
+              <div className="flex items-start p-4 hover:bg-amber-50 dark:hover:bg-amber-900/10 rounded-lg transition-colors">
+                <div className="bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20 p-3 rounded-full mr-4 flex-shrink-0">
+                  <IconScale className="h-5 w-5 text-amber-600 dark:text-amber-400" strokeWidth={1.5} />
                 </div>
                 <div>
                   <h3 className="font-medium text-lg text-gray-800 dark:text-gray-200 mb-2">Bias Detection</h3>
@@ -317,10 +316,13 @@ export default function DashboardCredibility() {
               </div>
             </div>
             
-            <div className="mt-6 p-4 bg-yellow-50 dark:bg-gray-700 rounded-md">
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Remember that no automated tool is perfect. Always use critical thinking and consult multiple sources.
-              </p>
+            <div className="mt-6 p-4 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-lg">
+              <div className="flex items-center">
+                <IconBulb className="h-5 w-5 text-amber-500 dark:text-amber-400 mr-2" strokeWidth={1.5} />
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  <span className="font-medium">Remember:</span> No automated tool is perfect. Always use critical thinking and consult multiple sources.
+                </p>
+              </div>
             </div>
           </div>
         </div>

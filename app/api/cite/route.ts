@@ -55,6 +55,8 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    
+
     try {
         // 1. Get file metadata from Supabase
         const { fileId } = await request.json();
@@ -66,6 +68,20 @@ export async function POST(request: Request) {
 
         if (fileError || !fileData) {
             return NextResponse.json({ error: 'File not found' }, { status: 404 });
+        }
+
+        const { data: file } = await supabase
+            .from('files')
+            .select('completion')
+            .eq('id', fileId)
+            .single();
+        
+        if (file?.completion === 'complete') {
+            return NextResponse.json({ 
+                success: true,
+                message: 'File already processed',
+                fileId
+            });
         }
 
         // 2. Download and parse DOCX
@@ -190,7 +206,8 @@ export async function POST(request: Request) {
         const { error: supabaseError } = await supabase
             .from('files')
             .update({ 
-                references: referencesData 
+                references: referencesData,
+                citations: citationTexts
             })
             .eq('id', fileId);
 
@@ -458,6 +475,9 @@ export async function POST(request: Request) {
                 .update({ 
                     file_path_pdf: fileData.file_path_pdf,
                     file_url: publicUrl,
+                    completion: "complete",
+                    opened_at: new Date().toISOString()
+
                 })
                 .eq('id', fileData.id);
 

@@ -1,4 +1,3 @@
-
 import { createClient } from '@/utils/supabase/server';
 import { getUser } from '@/app/auth/getUser';
 import { BibliographyTable } from '@/components/bibliography-table';
@@ -30,10 +29,10 @@ export default async function BibliographyDashboard() {
   }
 
   return (
-    <main className="min-h-full w-full">
-      <div className="w-full">
-        <div className="relative top-20 mx-20 space-y-2">
-          <div className="">
+    <main className="min-h-screen w-full bg-white dark:bg-gray-900">
+      <div className="w-full max-w-7xl mx-auto px-4 py-10">
+        <div className="space-y-8">
+          <div>
             <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
               Bibliography Manager
             </h1>
@@ -42,14 +41,14 @@ export default async function BibliographyDashboard() {
             </p>
           </div>
 
-          <div className="mt-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg dark:border-gray-700">
             {references.length > 0 || !userId ? (
               <BibliographyTable 
                 initialReferences={references} 
                 userId={userId!} 
               />
             ) : (
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-8 text-center mr-4">
+              <div className="p-8 text-center">
                 <p className="text-gray-600 dark:text-gray-400">
                   Your bibliography is empty. Start by adding some references!
                 </p>

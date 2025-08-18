@@ -1,5 +1,6 @@
 'use client';
 import { useState, useCallback, ChangeEvent, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 
 export default function UploadBox() {
@@ -11,7 +12,14 @@ export default function UploadBox() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
+  useEffect(() => {
+    if (file) {
+      handleUpload();
+    }
+  }, [file]);
+
   const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+
   const ALLOWED_FILE_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
 
   const handleFileChange = useCallback((selectedFile: File | null) => {
@@ -24,11 +32,13 @@ export default function UploadBox() {
       return;
     }
 
+    // Validate file type
     if (!ALLOWED_FILE_TYPES.includes(selectedFile.type)) {
       setError('Invalid file type. Please upload a PDF, DOCX, or TXT file.');
       return;
     }
 
+    // Validate file size
     if (selectedFile.size > MAX_FILE_SIZE) {
       setError('File size exceeds the 20MB limit.');
       return;
@@ -36,28 +46,6 @@ export default function UploadBox() {
 
     setFile(selectedFile);
   }, []);
-
-  const extractKeywords = async (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      const response = await fetch('http://localhost:5000/api/extract-keywords', {
-        method: 'POST',
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error(`Keyword extraction failed: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      return data.keywords.map((kw: { keyword: string }) => kw.keyword).join(' ');
-    } catch (err) {
-      console.error('Keyword extraction error:', err);
-      throw new Error('Failed to extract keywords from document');
-    }
-  };
 
   const handleUpload = async () => {
     if (!file) return;
@@ -68,19 +56,46 @@ export default function UploadBox() {
     setUploadProgress(0);
 
     try {
-      // First extract keywords from the document
-      const keywords = await extractKeywords(file);
-      
-      // Then redirect to search with the extracted keywords
-      router.push(`/search?q=${encodeURIComponent(keywords)}`);
-      
-      setUploadSuccess(true);
-      setFile(null);
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/upload-pro', true);
+
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const progress = Math.round((event.loaded / event.total) * 100);
+          setUploadProgress(progress);
+        }
+      };
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          setUploadSuccess(true);
+          setFile(null); // Reset file after successful upload
+          const response = JSON.parse(xhr.responseText);
+          router.push(`/ai-citation-pro?fileId=${response.fileId}`);
+        } else {
+          const errorResponse = JSON.parse(xhr.responseText);
+          setError(errorResponse.error || 'Upload failed');
+        }
+        setIsUploading(false);
+      };
+
+      xhr.onerror = () => {
+        setError('Network error during upload');
+        setIsUploading(false);
+      };
+
+      xhr.send(formData);
+
+
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
-    } finally {
+      setError('An unexpected error occurred');
       setIsUploading(false);
+      console.error('Upload error:', err);
     }
+
   };
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -104,15 +119,11 @@ export default function UploadBox() {
     handleFileChange(droppedFile);
   };
 
-  // Auto-upload when file changes
-  useEffect(() => {
-    if (file) {
-      handleUpload();
-    }
-  }, [file]);
+  
+
 
   return (
-    <div className="w-full max-w-7xl bg-white rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 dark:bg-gray-800 mt-5 p-4">
+    <div className="w-full  bg-white rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 dark:bg-gray-800 mt-5 p-4">
       <div 
         className={`relative rounded-md border-2 border-dashed ${isDragging ? 'border-blue-500' : 'border-gray-300 dark:border-gray-600'} bg-gray-50/50 dark:bg-gray-700/30 flex flex-col items-center justify-center gap-2 p-8 transition-colors`}
         onDragOver={onDragOver}
@@ -150,8 +161,8 @@ export default function UploadBox() {
           </div>
           <div className="text-center">
             <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-              {isUploading ? 'Analyzing document...' : 
-               uploadSuccess ? 'Analysis complete!' :
+              {isUploading ? `Uploading... ${uploadProgress}%` : 
+               uploadSuccess ? 'Upload complete!' :
                file ? file.name : 'Drag & drop a file or click to browse'}
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -168,7 +179,7 @@ export default function UploadBox() {
             ></div>
           </div>
         )}
-        
+
         {error && (
           <p className="mt-2 text-xs text-red-500 dark:text-red-400">{error}</p>
         )}
@@ -179,10 +190,10 @@ export default function UploadBox() {
             className="mt-2 text-xs text-blue-500 hover:text-blue-700 dark:hover:text-blue-400"
             onClick={() => setUploadSuccess(false)}
           >
-            Analyze another file
+            Upload another file
           </button>
         )}
       </div>
     </div>
   );
-}
+};

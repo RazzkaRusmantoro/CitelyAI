@@ -147,8 +147,8 @@ export default function DashboardSummarizer() {
 
   return (
     <main className="min-h-full w-full" onClick={handleClickOutside}>
-      <div className="w-full">
-        <div className="relative top-20 ml-20 space-y-2">
+      <div className="w-full flex flex-col items-center">
+        <div className="relative top-10 w-full max-w-7xl px-4 space-y-2">
           <div className="">
             <h1 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
                 Quick Paper Summarizer
@@ -158,7 +158,7 @@ export default function DashboardSummarizer() {
             </p>
           </div>
           
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-1 mt-8 w-full max-w-5xl">
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-1 mt-8 w-full">
             <div className="flex flex-col md:flex-row">
               <div className="flex-1 border-r border-gray-200 relative">
                 {showPlaceholderContent && (

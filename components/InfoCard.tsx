@@ -25,12 +25,12 @@ export const InfoCard: React.FC<InfoCardProps> = ({ svg, title, para, step }) =>
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* actual card */}
-      <div className="rounded-lg bg-white p-6 max-w-xs text-center relative overflow-hidden border border-[#2a2a2a] shadow-lg hover:-translate-y-4 transition-all duration-300 hover:duration-200 ease-[cubic-bezier(0.4,1.3,0.2,0.9)] hover:shadow-[0_10px_25px_-5px_rgba(59,130,146,0.4)]">
+      <div className="rounded-lg bg-white p-6 max-w-md text-center relative overflow-hidden shadow-lg hover:-translate-y-4 transition-all duration-300 hover:duration-200 ease-[cubic-bezier(0.4,1.3,0.2,0.9)] hover:shadow-[0_10px_25px_-5px_rgba(59,130,146,0.4)]">
         <div className="w-12 h-12 bg-yellow-300 rounded-full flex items-center justify-center mx-auto mb-4">
           {svg}
         </div>
         <h3 className=" font-semibold text-lg mb-2">{title}</h3>
-        <p className="text-gray-400 text-sm">{para}</p>
+        <p className=" text-sm">{para}</p>
       </div>
 
       {/* number shown under the card */}

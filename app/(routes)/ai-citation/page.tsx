@@ -42,6 +42,27 @@ export default function Citation() {
     const [copied, setCopied] = useState(false)
 
     useEffect(() => {
+        const updateOpenedAt = async () => {
+            if (!fileId) return;
+            
+            try {
+                const { error } = await supabase
+                .from('files')
+                .update({ opened_at: new Date().toISOString() })
+                .eq('id', fileId);
+                
+                if (error) {
+                console.error('Error updating opened_at:', error);
+                }
+            } catch (error) {
+                console.error('Error updating opened_at:', error);
+            }
+        };
+
+        updateOpenedAt();
+    }, [fileId, supabase]);
+
+    useEffect(() => {
         if (!fileId || !pdfLoaded) return
 
         const fetchReferences = async () => {

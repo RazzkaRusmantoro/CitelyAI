@@ -8,15 +8,13 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useSearchParams } from "next/navigation";
 import { MultiStepLoader as Loader } from "@/components/multi-step-loader";
-import { Highlighter } from 'lucide-react'; // Import a highlight icon
+import { Highlighter } from 'lucide-react';
 
 interface ExistingPDFViewerProps {
   onLoadComplete?: () => void;
   highlightEnabled?: boolean;
 }
 
-
-// PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
   
 const loadingStates = [
@@ -34,10 +32,9 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showLoader, setShowLoader] = useState(true);
+  const [showLoader, setShowLoader] = useState(false); // Start with loader hidden
   const [loaderComplete, setLoaderComplete] = useState(false);
-  const [citationTexts, setCitationTexts] = useState<string[]>([]); // Store citation texts
-
+  const [citationTexts, setCitationTexts] = useState<string[]>([]);
   const [isConverting, setIsConverting] = useState(false);
   const [conversionError, setConversionError] = useState<string | null>(null);
   const [citationComplete, setCitationComplete] = useState(false);
@@ -45,12 +42,8 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
 
   const supabase = createClient();
 
-  
-
-  // Custom text renderer to highlight citation texts
   const textRenderer = useCallback(
     (textItem: TextItem) => {
-      // Only highlight if enabled AND we have citation texts
       if (!highlightEnabled || citationTexts.length === 0) return textItem.str;
       
       const pattern = new RegExp(
@@ -60,15 +53,108 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
       
       return textItem.str.replace(pattern, (match) => `<mark class="bg-yellow-200">${match}</mark>`);
     },
-    [citationTexts, highlightEnabled] // Add highlightEnabled to dependencies
+    [citationTexts, highlightEnabled]
   );
 
-  // Helper function to escape regex special characters
   function escapeRegExp(string: string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  // First effect: Handle the loader animation
+  useEffect(() => {
+    if (!fileId) return;
+
+    const checkFileStatus = async () => {
+      try {
+        setLoading(true);
+        
+        // First check the file status in Supabase
+        const { data: fileData, error } = await supabase
+          .from('files')
+          .select('completion, file_path_pdf, file_url, references, citations')
+          .eq('id', fileId)
+          .single();
+
+        if (error) throw error;
+
+        // If file is already completed, just fetch the URL and citations
+        if (fileData?.completion === 'complete') {
+          let url = fileData.file_url;
+          
+          if (!url && fileData.file_path_pdf) {
+            const { data: { publicUrl } } = await supabase.storage
+              .from('user-uploads')
+              .getPublicUrl(fileData.file_path_pdf);
+            url = publicUrl;
+          }
+
+          if (url) {
+            setFileUrl(url);
+            
+            // Set citation texts if available
+             if (fileData.citations) {
+              setCitationTexts(fileData.citations);
+            } else if (fileData.references) {
+              // Fallback to extracting from references if citations column doesn't exist
+              const texts = fileData.references.map((ref: any) => ref.cited_sentence);
+              setCitationTexts(texts);
+            }
+            
+            setCitationComplete(true);
+            if (onLoadComplete) onLoadComplete();
+            return;
+          }
+        }
+
+        // If not completed, show loader and proceed with citation process
+        setShowLoader(true);
+        if (!citationCalledRef.current) {
+          citationCalledRef.current = true;
+          await processCitations();
+        }
+      } catch (err) {
+        console.error('Error checking file status:', err);
+        setError(err instanceof Error ? err.message : 'Failed to check file status');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkFileStatus();
+  }, [fileId, supabase]);
+
+  const processCitations = useCallback(async () => {
+    try {
+      setIsConverting(true);
+      setConversionError(null);
+
+      const response = await fetch('/api/cite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ fileId }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Citation failed: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log('Citation successful:', data);
+      
+      if (data.citationTexts && Array.isArray(data.citationTexts)) {
+        setCitationTexts(data.citationTexts);
+      }
+      
+      setCitationComplete(true);
+    } catch (error) {
+      console.error('Error processing citations:', error);
+      setConversionError(error instanceof Error ? error.message : 'Unknown error occurred');
+    } finally {
+      setIsConverting(false);
+    }
+  }, [fileId]);
+
   useEffect(() => {
     if (showLoader) {
       const totalLoaderDuration = loadingStates.length * 4000;
@@ -81,49 +167,6 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
     }
   }, [showLoader]);
 
-  // Second effect: Initiate the citation process when fileId is available
-  useEffect(() => {
-    if (!fileId || citationCalledRef.current) return;
-    citationCalledRef.current = true;
-
-    async function processCitations() {
-      try {
-        setIsConverting(true);
-        setConversionError(null);
-
-        const response = await fetch('/api/cite', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ fileId }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Citation failed: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log('Citation successful:', data);
-        
-        // Store the citation texts from the response
-        if (data.citationTexts && Array.isArray(data.citationTexts)) {
-          setCitationTexts(data.citationTexts);
-        }
-        
-        setCitationComplete(true);
-      } catch (error) {
-        console.error('Error processing citations:', error);
-        setConversionError(error instanceof Error ? error.message : 'Unknown error occurred');
-      } finally {
-        setIsConverting(false);
-      }
-    }
-
-    processCitations();
-  }, [fileId]);
-
-  // Third effect: Fetch file URL only after citations are complete
   useEffect(() => {
     if (!citationComplete || !fileId) return;
 
@@ -165,14 +208,17 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
-     if (onLoadComplete) {
+    if (onLoadComplete) {
       onLoadComplete();
     }
   }
 
-  
+  // Skip loader entirely if file is already complete
+  if (loading && !showLoader) {
+    return <div className="w-full flex items-center justify-center">Loading...</div>;
+  }
 
-  if (!loaderComplete) {
+  if (!loaderComplete && showLoader) {
     return (
       <div className="w-full flex items-center justify-center">
         <Loader loadingStates={loadingStates} loading={true} duration={1000} />
@@ -185,11 +231,7 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
   if (!fileUrl) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <div
-          aria-label="Orange and tan hamster running in a metal wheel"
-          role="img"
-          className="wheel-and-hamster"
-        >
+        <div className="wheel-and-hamster">
           <div className="wheel"></div>
           <div className="hamster">
             <div className="hamster__body">
@@ -217,7 +259,6 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
 
   return (
     <div className="flex flex-col items-center relative">
-      
       <Document
         file={fileUrl}
         onLoadSuccess={onDocumentLoadSuccess}

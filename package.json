@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "stripe": "stripe listen --forward-to localhost:3000/api/webhooks"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -25,6 +26,7 @@
     "@tabler/icons-react": "^3.34.0",
     "@tiptap-pro/extension-export-docx": "^1.0.0-beta.4",
     "@tiptap/core": "^3.0.9",
+    "@tiptap/extension-color": "^3.1.0",
     "@tiptap/extension-document": "^3.0.7",
     "@tiptap/extension-paragraph": "^3.0.7",
     "@tiptap/extension-table": "^3.0.7",

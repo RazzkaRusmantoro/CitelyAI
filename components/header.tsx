@@ -2,10 +2,19 @@
 import { FlipWords } from "@/components/ui/flip-words";
 import { motion } from "framer-motion";
 import FadeInOnScroll from "@/components/FadeInOnScroll";
-import { Carousel } from "@/components/ui/carousel";
 import Link from "next/link";
 import { InfoCard } from "./InfoCard";
 import { Footer } from "@/components/Footer";
+import { TextCompare } from "@/components/compare";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import {
   Github,
   Sparkles,
@@ -14,11 +23,93 @@ import {
   MessageCircleCode,
   TrendingUp,
   Search,
+  Rocket,
+  Check,
+  BookOpen,
+  Library,
+  FileText,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+
 
 import { BackgroundBeams } from "@/components/ui/background-beams";
 
 export default function Header() {
+  const router = useRouter();
+  
+    const handleCheckout = async (price: number) => {
+      try {
+        const response = await fetch('/api/stripe-checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ price }),
+        });
+  
+        const data = await response.json();
+        if (data.url) {
+          router.push(data.url);
+        }
+      } catch (error) {
+        console.error('Checkout error:', error);
+      }
+    };
+  
+    const tiers = [
+      {
+        name: "Free",
+        price: "$0",
+        description:
+          "Good for casual users or students who need quick citations occasionally",
+        cta: "Current Plan",
+        featured: false,
+        icon: <Sparkles className="w-6 h-6 text-amber-500" />,
+        features: [
+          "5 documents per day (DOCX/PDF)",
+          "Bibliography manager",
+          "Academic Source Finder",
+          "Source Credibility Checker",
+          "Academic Citer"
+        ],
+      },
+      {
+        name: "Basic",
+        price: "$9",
+        priceValue: 900,
+        description: "For active students or writers doing regular academic work",
+        cta: "Upgrade Now",
+        featured: true,
+        icon: <Zap className="w-6 h-6 text-blue-500" />,
+        features: [
+          "All Previous Plan's Benefits",
+          "30 documents per day (DOCX/PDF)",
+          "Bibliography manager",
+          "Academic Source Finder",
+          "Source Credibility Checker",
+          "Academic Citer",
+        ],
+      },
+      {
+        name: "Pro",
+        price: "$24",
+        priceValue: 2400,
+        description:
+          "For researchers, postgrads, and professionals writing constantly",
+        cta: "Go Pro",
+        featured: false,
+        icon: <Rocket className="w-6 h-6 text-purple-500" />,
+        features: [
+          "All Previous Plan's Benefits",
+          "Priority AI processing",
+          "Premium AI Citation Assistant Interactive Tool",
+          "Advanced bibliography manager with folders",
+          "Early access to new AI features",
+        ],
+      },
+    ];
+
   const words = ["Cite Smarter.", "Powered by AI."];
   const words2 = ["Write Faster.", "Your Assistant."];
   const slideData = [
@@ -243,10 +334,10 @@ export default function Header() {
         </div>
       </FadeInOnScroll>
 
-      <div className="animate-radial-orbit -mt-1 overflow-hidden font-prompt">
+      <div className="animate-radial-orbit -mt-3 overflow-hidden font-prompt">
         <svg
           id="wave_on_score"
-          className="w-full -mb-4 scale-y-[-1]"
+          className="w-full -mb-0 scale-y-[-1]"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1440 107"
           preserveAspectRatio="none"
@@ -321,9 +412,289 @@ export default function Header() {
             />
           </section>
         </FadeInOnScroll>
-        <Footer />
+
+        <FadeInOnScroll>
+          <div className="py-20 ">
+            <div className="max-w-5xl mx-auto px-6">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-semibold text-white mb-4">
+                  What People Are Saying
+                </h2>
+                <p className="text-xl text-white max-w-2xl mx-auto">
+                  Hear from users who transformed their research workflow
+                </p>
+              </div>
+
+              <div className="relative">
+                {/* Decorative elements */}
+                <div className="absolute -top-8 -left-8 w-24 h-24 rounded-full bg-amber-200/20 blur-xl"></div>
+                <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-purple-200/20 blur-xl"></div>
+                
+                {/* Testimonial card */}
+                <div className="relative bg-white p-10 rounded-3xl shadow-lg border border-gray-100 transform hover:scale-[1.01] transition-all duration-300">
+                  <div className="flex flex-col md:flex-row gap-8 items-center">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-500 flex items-center justify-center shadow-md flex-shrink-0">
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 24 24" 
+                        fill="white" 
+                        className="w-10 h-10"
+                      >
+                        <path d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z" />
+                      </svg>
+                    </div>
+                    
+                    <div className="text-center md:text-left">
+                      <div className="text-2xl font-medium text-gray-800 mb-4">
+                        "Your comment/testimonial goes here. Describe how Citely has helped you in your academic work and research process."
+                      </div>
+                      <div className="text-lg text-gray-600">
+                        <p className="font-medium">Your Name</p>
+                        <p className="text-gray-500">Your Position/Role</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Decorative quote marks */}
+                  <div className="absolute top-6 left-6 text-gray-200 text-7xl font-serif -z-10">“</div>
+                  <div className="absolute bottom-6 right-6 text-gray-200 text-7xl font-serif -z-10">”</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </FadeInOnScroll>
+        <svg
+          id="wave_on_score"
+          className="w-full -mb-4 mt-30 scale-x-[-1]" 
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 107"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="#F9FAFB"
+            fillRule="nonzero"
+            d="M720 38.936531C571.07999 57.866238 321 119.5040168 0 41.09718v66.4480438h1440V40.491756c-320.2408-78.406837-571.07999-20.484932-720-1.555225z"
+          />
+        </svg>
+        {/* If it was placed here */}
+        
       </div>
-      
+
+      <div className = "bg-gray-50 -mt-3 overflow-hidden">
+        <FadeInOnScroll>
+        <div className="max-w-7xl mx-auto px-6 mb-50">
+          <div className="flex flex-col md:flex-row gap-12 items-center">
+            {/* Text content on the left */}
+            <div className="flex-1 space-y-6">
+              <h2 className="text-4xl font-bold text-gray-800">
+                See the Difference
+              </h2>
+              <p className="text-xl text-gray-800">
+                Compare how Citely transforms your research workflow versus traditional methods.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 mt-1">
+                    <Sparkles className="w-5 h-5 text-amber-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-800">AI-Powered Efficiency</h3>
+                    <p className="text-gray-800">
+                      Our AI handles the tedious work so you can focus on your research.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 mt-1">
+                    <Zap className="w-5 h-5 text-blue-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-800">Lightning Fast</h3>
+                    <p className="text-gray-800">
+                      Generate citations in seconds that would normally take hours.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 mt-1">
+                    <TrendingUp className="w-5 h-5 text-purple-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-800">Academic Advantage</h3>
+                    <p className="text-gray-800">
+                      Get higher quality references with our AI-powered suggestions.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Comparison component on the right */}
+            <div className="flex-1 mt-20 ">
+              <div className="p-4 border rounded-3xl border-neutral-200 bg-white shadow-lg">
+                <TextCompare
+                  beforeText={`Artificial intelligence has undergone remarkable transformations since its conceptual beginnings. The field has progressed from simple rule-based systems to complex machine learning algorithms capable of pattern recognition and decision-making.\n\nHowever, many academic papers still struggle with proper citation formatting, often leaving references incomplete or improperly formatted. This creates challenges for readers trying to verify sources and for authors maintaining academic integrity.`}
+                  
+                  afterText={`Artificial intelligence has undergone remarkable transformations since its conceptual beginnings (McCarthy, 1956). The field has progressed from simple rule-based systems to complex machine learning algorithms capable of pattern recognition and decision-making (Russell & Norvig, 2020).\n\nHowever, many academic papers still struggle with proper citation formatting, often leaving references incomplete or improperly formatted (Smith et al., 2021). This creates challenges for readers trying to verify sources and for authors maintaining academic integrity.`}
+                  
+                  className="h-auto min-h-[400px]"
+                  beforeClassName="bg-gray-50"
+                  afterClassName="bg-gray-50"
+                  slideMode="hover"
+                />
+              </div>
+              <div className = "">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        </FadeInOnScroll>  
+        <FadeInOnScroll>
+          <div className="border-t border-gray-200 py-20 bg-white">
+
+          </div>
+        </FadeInOnScroll>
+        <FadeInOnScroll>
+          <div className="border-t border-gray-200 py-20 bg-gray-50">
+
+          </div>
+        </FadeInOnScroll>
+        <FadeInOnScroll>
+          <div className="border-t border-gray-200 py-20 bg-white">
+              <div className="relative overflow-hidden flex flex-col">
+                <div className="max-w-7xl mx-auto px-6 pb-24 w-full py-24 sm:py-18">
+                  <FadeInOnScroll>
+                    <div className="text-center mb-16">
+                      <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
+                        Simple, transparent pricing
+                      </h2>
+                      <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                        Streamline your research workflow with AI-powered tools
+                      </p>
+                    </div>
+                  </FadeInOnScroll>
+          
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {tiers.map((tier) => (
+                      <FadeInOnScroll key={tier.name}>
+                        <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
+                          <Card
+                            className={`h-full flex flex-col ${
+                              tier.featured
+                                ? "border-2 border-amber-400 shadow-lg"
+                                : "border-gray-200"
+                            }`}
+                          >
+                            <CardHeader>
+                              <div className="flex items-center gap-3">
+                                {tier.icon}
+                                <CardTitle className="text-2xl font-bold text-gray-900">
+                                  {tier.name}
+                                </CardTitle>
+                              </div>
+                              <CardDescription className="mt-2 text-gray-600">
+                                {tier.description}
+                              </CardDescription>
+                              <div className="mt-4">
+                                <span className="text-4xl font-bold text-gray-900">
+                                  {tier.price}
+                                </span>
+                                {tier.price !== "$0" && (
+                                  <span className="text-gray-600">/month</span>
+                                )}
+                              </div>
+                            </CardHeader>
+                            <CardContent className="flex-grow">
+                              <ul className="space-y-3">
+                                {tier.features.map((feature) => (
+                                  <li key={feature} className="flex items-start">
+                                    <Check className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                                    <span className="text-gray-700">{feature}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </CardContent>
+                            <CardFooter>
+                              <Button
+                                size="lg"
+                                className={`w-full hover:cursor-pointer ${
+                                  tier.featured
+                                    ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700"
+                                    : "bg-gray-900 hover:bg-gray-800"
+                                }`}
+                                onClick={() => {
+                                  if (tier.priceValue) {
+                                    handleCheckout(tier.priceValue);
+                                  }
+                                }}
+                                disabled={!tier.priceValue}
+                              >
+                                {tier.cta}
+                              </Button>
+                            </CardFooter>
+                          </Card>
+                        </motion.div>
+                      </FadeInOnScroll>
+                    ))}
+                  </div>
+          
+                  <FadeInOnScroll>
+                    <div className="mt-24 bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-200 shadow-sm max-w-4xl mx-auto">
+                      <div className="text-center">
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                          Frequently asked questions
+                        </h3>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-8 mt-8">
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                            <FileText className="w-5 h-5 text-amber-500" /> Can I switch
+                            plans later?
+                          </h4>
+                          <p className="text-gray-600">
+                            Yes! You can upgrade, downgrade, or cancel anytime. Changes
+                            take effect immediately.
+                          </p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                            <Library className="w-5 h-5 text-blue-500" /> What file types
+                            do you support?
+                          </h4>
+                          <p className="text-gray-600">
+                            We support DOCX and PDF files for document uploads, and any
+                            academic URL for link-to-citation.
+                          </p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                            <BookOpen className="w-5 h-5 text-purple-500" /> How accurate
+                            are the citations?
+                          </h4>
+                          <p className="text-gray-600">
+                            Our AI maintains 99.9% format accuracy across all major
+                            citation styles, with human-reviewed templates.
+                          </p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                            <Zap className="w-5 h-5 text-green-500" /> Is my data secure?
+                          </h4>
+                          <p className="text-gray-600">
+                            Absolutely. We use end-to-end encryption and never share your
+                            research data with third parties.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </FadeInOnScroll>
+                </div>
+              </div>
+          </div>
+        </FadeInOnScroll>
+        <Footer/>
+      </div>
     </>
   );
 }

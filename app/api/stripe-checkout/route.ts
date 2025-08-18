@@ -2,15 +2,27 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@/utils/supabase/server';
 import { getUser } from '@/app/auth/getUser';
-import { v4 as uuidv4 } from 'uuid'; // Add this import
+import { v4 as uuidv4 } from 'uuid';
 
+console.log("Hi")
 const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY!);
+console.log("Hi again")
+
+const STRIPE_PRICE_IDS = {
+  basic: process.env.STRIPE_BASIC_PRICE_ID!, // price_ID for $9 Basic plan
+  pro: process.env.STRIPE_PRO_PRICE_ID!     // price_ID for $24 Pro plan
+};
+
+console.log("Whats up")
 
 export async function POST(request: Request) {
   const { price } = await request.json();
   const supabase = await createClient();
   const user = await getUser();
   const userId = user?.id;
+  const userEmail = user?.email;
+
+  console.log("Were here")
 
   if (!userId) {
     return NextResponse.json(
@@ -19,24 +31,17 @@ export async function POST(request: Request) {
     );
   }
 
-  try {
-    const product = await stripe.products.create({
-      name: price === 900 ? 'Basic Plan' : 'Pro Plan',
-    });
+  console.log("were here again")
 
-    const priceObj = await stripe.prices.create({
-      product: product.id,
-      unit_amount: price,
-      currency: 'usd',
-      recurring: {
-        interval: 'month',
-      },
-    });
+  try {
+    const priceId = price === 900 ? STRIPE_PRICE_IDS.basic : STRIPE_PRICE_IDS.pro;
+    const planType = price === 900 ? 'basic' : 'pro';
+    const planName = price === 900 ? 'Basic' : 'Pro';
 
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
-          price: priceObj.id,
+          price: priceId,
           quantity: 1,
         },
       ],
@@ -46,31 +51,45 @@ export async function POST(request: Request) {
       customer_email: user.email,
       metadata: {
         user_id: userId,
-        plan_type: price === 900 ? 'basic' : 'pro'
+        plan_type: planType,
+      },
+      subscription_data: {
+        metadata: {
+          user_id: userId,
+          plan_type: planType,
+        }
       }
     });
 
-    const referenceId = uuidv4();
+    console.log("test")
 
-    const { error } = await supabase
-      .from('receipts')
-      .insert({
-        user_id: userId,
-        email: user.email,
-        amount_paid: price === 900 ? 9 : 24,
-        stripe_session_id: session.id,
-        reference_id: referenceId
-      });
 
-    if (error) {
-      console.error('Supabase error:', error);
-    }
+    // Update subscription record in Supabase
+  //   const { error: subError } = await supabase
+  //     .from('Subscriptions')
+  //     .upsert({
+  //       user_id: userId,
+  //       stripe_session_id: session.id,
+  //       subscription: planName,
+  //       status: 'pending_payment',
+  //       current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+  //     },
+  //     { onConflict: 'user_id' }
+  // );
+    
+  //   console.log("hey")
+  //   if (subError) throw subError;
+
+    console.log("yes")
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
-    console.error('Stripe error:', err);
+    console.error('Stripe error:', err instanceof Error ? err.message : err);
     return NextResponse.json(
-      { error: 'Failed to create Stripe checkout session' },
+      { 
+        error: 'Failed to create Stripe checkout session',
+        details: err instanceof Error ? err.message : String(err)
+      },
       { status: 500 }
     );
   }

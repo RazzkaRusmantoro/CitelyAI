@@ -67,8 +67,8 @@ export default function DashboardCitation() {
 
   return (
     <main className="min-h-screen w-full">
-      <div className="max-w-7xl mx-auto px-8 py-3">
-        <div className="w-full pt-20 mb-5">
+      <div className="max-w-7xl mx-auto px-4 py-3">
+        <div className="w-full pt-8 mb-5">
           <div className="space-y-2">
             <h1 className="text-3xl md:text-4xl font-bold text-black">
               Citely Dashboard
@@ -98,6 +98,12 @@ export default function DashboardCitation() {
             change="+128 this month"
             icon={<IconBookmarkFilled size={24} />}
           />
+        </div>
+
+        <div className="bg-[#F5F6F8] h-60 mb-8 relative">
+          <h2 className="text-2xl font-semibold text-gray-900 absolute top-6 left-6 md:top-8 md:left-8">
+            Get Started with Citely
+          </h2>
         </div>
 
         <h2 className="text-2xl font-semibold text-gray-900 mb-6">Research Tools</h2>

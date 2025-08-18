@@ -110,11 +110,11 @@ export function AppSidebar({ user }: Props) {
           href: "/profile",
           icon: IconUserBolt,
         },
-        {
-          label: "Settings",
-          href: "/settings",
-          icon: IconSettings,
-        },
+        // {
+        //   label: "Settings",
+        //   href: "/settings",
+        //   icon: IconSettings,
+        // },
         {
           label: "Logout",
           href: "/logout",
@@ -155,7 +155,7 @@ export function AppSidebar({ user }: Props) {
           <SidebarBody className="justify-between scrollbar-none overflow-x-hidden h-full">
             <div className="flex flex-1 flex-col scrollbar-none overflow-y-auto overflow-x-hidden px-2">
               {open ? <Logo /> : <LogoIcon />}
-              <div className="mt-6 flex flex-col">
+              <div className="mt-0 flex flex-col">
                 {categories.map((category, catIdx) => (
                   <div key={catIdx} className="flex flex-col">
                     {/* Divider */}

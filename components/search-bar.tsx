@@ -4,9 +4,13 @@ import { FiSearch } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
-export default function SearchBar() {
+interface SearchBarProps {
+  searchQuery: string;
+  onSearchQueryChange: (query: string) => void;
+}
+
+export default function SearchBar({ searchQuery, onSearchQueryChange }: SearchBarProps) {
     const router = useRouter();
-    const [searchQuery, setSearchQuery] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSearch = async (e: FormEvent) => {
@@ -24,14 +28,14 @@ export default function SearchBar() {
     };
 
     return (
-        <form onSubmit={handleSearch} className="w-full max-w-6xl relative">
+        <form onSubmit={handleSearch} className="w-full max-w-7xl relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <FiSearch className="h-5 w-5 text-gray-400" />
             </div>
             <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => onSearchQueryChange(e.target.value)}
                 className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder-gray-400"
                 placeholder="Search for academic papers, articles, or sources..."
                 disabled={isLoading}
