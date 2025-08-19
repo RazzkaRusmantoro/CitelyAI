@@ -2,8 +2,9 @@
 
 import { AppSidebar } from "@/components/Sidebar";
 import type { User } from "@/app/auth/getUser";
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface DashboardClientProps {
   user: User | null;
@@ -14,6 +15,8 @@ export default function DashboardClient({ user, children }: DashboardClientProps
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const menuItems = [
     { name: "Profile", description: "View your account", href: "/profile" },
@@ -48,6 +51,28 @@ export default function DashboardClient({ user, children }: DashboardClientProps
     setSearchQuery(e.target.value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchQuery.trim() && filteredItems.length > 0) {
+      e.preventDefault();
+      router.push(filteredItems[0].href);
+      setIsSearchFocused(false);
+      setSearchQuery("");
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsSearchFocused(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="flex h-screen relative bg-gradient-to-b from-white to-gray-50">
       
@@ -64,6 +89,7 @@ export default function DashboardClient({ user, children }: DashboardClientProps
                   </svg>
                 </div>
                 <input
+                  ref={inputRef}
                   type="text"
                   className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                   placeholder="Search..."
@@ -71,6 +97,7 @@ export default function DashboardClient({ user, children }: DashboardClientProps
                   onChange={handleSearchChange}
                   onFocus={() => setIsSearchFocused(true)}
                   onBlur={handleBlur}
+                  onKeyDown={handleKeyDown}
                 />
                 {isSearchFocused && (
                   <div 
