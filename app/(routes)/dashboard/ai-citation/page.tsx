@@ -72,25 +72,7 @@ export default async function DashboardCitation() {
             <UploadBox/>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 border border-gray-200 dark:border-gray-700">
-            <Link href="/ai-citation" className="bg-yellow-600 hover:bg-yellow-700 text-xs text-white font-medium px-0 py-3 rounded-md transition-all duration-200 w-full h-full flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                className="h-4 w-4" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M12 4v16m8-8H4" 
-                />
-              </svg>
-              Create a Blank Document
-            </Link>
-          </div>
+          
 
           <div className="mt-10">
             <span className="text-black dark:text-gray-300 font-medium mb-4 block">
