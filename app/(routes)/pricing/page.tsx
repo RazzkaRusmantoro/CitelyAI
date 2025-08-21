@@ -23,6 +23,7 @@ import { BackgroundBeams } from "@/components/ui/background-beams";
 import FadeInOnScroll from "@/components/FadeInOnScroll";
 import { Footer } from "@/components/Footer";
 import { useRouter } from "next/navigation";
+import Navbar from "@/components/navbar";
 
 export default function Pricing() {
   const router = useRouter();
@@ -101,6 +102,7 @@ export default function Pricing() {
 
   return (
     <div className="relative overflow-hidden min-h-screen flex flex-col">
+      <Navbar/>
       {/* Background Beams */}
       <div className="absolute inset-0 -z-10">
         <BackgroundBeams />

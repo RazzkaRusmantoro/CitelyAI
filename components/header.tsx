@@ -425,12 +425,11 @@ export default function Header() {
                 </p>
               </div>
 
-              <div className="relative">
-                {/* Decorative elements */}
+              {/* <div className="relative">
+                Decorative elements
                 <div className="absolute -top-8 -left-8 w-24 h-24 rounded-full bg-amber-200/20 blur-xl"></div>
                 <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-purple-200/20 blur-xl"></div>
                 
-                {/* Testimonial card */}
                 <div className="relative bg-white p-10 rounded-3xl shadow-lg border border-gray-100 transform hover:scale-[1.01] transition-all duration-300">
                   <div className="flex flex-col md:flex-row gap-8 items-center">
                     <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-500 flex items-center justify-center shadow-md flex-shrink-0">
@@ -444,8 +443,7 @@ export default function Header() {
                       </svg>
                     </div>
                     
-                    {/* This is very temporary i just dont know what to put here so to fill it
-                    its here for now... */}
+
                     <div className="text-center md:text-left">
                       <div className="text-2xl font-medium text-gray-800 mb-4">
                         "Your comment/testimonial goes here. Describe how Citely has helped you in your academic work and research process."
@@ -457,11 +455,10 @@ export default function Header() {
                     </div>
                   </div>
                   
-                  {/* Decorative quote marks */}
                   <div className="absolute top-6 left-6 text-gray-200 text-7xl font-serif -z-10">“</div>
                   <div className="absolute bottom-6 right-6 text-gray-200 text-7xl font-serif -z-10">”</div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </FadeInOnScroll>

@@ -63,7 +63,7 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/pricing"
                     className="text-gray-600 hover:text-amber-600 transition-colors"
                   >
                     Pricing
@@ -77,14 +77,14 @@ export function Footer() {
                     Dashboard
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="#"
                     className="text-gray-600 hover:text-amber-600 transition-colors"
                   >
                     Partners
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
 
@@ -94,14 +94,14 @@ export function Footer() {
                 Resources
               </h4>
               <ul className="space-y-3">
-                <li>
+                {/* <li>
                   <Link
                     href="#"
                     className="text-gray-600 hover:text-amber-600 transition-colors"
                   >
                     Documentation
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     href="#"
@@ -115,9 +115,17 @@ export function Footer() {
                     href="#"
                     className="text-gray-600 hover:text-amber-600 transition-colors"
                   >
-                    Academic Tools
+                    FAQ
                   </Link>
                 </li>
+                {/* <li>
+                  <Link
+                    href="#"
+                    className="text-gray-600 hover:text-amber-600 transition-colors"
+                  >
+                    Academic Tools
+                  </Link>
+                </li> */}
                 <li>
                   <Link
                     href="#"
