@@ -3,11 +3,21 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { getUser, User } from "@/app/auth/getUser";
 import { logout } from "@/app/auth/logout";
+import {
+  IconFile,
+  IconFileText,
+  IconSearch,
+  IconNotebook,
+  IconFileAnalytics,
+  IconBooks,
+  IconListDetails,
+} from "@tabler/icons-react";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -31,6 +41,55 @@ const Navbar = () => {
     }
   };
 
+  const toggleDropdown = (name: string) => {
+    setActiveDropdown(activeDropdown === name ? null : name);
+  };
+
+  const products = [
+    {
+      name: "Basic AI Citation Assistant",
+      description: "Generate standard citations in multiple formats",
+      href: "/dashboard/ai-citation",
+      icon: <IconFile size={20} className="text-orange-500" />,
+    },
+    {
+      name: "Premium AI Citation Assistant",
+      description: "Advanced citation generation with smart formatting",
+      href: "/dashboard/ai-citation-pro",
+      icon: <IconFileText size={20} className="text-orange-500" />,
+    },
+    {
+      name: "Academic Source Finder",
+      description: "Discover credible sources for your research",
+      href: "/dashboard/academic-source-finder",
+      icon: <IconSearch size={20} className="text-orange-500" />,
+    },
+    {
+      name: "Academic Citer",
+      description: "Automatically format citations from databases",
+      href: "/dashboard/custom-link-citation",
+      icon: <IconNotebook size={20} className="text-orange-500" />,
+    },
+    {
+      name: "Paper Summarizer",
+      description: "Get concise summaries of research papers",
+      href: "/dashboard/academic-source-finder",
+      icon: <IconFileAnalytics size={20} className="text-orange-500" />,
+    },
+    {
+      name: "Bibliography Manager",
+      description: "Organize all your references in one place",
+      href: "/dashboard/bibliography-manager",
+      icon: <IconBooks size={20} className="text-orange-500" />,
+    },
+    {
+      name: "Source Credibility Checker",
+      description: "Evaluate the reliability of sources",
+      href: "/dashboard/source-credibility-checker",
+      icon: <IconListDetails size={20} className="text-orange-500" />,
+    },
+  ];
+
   return (
     <nav
       className={`flex justify-between items-center px-4 py-3 bg-white border sticky top-0 z-50 transition-all duration-300 ${
@@ -49,30 +108,94 @@ const Navbar = () => {
 
         {/* Desktop Navigation Links - Hidden on mobile */}
         <div className="hidden md:flex gap-4 lg:gap-6 px-4 lg:px-20">
-          <Link
-            href="/ai-tools"
-            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"
-          >
-            AI Tools
-          </Link>
-          <Link
-            href="https://www.youtube.com/@TheBackRoams"
-            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"
-          >
-            BackRoams
-          </Link>
+          {/* Products dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => toggleDropdown("products")}
+              className={`flex items-center text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out px-3 lg:px-5 py-2 ${
+                activeDropdown === "products" ? "text-orange-500" : ""
+              }`}
+            >
+              Products
+              <svg
+                className={`ml-1 h-4 w-4 transition-transform duration-300 ${
+                  activeDropdown === "products" ? "rotate-180" : ""
+                }`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            
+            {/* Enhanced Products Dropdown Menu */}
+            {activeDropdown === "products" && (
+              <div className="absolute top-full left-0 mt-1 w-196 bg-white border border-gray-200 rounded-xl shadow-xl p-2 z-50">
+                <div className="grid grid-cols-1 gap-1">
+                  {products.map((product, index) => (
+                    <Link
+                      key={index}
+                      href={product.href}
+                      className="flex items-start px-4 py-3 text-gray-800 hover:bg-orange-50 transition-colors group rounded-md"
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <div className="flex-shrink-0 mt-0.5 mr-3">
+                        {product.icon}
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium group-hover:text-orange-500 transition-colors">
+                          {product.name}
+                        </div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          {product.description}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Resources dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => toggleDropdown("resources")}
+              className={`flex items-center text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out px-3 lg:px-5 py-2 ${
+                activeDropdown === "resources" ? "text-orange-500" : ""
+              }`}
+            >
+              Resources
+              <svg
+                className={`ml-1 h-4 w-4 transition-transform duration-300 ${
+                  activeDropdown === "resources" ? "rotate-180" : ""
+                }`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+          </div>
+
           <Link
             href="/pricing"
-            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"
+            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out px-3 lg:px-5 py-2"
           >
             Pricing
           </Link>
-          {/* <Link
-            href="/profile"
-            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"
-          >
-            Your Account (idk where to put this button)
-          </Link> */}
         </div>
       </div>
 
@@ -81,7 +204,7 @@ const Navbar = () => {
         <Link href="/login" className="text-base">
           <button
             onClick={handleAuthClick}
-            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out font-bold px-3 lg:px-5 py-2"
+            className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out px-3 lg:px-5 py-2"
           >
             {" "}
             {user ? "Log Out" : "Log In"}{" "}

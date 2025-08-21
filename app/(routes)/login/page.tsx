@@ -53,7 +53,7 @@ export default function Login() {
           }
         } else {
           // Force a full page reload to ensure middleware runs
-          window.location.href = '/';
+          window.location.href = '/dashboard/home';
         }
 
       } catch (error) {

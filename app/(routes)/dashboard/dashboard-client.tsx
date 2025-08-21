@@ -5,6 +5,7 @@ import type { User } from "@/app/auth/getUser";
 import { useState, useRef, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { logout } from "@/app/auth/logout";
 
 interface DashboardClientProps {
   user: User | null;
@@ -15,8 +16,10 @@ export default function DashboardClient({ user, children }: DashboardClientProps
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -64,6 +67,12 @@ export default function DashboardClient({ user, children }: DashboardClientProps
 
   const toggleNotifications = () => {
     setIsNotificationsOpen(!isNotificationsOpen);
+    setIsProfileOpen(false); // Close profile if notifications is opened
+  };
+
+  const toggleProfile = () => {
+    setIsProfileOpen(!isProfileOpen);
+    setIsNotificationsOpen(false); // Close notifications if profile is opened
   };
 
   useEffect(() => {
@@ -77,6 +86,11 @@ export default function DashboardClient({ user, children }: DashboardClientProps
       if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
         setIsNotificationsOpen(false);
       }
+      
+      // Close profile dropdown if clicked outside
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -84,6 +98,12 @@ export default function DashboardClient({ user, children }: DashboardClientProps
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const handleAuthClick = async () => {
+    if (user) {
+      await logout();
+    }
+  };
 
   return (
     <div className="flex h-screen relative bg-gradient-to-b from-white to-gray-50">
@@ -185,10 +205,46 @@ export default function DashboardClient({ user, children }: DashboardClientProps
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                   </svg>
                 </button>
-                <div className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer">
-                  <svg className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
+                
+                <div className="relative" ref={profileRef}>
+                  <div 
+                    className="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center cursor-pointer"
+                    onClick={toggleProfile}
+                  >
+                    <svg className="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  
+                  {isProfileOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md border border-gray-200 z-[9999]">
+                      <div className="px-4 py-3 border-b border-gray-100">
+                        <h3 className="text-sm font-semibold text-gray-800">Profile</h3>
+                      </div>
+                      <div className="p-1">
+                        <Link
+                          href="/settings"
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-sm"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          Settings
+                        </Link>
+                        <Link
+                          href="/help"
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-sm"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          Help & Support
+                        </Link>
+                        <button
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-t border-gray-100 hover:cursor-pointer rounded-sm"
+                          onClick={handleAuthClick}
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
