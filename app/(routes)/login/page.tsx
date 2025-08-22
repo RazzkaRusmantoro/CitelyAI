@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
@@ -11,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from 'zod';
 import OAuthIcoButton from "@/components/OAuthIcoButton";
-
+import { useState, useEffect } from "react";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Enter your email").email({ message: "Invalid email address"}),
@@ -21,6 +19,11 @@ const loginSchema = z.object({
 type loginData = z.infer<typeof loginSchema>
 
 export default function Login() {
+    const [needsVerification, setNeedsVerification] = useState(false);
+    const [verificationEmail, setVerificationEmail] = useState("");
+    const [verificationSent, setVerificationSent] = useState(false);
+    const [cooldown, setCooldown] = useState(0);
+    
     const {
       register,
       handleSubmit,
@@ -30,7 +33,49 @@ export default function Login() {
       resolver: zodResolver(loginSchema),
     });
 
+    // Countdown timer effect
+    useEffect(() => {
+      let interval: NodeJS.Timeout;
+      
+      if (cooldown > 0) {
+        interval = setInterval(() => {
+          setCooldown(prev => prev - 1);
+        }, 1000);
+      }
+      
+      return () => clearInterval(interval);
+    }, [cooldown]);
+
+    const resendVerification = async () => {
+      try {
+        const response = await fetch('/api/resend-verification', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: verificationEmail }),
+        });
+
+        const result = await response.json();
+        
+        if (result?.error) {
+          setError('root', { message: 'Failed to resend verification email' });
+        } else {
+          setVerificationSent(true);
+          setCooldown(60); // Start 60 second cooldown
+        }
+      } catch (error) {
+        console.error('Resend verification error:', error);
+        setError('root', { message: 'Failed to resend verification email' });
+      }
+    }
+
     const onSubmit = async (data: loginData) => {
+      // Prevent form submission during cooldown
+      if (cooldown > 0) {
+        return;
+      }
+
       try {
         const response = await fetch('/api/login', {
           method: 'POST',
@@ -42,12 +87,18 @@ export default function Login() {
         });
 
         const result = await response.json();
+
+        console.log("This is the data", result)
         
         if (result?.error) {
           if (result.error === 'Invalid login credentials') {
             setError('password', { message: 'Incorrect password' });
           } else if (result.error === 'Email not found') {
             setError('email', { message: 'Email does not exist' });
+          } else if (result.error === 'Email not verified') {
+            setNeedsVerification(true);
+            setVerificationEmail(data.email);
+            setCooldown(60); // Start 60 second cooldown when email is not verified
           } else {
             setError('root', { message: result.error || 'An unexpected error occurred' });
           }
@@ -61,7 +112,6 @@ export default function Login() {
         setError('root', { message: 'Network error occurred' });
       }
     }
-
 
     return (
         <main className="relative flex flex-col md:flex-row justify-center items-center min-h-screen bg-gray-50 px-4">
@@ -103,15 +153,39 @@ export default function Login() {
                           )}
                       </div>
 
+                      {/* Email verification notice */}
+                      {needsVerification && (
+                        <div className="p-3 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm">
+                          <p className="font-medium">Email verification required</p>
+                          <p>Please check your inbox for a verification email.</p>
+                        </div>
+                      )}
+
+                      {errors.root && (
+                        <p className="text-red-500 text-sm mt-1">{errors.root.message}</p>
+                      )}
+
                       <button
-                          disabled={isSubmitting}
-                          className={`${isSubmitting? "cursor-not-allowed" : "cursor-pointer" } w-full md:w-[80%] mx-auto group relative inline-flex h-14 items-center justify-center overflow-hidden rounded-md border border-[#f2c10f] px-10 font-medium text-white transition-all duration-100 [box-shadow:5px_5px_rgb(186_130_9)] hover:translate-x-[3px] hover:translate-y-[3px] hover:[box-shadow:0px_0px_rgb(82_82_82)] bg-[#f2c10f]  text-lg`}
+                          disabled={isSubmitting || cooldown > 0}
+                          className={`${
+                            isSubmitting || cooldown > 0 
+                              ? "cursor-not-allowed opacity-70" 
+                              : "cursor-pointer"
+                          } w-full md:w-[80%] mx-auto group relative inline-flex h-14 items-center justify-center overflow-hidden rounded-md border border-[#f2c10f] px-10 font-medium text-white transition-all duration-100 [box-shadow:5px_5px_rgb(186_130_9)] hover:translate-x-[3px] hover:translate-y-[3px] hover:[box-shadow:0px_0px_rgb(82_82_82)] bg-[#f2c10f] text-lg`}
                           type="submit"
                       >
-                          <b>{isSubmitting ? (<span className="flex items-center">
-                                                <AiOutlineLoading3Quarters className="animate-spin mr-2 w-5 h-5"/>
-                                                Signing in
-                                              </span>) : "Sign in!"}</b>
+                          <b>
+                            {isSubmitting ? (
+                              <span className="flex items-center">
+                                <AiOutlineLoading3Quarters className="animate-spin mr-2 w-5 h-5"/>
+                                Signing in
+                              </span>
+                            ) : cooldown > 0 ? (
+                              `Try again in ${cooldown}s`
+                            ) : (
+                              "Sign in!"
+                            )}
+                          </b>
                       </button>
                   </form>
                   <Link href ="/register" className = "text-base mt-5">

@@ -198,7 +198,7 @@ const Navbar = () => {
           </Link>
 
           <Link
-            href="/pricing"
+            href="/support"
             className="text-black cursor-pointer hover:text-orange-500 transition-colors ease-in-out px-3 lg:px-5 py-2"
           >
             Support
