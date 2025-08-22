@@ -55,7 +55,7 @@ export function Footer() {
               <ul className="space-y-3">
                 <li>
                   <Link
-                    href="#"
+                    href="/features"
                     className="text-gray-600 hover:text-amber-600 transition-colors"
                   >
                     Features
