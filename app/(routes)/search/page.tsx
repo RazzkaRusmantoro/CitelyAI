@@ -179,7 +179,7 @@ export default function SearchResults() {
     };
 
     return (
-        <div className="bg-[#F6F5F1] min-h-screen">
+        <div className="bg-gradient-to-b from-white to-gray-50 min-h-screen">
             <div className="bg-white border-b border-[#D9DADB] py-4">
                 <div className="container mx-auto px-4 flex items-center justify-between">
                     <Link href="/dashboard/home" className="ml-32 text-2xl font-bold text-gray-800 transition-colors cursor-pointer">

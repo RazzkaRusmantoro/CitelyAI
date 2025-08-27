@@ -352,7 +352,7 @@ export default function Header() {
         {/* Section Title + Subtitle */}
         <FadeInOnScroll>
           <section className="text-center py-20 px-4 sm:px-6 lg:px-8 mt-10">
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+            <h2 className="text-4xl font-bold text-white mb-4">
               Everything You Need, All in One
             </h2>
             <p className="text-2xl max-w-2xl mx-auto text-white">
@@ -362,8 +362,12 @@ export default function Header() {
         </FadeInOnScroll>
 
         <FadeInOnScroll>
+          {/* Place the Carousel Here */}
+          Carousel
+        </FadeInOnScroll>
+{/* 
+        <FadeInOnScroll>
           <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-10">
-            {/* Basic AI Citation Assistant */}
             <InfoCard
               svg={<Sparkles className="w-6 h-6" />}
               title="Basic AI Citation Assistant"
@@ -371,7 +375,6 @@ export default function Header() {
               step={1}
             />
 
-            {/* Premium AI Citation Assistant */}
             <InfoCard
               svg={<Zap className="w-6 h-6" />}
               title="Premium AI Citation Assistant"
@@ -379,7 +382,6 @@ export default function Header() {
               step={2}
             />
 
-            {/* Academic Source Finder */}
             <InfoCard
               svg={<Search className="w-6 h-6" />}
               title="Academic Source Finder"
@@ -387,7 +389,6 @@ export default function Header() {
               step={3}
             />
 
-            {/* Paper Summarizer */}
             <InfoCard
               svg={<MessageCircleCode className="w-6 h-6" />}
               title="Paper Summarizer"
@@ -395,7 +396,6 @@ export default function Header() {
               step={4}
             />
 
-            {/* Research Skimmer */}
             <InfoCard
               svg={<TrendingUp className="w-6 h-6" />}
               title="Source Credibility Checker"
@@ -403,7 +403,6 @@ export default function Header() {
               step={5}
             />
 
-            {/* Bibliography Manager */}
             <InfoCard
               svg={<Braces className="w-6 h-6" />}
               title="Bibliography Manager"
@@ -411,7 +410,7 @@ export default function Header() {
               step={6}
             />
           </section>
-        </FadeInOnScroll>
+        </FadeInOnScroll> */}
 
         <FadeInOnScroll>
           <div className="py-20 ">
