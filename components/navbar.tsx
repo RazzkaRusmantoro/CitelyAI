@@ -103,7 +103,7 @@ const Navbar = () => {
           href="/"
           className="text-2xl md:text-3xl font-semibold text-black md:ml-4 lg:ml-10"
         >
-          Citely
+          Citera
         </Link>
 
         {/* Desktop Navigation Links - Hidden on mobile */}

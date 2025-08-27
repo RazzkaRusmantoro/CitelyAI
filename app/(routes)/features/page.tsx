@@ -140,7 +140,7 @@ export default function Features() {
                   Powerful Features for Academic Success
                 </h1>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Citely's comprehensive suite of AI-powered tools helps you research smarter, 
+                  Citera's comprehensive suite of AI-powered tools helps you research smarter, 
                   write faster, and cite with confidence.
                 </p>
               </div>
@@ -208,7 +208,7 @@ export default function Features() {
                   Ready to Transform Your Research Workflow?
                 </h2>
                 <p className="text-xl mb-8 max-w-2xl mx-auto">
-                  Join thousands of students and researchers who use Citely to save time and improve their academic work.
+                  Join thousands of students and researchers who use Citera to save time and improve their academic work.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button className="px-8 py-3 bg-white text-amber-600 font-bold rounded-lg hover:bg-gray-100 transition-colors">

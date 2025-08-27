@@ -99,7 +99,7 @@ const Tiptap = forwardRef((props, ref) => {
     if (!editor) return;
 
     if (!fileId) {
-      editor.commands.setContent('<p>Welcome to Citely! Upload a document or start writing.</p>')
+      editor.commands.setContent('<p>Welcome to Citera! Upload a document or start writing.</p>')
       return
     }
 

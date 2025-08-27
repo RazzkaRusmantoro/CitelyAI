@@ -25,15 +25,15 @@ export default function FAQ() {
       icon: <FileQuestion className="w-6 h-6 text-amber-500" />,
       questions: [
         {
-          question: "What is Citely?",
-          answer: "Citely is an AI-powered citation and research assistant that helps students, researchers, and academics generate accurate citations, find credible sources, and manage bibliographies efficiently."
+          question: "What is Citera?",
+          answer: "Citera is an AI-powered citation and research assistant that helps students, researchers, and academics generate accurate citations, find credible sources, and manage bibliographies efficiently."
         },
         {
-          question: "How does Citely work?",
-          answer: "Citely uses advanced AI algorithms to analyze your content, automatically generate citations in various formats, suggest relevant academic sources, and help organize your references."
+          question: "How does Citera work?",
+          answer: "Citera uses advanced AI algorithms to analyze your content, automatically generate citations in various formats, suggest relevant academic sources, and help organize your references."
         },
         {
-          question: "Is Citely free to use?",
+          question: "Is Citera free to use?",
           answer: "We offer a free plan with basic features and limited usage. For advanced capabilities and higher usage limits, we have affordable paid plans starting at $9/month."
         }
       ]
@@ -102,7 +102,7 @@ export default function FAQ() {
         },
         {
           question: "Do you offer tutorials or guides?",
-          answer: "Yes! We have a comprehensive knowledge base with video tutorials, written guides, and example projects to help you get the most from Citely."
+          answer: "Yes! We have a comprehensive knowledge base with video tutorials, written guides, and example projects to help you get the most from Citera."
         },
         {
           question: "Can I suggest new features?",
@@ -130,7 +130,7 @@ export default function FAQ() {
                   Frequently Asked Questions
                 </h1>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Find answers to common questions about Citely, our features, 
+                  Find answers to common questions about Citera, our features, 
                   pricing, and how we can help streamline your research process.
                 </p>
               </div>

@@ -210,7 +210,7 @@ export default function Header() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-semibold text-gray-800 mb-4">
-                Why use Citely?
+                Why use Citera?
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 The smartest way to manage citations and references with
@@ -446,7 +446,7 @@ export default function Header() {
 
                     <div className="text-center md:text-left">
                       <div className="text-2xl font-medium text-gray-800 mb-4">
-                        "Your comment/testimonial goes here. Describe how Citely has helped you in your academic work and research process."
+                        "Your comment/testimonial goes here. Describe how Citera has helped you in your academic work and research process."
                       </div>
                       <div className="text-lg text-gray-600">
                         <p className="font-medium">Your Name</p>
@@ -489,7 +489,7 @@ export default function Header() {
                 See the Difference
               </h2>
               <p className="text-xl text-gray-800">
-                Compare how Citely transforms your research workflow versus traditional methods.
+                Compare how Citera transforms your research workflow versus traditional methods.
               </p>
               <div className="space-y-4">
                 <div className="flex items-start gap-4">

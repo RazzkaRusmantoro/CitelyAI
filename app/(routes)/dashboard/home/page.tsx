@@ -220,7 +220,7 @@ export default async function DashboardCitation() {
         <div className="w-full pt-8 mb-5">
           <div className="space-y-2">
             <h1 className="text-3xl md:text-4xl font-bold text-black">
-              Citely Dashboard
+              Citera Dashboard
             </h1>
             <p className="text-xl md:text-2xl font-medium text-gray-800">
               Welcome, {user?.user_metadata?.full_name || 'User'}!
@@ -251,7 +251,7 @@ export default async function DashboardCitation() {
 
         <div className="bg-yellow-50 rounded-lg p-6 mb-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-            Recent Citely Projects
+            Recent Citera Projects
           </h2>
           
           {recentFiles.length > 0 ? (

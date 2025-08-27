@@ -183,7 +183,7 @@ export default function SearchResults() {
             <div className="bg-white border-b border-[#D9DADB] py-4">
                 <div className="container mx-auto px-4 flex items-center justify-between">
                     <Link href="/dashboard/home" className="ml-32 text-2xl font-bold text-gray-800 transition-colors cursor-pointer">
-                        Citely
+                        Citera
                     </Link>
                     
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-5xl">

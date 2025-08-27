@@ -12,8 +12,8 @@ export default function TermsOfService() {
       icon: <AlertCircle className="w-5 h-5 text-amber-500" />,
       content: (
         <>
-          <p className="mb-4">By accessing or using the Citely website, application, or any services provided by Citely (collectively, the "Service"), you agree to be bound by these Terms of Service ("Terms") and our Privacy Policy. If you do not agree to these Terms, you may not access or use the Service.</p>
-          <p className="mb-4">These Terms constitute a legally binding agreement between you ("User") and Citely ("Company", "we", "us", or "our"). If you are entering into these Terms on behalf of a company or other legal entity, you represent that you have the authority to bind such entity to these Terms.</p>
+          <p className="mb-4">By accessing or using the Citera website, application, or any services provided by Citera (collectively, the "Service"), you agree to be bound by these Terms of Service ("Terms") and our Privacy Policy. If you do not agree to these Terms, you may not access or use the Service.</p>
+          <p className="mb-4">These Terms constitute a legally binding agreement between you ("User") and Citera ("Company", "we", "us", or "our"). If you are entering into these Terms on behalf of a company or other legal entity, you represent that you have the authority to bind such entity to these Terms.</p>
           <p>We may modify these Terms at any time, and such modifications will be effective upon posting. Your continued use of the Service after any modification constitutes your acceptance of the modified Terms.</p>
         </>
       )
@@ -23,7 +23,7 @@ export default function TermsOfService() {
       icon: <BookOpen className="w-5 h-5 text-amber-500" />,
       content: (
         <>
-          <p className="mb-4">Citely provides an AI-powered platform for citation generation, bibliography management, academic research assistance, and related services. The Service includes, but is not limited to:</p>
+          <p className="mb-4">Citera provides an AI-powered platform for citation generation, bibliography management, academic research assistance, and related services. The Service includes, but is not limited to:</p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
             <li>Automated citation generation in various academic formats (APA, MLA, Chicago, etc.)</li>
             <li>Bibliography organization and management tools</li>
@@ -92,7 +92,7 @@ export default function TermsOfService() {
             <li>Use any illustrations, photographs, video or audio sequences, or any graphics separately from the accompanying text</li>
             <li>Delete or alter any copyright, trademark, or other proprietary rights notices from copies of materials from the Service</li>
           </ul>
-          <p>If you wish to make any use of material on the Service other than that set out in this section, please address your request to: legal@citely.com.</p>
+          <p>If you wish to make any use of material on the Service other than that set out in this section, please address your request to: support@citera.net.</p>
         </>
       )
     },
@@ -190,7 +190,7 @@ export default function TermsOfService() {
       icon: <FileText className="w-5 h-5 text-amber-500" />,
       content: (
         <>
-          <p className="mb-4">These Terms, together with the Privacy Policy and any other agreements expressly incorporated by reference herein, constitute the sole and entire agreement between you and Citely regarding the Service and supersede all prior and contemporaneous understandings, agreements, representations, and warranties, both written and oral, regarding the Service.</p>
+          <p className="mb-4">These Terms, together with the Privacy Policy and any other agreements expressly incorporated by reference herein, constitute the sole and entire agreement between you and Citera regarding the Service and supersede all prior and contemporaneous understandings, agreements, representations, and warranties, both written and oral, regarding the Service.</p>
           <p className="mb-4">If any provision of these Terms is held by a court or other tribunal of competent jurisdiction to be invalid, illegal, or unenforceable for any reason, such provision shall be eliminated or limited to the minimum extent such that the remaining provisions of the Terms will continue in full force and effect.</p>
           <p className="mb-4">The failure of us to exercise or enforce any right or provision of these Terms shall not operate as a waiver of such right or provision. The section titles in these Terms are for convenience only and have no legal or contractual effect.</p>
           <p>These Terms are personal to you and may not be assigned or transferred by you without our prior written consent. We may assign our rights under these Terms to any party without your consent.</p>
@@ -203,8 +203,8 @@ export default function TermsOfService() {
       content: (
         <>
           <p className="mb-4">If you have any questions about these Terms, please contact us at:</p>
-          <p className="mb-2">Citely Inc.</p>
-          <p className="mb-2">Email: legal@citely.com</p>
+          <p className="mb-2">Citera</p>
+          <p className="mb-2">Email: support@citera.net</p>
           <p>We will make our best effort to respond to your inquiry within a reasonable time frame.</p>
         </>
       )
@@ -229,7 +229,7 @@ export default function TermsOfService() {
                   Terms of Service
                 </h1>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Please read these Terms of Service carefully before using Citely's services.
+                  Please read these Terms of Service carefully before using Citera's services.
                 </p>
               </div>
             </FadeInOnScroll>
@@ -240,7 +240,7 @@ export default function TermsOfService() {
                 {/* Introduction */}
                 <div className="mb-10 pb-8 border-b border-gray-200">
                   <p className="text-gray-700 leading-relaxed text-lg">
-                    Welcome to Citely. These Terms of Service govern your use of our website and services. 
+                    Welcome to Citera. These Terms of Service govern your use of our website and services. 
                     By accessing or using our services, you agree to be bound by these Terms and our Privacy Policy. 
                     If you disagree with any part of the terms, you may not access our services.
                   </p>
@@ -274,8 +274,8 @@ export default function TermsOfService() {
                         Important Notice
                       </h3>
                       <p className="text-amber-700">
-                        These Terms of Service constitute a legally binding agreement between you and Citely. 
-                        It is important that you read them carefully. If you have any questions, please contact us at legal@citely.com.
+                        These Terms of Service constitute a legally binding agreement between you and Citera. 
+                        It is important that you read them carefully. If you have any questions, please contact us at support@citera.net.
                       </p>
                     </div>
                   </div>

@@ -103,7 +103,7 @@ export const TextCompare = ({
       >
         <div className="prose max-w-none">
           <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-2">
-            Without Citely
+            Without Citera
           </h3>
           <div className="text-gray-700 space-y-4 leading-relaxed">
             {beforeText.split("\n\n").map((paragraph, i) => (
@@ -127,7 +127,7 @@ export const TextCompare = ({
       >
         <div className="prose max-w-none">
           <h3 className="text-lg font-semibold mb-4 text-gray-800 border-b pb-2">
-            With Citely
+            With Citera
           </h3>
           <div className="text-gray-700 space-y-4 leading-relaxed">
             {afterText.split("\n\n").map((paragraph, i) => (

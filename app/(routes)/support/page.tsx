@@ -199,7 +199,7 @@ export default function Support() {
     },
     {
       title: "Guides",
-      description: "Detailed guides and tutorials for all Citely features",
+      description: "Detailed guides and tutorials for all Citera features",
       icon: <FileText className="w-8 h-8 text-amber-500" />,
       link: "/documentation"
     },
@@ -229,7 +229,7 @@ export default function Support() {
                   We're Here to Help
                 </h1>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Get support for any issues, questions, or feedback about Citely. 
+                  Get support for any issues, questions, or feedback about Citera. 
                   Our team is dedicated to helping you succeed with your research.
                 </p>
               </div>

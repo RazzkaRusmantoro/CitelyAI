@@ -505,7 +505,7 @@ const Logo = () => (
       animate={{ opacity: 1 }}
       className="font-medium whitespace-pre"
     >
-      Citely
+      Citera
     </motion.span>
   </a>
 );

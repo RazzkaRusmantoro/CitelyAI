@@ -38,7 +38,7 @@ export default function ProfileLayout() {
             Account Settings
           </h1>
           <p className="text-xl text-gray-600 mb-8">
-            Manage your Citely profile and preferences
+            Manage your Citera profile and preferences
           </p>
 
           <div className="flex flex-col md:flex-row gap-8">
