@@ -39,6 +39,9 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
   const [conversionError, setConversionError] = useState<string | null>(null);
   const [citationComplete, setCitationComplete] = useState(false);
   const citationCalledRef = useRef(false);
+  const [processingStatus, setProcessingStatus] = useState<'idle' | 'processing' | 'complete' | 'failed'>('idle');
+  const [initialCheckComplete, setInitialCheckComplete] = useState(false);
+
 
   const supabase = createClient();
 
@@ -70,14 +73,16 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
         // First check the file status in Supabase
         const { data: fileData, error } = await supabase
           .from('files')
-          .select('completion, file_path_pdf, file_url, references, citations')
+          .select('processing_status, completion, file_path_pdf, file_url, references, citations')
           .eq('id', fileId)
           .single();
 
         if (error) throw error;
 
+        setProcessingStatus(fileData.processing_status);
+
         // If file is already completed, just fetch the URL and citations
-        if (fileData?.completion === 'complete') {
+        if (fileData?.processing_status === 'complete' || fileData?.completion === 'complete') {
           let url = fileData.file_url;
           
           if (!url && fileData.file_path_pdf) {
@@ -100,20 +105,41 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
             }
             
             setCitationComplete(true);
+            setInitialCheckComplete(true); // Mark initial check as complete
             if (onLoadComplete) onLoadComplete();
             return;
           }
         }
 
-        // If not completed, show loader and proceed with citation process
-        setShowLoader(true);
-        if (!citationCalledRef.current) {
-          citationCalledRef.current = true;
-          await processCitations();
+        // If processing is already in progress, just show loader
+        if (fileData.processing_status === 'processing') {
+          console.log("The document is currently being processed, showing loader!")
+          setShowLoader(true);
+          setInitialCheckComplete(true);
+          return;
         }
+
+        // If not completed and not processing, show loader and start processing
+        if (fileData.processing_status === 'idle' || !fileData.processing_status) {
+          console.log("The document is not being processed so we must start processing.")
+          setShowLoader(true);
+          setInitialCheckComplete(true);
+          if (!citationCalledRef.current) {
+            citationCalledRef.current = true;
+            await processCitations();
+          }
+        }
+
+        // If failed, show error
+        if (fileData.processing_status === 'failed') {
+          setError('File processing failed. Please try uploading again.');
+          setInitialCheckComplete(true);
+        }
+
       } catch (err) {
         console.error('Error checking file status:', err);
         setError(err instanceof Error ? err.message : 'Failed to check file status');
+        setInitialCheckComplete(true);
       } finally {
         setLoading(false);
       }
@@ -123,6 +149,7 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
   }, [fileId, supabase]);
 
   const processCitations = useCallback(async () => {
+    console.log("Attempting to process citations!")
     try {
       setIsConverting(true);
       setConversionError(null);
@@ -134,12 +161,19 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
         },
         body: JSON.stringify({ fileId }),
       });
+      
 
       if (!response.ok) {
         throw new Error(`Citation failed: ${response.statusText}`);
       }
 
       const data = await response.json();
+
+      if (data.status === 'processing') {
+        setShowLoader(true);
+        return;
+      }
+
       console.log('Citation successful:', data);
       
       if (data.citationTexts && Array.isArray(data.citationTexts)) {
@@ -147,25 +181,27 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
       }
       
       setCitationComplete(true);
+      setProcessingStatus('complete');
     } catch (error) {
       console.error('Error processing citations:', error);
       setConversionError(error instanceof Error ? error.message : 'Unknown error occurred');
+      setProcessingStatus('failed');
     } finally {
       setIsConverting(false);
     }
   }, [fileId]);
 
-  useEffect(() => {
-    if (showLoader) {
-      const totalLoaderDuration = loadingStates.length * 4000;
-      const timer = setTimeout(() => {
-        setLoaderComplete(true);
-        setShowLoader(false);
-      }, totalLoaderDuration);
+  // useEffect(() => {
+  //   if (showLoader) {
+  //     const totalLoaderDuration = loadingStates.length * 4000;
+  //     const timer = setTimeout(() => {
+  //       setLoaderComplete(true);
+  //       setShowLoader(false);
+  //     }, totalLoaderDuration);
 
-      return () => clearTimeout(timer);
-    }
-  }, [showLoader]);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [showLoader]);
 
   useEffect(() => {
     if (!citationComplete || !fileId) return;
@@ -206,6 +242,94 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
     fetchFileUrl();
   }, [citationComplete, fileId, supabase]);
 
+  useEffect(() => {
+    console.log("Poll useEffect starting. Current status:", processingStatus, "Show loader:", showLoader);
+    
+    if (processingStatus === 'processing' && showLoader) {
+      let attempt = 1;
+      let isMounted = true; // Track if component is still mounted
+
+      const pollStatus = async () => {
+        if (!isMounted) return;
+
+        try {
+          console.log(`Polling attempt ${attempt} at ${new Date().toLocaleTimeString()}`);
+          
+          const { data: fileData, error } = await supabase
+            .from('files')
+            .select('processing_status, file_url, file_path_pdf, citations, references, completion')
+            .eq('id', fileId)
+            .single();
+
+          if (error) {
+            console.error('Polling error:', error);
+            return;
+          }
+
+          if (fileData && isMounted) {
+            console.log(`Poll result - Status: ${fileData.processing_status}, Completion: ${fileData.completion}`);
+            setProcessingStatus(fileData.processing_status);
+            
+            if (fileData.processing_status === 'complete' || fileData.completion === 'complete') {
+              console.log("Processing complete! Loading file...");
+              
+              let url = fileData.file_url;
+              if (!url && fileData.file_path_pdf) {
+                const { data: { publicUrl } } = await supabase.storage
+                  .from('user-uploads')
+                  .getPublicUrl(fileData.file_path_pdf);
+                url = publicUrl;
+              }
+              
+              if (url) {
+                setFileUrl(url);
+                if (fileData.citations) {
+                  setCitationTexts(fileData.citations);
+                } else if (fileData.references) {
+                  const texts = fileData.references.map((ref: any) => ref.cited_sentence);
+                  setCitationTexts(texts);
+                }
+                setCitationComplete(true);
+                setShowLoader(false);
+                if (onLoadComplete) onLoadComplete();
+                console.log("onLoadComplete called!");
+                return; // Stop polling
+              }
+            }
+            
+            if (fileData.processing_status === 'failed') {
+              console.log('File processing failed. Please try uploading again.');
+              setError('File processing failed. Please try uploading again.');
+              setShowLoader(false);
+              return; // Stop polling
+            }
+
+            // If still processing, schedule next poll
+            if (isMounted && (fileData.processing_status === 'processing' || fileData.processing_status === 'idle')) {
+              attempt++;
+              setTimeout(pollStatus, 3000); // Poll every 3 seconds
+            }
+          }
+        } catch (err) {
+          console.error('Error polling status:', err);
+          if (isMounted) {
+            setTimeout(pollStatus, 3000); // Continue polling even on error
+          }
+        }
+      };
+
+      // Start the first poll
+      pollStatus();
+
+      // Cleanup function
+      return () => {
+        isMounted = false;
+        console.log("Polling cleanup - component unmounted or dependencies changed");
+      };
+    }
+  }, [processingStatus, showLoader, fileId, supabase, onLoadComplete]);
+
+
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
     if (onLoadComplete) {
@@ -214,11 +338,11 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
   }
 
   // Skip loader entirely if file is already complete
-  if (loading && !showLoader) {
+  if (loading && !showLoader && !initialCheckComplete) {
     return <div className="w-full flex items-center justify-center">Loading...</div>;
   }
 
-  if (!loaderComplete && showLoader) {
+  if (!loaderComplete && showLoader && processingStatus !== 'complete') {
     return (
       <div className="w-full flex items-center justify-center">
         <Loader loadingStates={loadingStates} loading={true} duration={1000} />
@@ -229,6 +353,9 @@ export default function ExistingPDFViewer({ onLoadComplete, highlightEnabled = t
   if (error) return <div>Error: {error}</div>;
   if (conversionError) return <div>Citation Error: {conversionError}</div>;
   if (!fileUrl) {
+    if (processingStatus === 'complete' || citationComplete) {
+      return <div className="w-full flex items-center justify-center">Preparing document...</div>;
+    }
     return (
       <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="wheel-and-hamster">

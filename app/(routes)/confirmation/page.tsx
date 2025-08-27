@@ -1,11 +1,13 @@
 import Link from 'next/link'
 
-export default function Confirmation({
+export default async function Confirmation({
   searchParams,
 }: {
-  searchParams: { email?: string }
+  searchParams: Promise<{ email?: string }>
 }) {
-  const email = searchParams.email || 'your email'
+  // Await the searchParams promise
+  const params = await searchParams
+  const email = params.email || 'your email'
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">

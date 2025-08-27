@@ -334,8 +334,8 @@ export default function Header() {
         </div>
       </FadeInOnScroll>
 
-      <div className="animate-radial-orbit -mt-3 overflow-hidden font-prompt">
-        <svg
+      <div className="animate-radial-orbit  overflow-hidden font-prompt">
+        {/* <svg
           id="wave_on_score"
           className="w-full -mb-0 scale-y-[-1]"
           xmlns="http://www.w3.org/2000/svg"
@@ -347,11 +347,11 @@ export default function Header() {
             fillRule="nonzero"
             d="M720 38.936531C571.07999 57.866238 321 119.5040168 0 41.09718v66.4480438h1440V40.491756c-320.2408-78.406837-571.07999-20.484932-720-1.555225z"
           />
-        </svg>
+        </svg> */}
 
         {/* Section Title + Subtitle */}
         <FadeInOnScroll>
-          <section className="text-center mb-5 py-20 px-4 sm:px-6 lg:px-8">
+          <section className="text-center py-20 px-4 sm:px-6 lg:px-8 mt-10">
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
               Everything You Need, All in One
             </h2>
@@ -462,7 +462,7 @@ export default function Header() {
             </div>
           </div>
         </FadeInOnScroll>
-        <svg
+        {/* <svg
           id="wave_on_score"
           className="w-full -mb-4 mt-30 scale-x-[-1]" 
           xmlns="http://www.w3.org/2000/svg"
@@ -474,14 +474,14 @@ export default function Header() {
             fillRule="nonzero"
             d="M720 38.936531C571.07999 57.866238 321 119.5040168 0 41.09718v66.4480438h1440V40.491756c-320.2408-78.406837-571.07999-20.484932-720-1.555225z"
           />
-        </svg>
+        </svg> */}
         {/* If it was placed here */}
         
       </div>
 
       <div className = "bg-gray-50 -mt-3 overflow-hidden">
         <FadeInOnScroll>
-        <div className="max-w-7xl mx-auto px-6 mb-50">
+        <div className="max-w-7xl mx-auto px-6 mt-10 mb-30">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             {/* Text content on the left */}
             <div className="flex-1 space-y-6">

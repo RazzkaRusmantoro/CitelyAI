@@ -20,7 +20,6 @@ interface PaperDetails {
   abstract?: string;
   fieldsOfStudy?: string[];
   publicationDate?: string;
-  error?: string;
 }
 
 type CitationStyle = 'APA' | 'MLA' | 'Chicago' | 'Harvard';
@@ -37,7 +36,6 @@ export default function Citation() {
     const [pdfLoaded, setPdfLoaded] = useState(false)
     const [listExpanded, setListExpanded] = useState(true)
     const [bibExpanded, setBibExpanded] = useState(true)
-    const [fetchError, setFetchError] = useState<string | null>(null)
     const [citationStyle, setCitationStyle] = useState<CitationStyle>('MLA')
     const [copied, setCopied] = useState(false)
 
@@ -68,7 +66,6 @@ export default function Citation() {
         const fetchReferences = async () => {
             try {
                 setLoading(true)
-                setFetchError(null)
                 const { data, error } = await supabase
                     .from('files')
                     .select('references')
@@ -93,7 +90,6 @@ export default function Citation() {
                 }
             } catch (error) {
                 console.error('Error fetching references:', error)
-                setFetchError('Failed to load references from database')
             } finally {
                 setLoading(false)
             }
@@ -104,13 +100,11 @@ export default function Citation() {
 
     const fetchPaperDetailsBatch = async (refs: Reference[]) => {
         try {
-            setFetchError(null)
             const paperIds = refs.map(ref => ref.paper_id).filter(Boolean)
             
             if (paperIds.length === 0) return
 
             const apiUrl = `https://api.semanticscholar.org/graph/v1/paper/batch?fields=title,authors,year,url,abstract,fieldsOfStudy,publicationDate`
-            console.log('Fetching paper details in batch from:', apiUrl)
             
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -123,8 +117,17 @@ export default function Citation() {
                 })
             })
             
+            // Handle rate limiting and server errors gracefully
+            if (response.status === 429 || response.status >= 500) {
+                console.log('Semantic Scholar API rate limited or server error, will retry individually');
+                await fetchPaperDetailsIndividual(refs);
+                return;
+            }
+            
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`)
+                console.log(`Semantic Scholar API returned ${response.status}, will retry individually`);
+                await fetchPaperDetailsIndividual(refs);
+                return;
             }
             
             const batchData = await response.json()
@@ -143,37 +146,38 @@ export default function Citation() {
                         publicationDate: paperData.publicationDate
                     }
                 } else {
+                    // Don't mark as error, just use basic info
                     details[ref.paper_id] = {
                         title: ref.paper_title,
                         authors: [],
-                        url: `https://www.semanticscholar.org/paper/${ref.paper_id}`,
-                        error: paperData?.error || 'Failed to fetch details'
+                        url: `https://www.semanticscholar.org/paper/${ref.paper_id}`
                     }
                 }
             })
             
             setPaperDetails(details)
         } catch (error) {
-            console.error('Error in fetchPaperDetailsBatch:', error)
-            setFetchError('Failed to fetch paper details from Semantic Scholar')
-            
-            if (refs.length > 0) {
-                console.log('Attempting fallback to individual requests...')
-                await fetchPaperDetailsIndividual(refs)
-            }
+            console.log('Batch request failed, falling back to individual requests:', error);
+            await fetchPaperDetailsIndividual(refs)
         }
     }
 
     const fetchPaperDetailsIndividual = async (refs: Reference[]) => {
         try {
             const details: Record<string, PaperDetails> = {}
+            const updatedPaperDetails = { ...paperDetails };
             
             for (const ref of refs) {
-                if (!ref.paper_id) continue
+                if (!ref.paper_id) continue;
+                
+                // Skip if we already have good data for this paper
+                if (updatedPaperDetails[ref.paper_id]?.authors?.length > 0) {
+                    details[ref.paper_id] = updatedPaperDetails[ref.paper_id];
+                    continue;
+                }
                 
                 try {
                     const apiUrl = `https://api.semanticscholar.org/graph/v1/paper/${ref.paper_id}?fields=title,authors,year,url,abstract,fieldsOfStudy,publicationDate`
-                    console.log('Fetching individual paper details from:', apiUrl)
                     
                     const response = await fetch(apiUrl, {
                         headers: {
@@ -181,8 +185,26 @@ export default function Citation() {
                         }
                     })
                     
+                    // Handle rate limits
+                    if (response.status === 429) {
+                        console.log(`Rate limited for paper ${ref.paper_id}, will retry later`);
+                        // Set basic info and continue
+                        details[ref.paper_id] = {
+                            title: ref.paper_title,
+                            authors: [],
+                            url: `https://www.semanticscholar.org/paper/${ref.paper_id}`
+                        };
+                        continue;
+                    }
+                    
                     if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`)
+                        console.log(`Failed to fetch paper ${ref.paper_id}: ${response.status}`);
+                        details[ref.paper_id] = {
+                            title: ref.paper_title,
+                            authors: [],
+                            url: `https://www.semanticscholar.org/paper/${ref.paper_id}`
+                        };
+                        continue;
                     }
                     
                     const data = await response.json()
@@ -195,22 +217,30 @@ export default function Citation() {
                         fieldsOfStudy: data.fieldsOfStudy,
                         publicationDate: data.publicationDate
                     }
+                    
+                    // Update state progressively as we get data
+                    setPaperDetails(prev => ({
+                        ...prev,
+                        [ref.paper_id]: details[ref.paper_id]
+                    }));
+                    
                 } catch (error) {
-                    console.error(`Error fetching details for paper ${ref.paper_id}:`, error)
+                    console.log(`Error fetching paper ${ref.paper_id}:`, error);
                     details[ref.paper_id] = {
                         title: ref.paper_title,
                         authors: [],
-                        url: `https://www.semanticscholar.org/paper/${ref.paper_id}`,
-                        error: 'Failed to fetch details'
+                        url: `https://www.semanticscholar.org/paper/${ref.paper_id}`
                     }
                 }
                 
-                await new Promise(resolve => setTimeout(resolve, 200))
+                // Add delay between requests to avoid rate limiting
+                await new Promise(resolve => setTimeout(resolve, 500))
             }
             
-            setPaperDetails(details)
+            // Final update with all collected details
+            setPaperDetails(prev => ({ ...prev, ...details }))
         } catch (error) {
-            console.error('Error in fetchPaperDetailsIndividual:', error)
+            console.log('Error in individual paper fetching:', error);
         }
     }
 
@@ -335,12 +365,6 @@ export default function Citation() {
                                     )}
                                 </div>
                                 
-                                {fetchError && (
-                                    <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded mb-4 text-sm">
-                                        {fetchError}
-                                    </div>
-                                )}
-                                
                                 {!pdfLoaded ? (
                                     <div className="flex items-center justify-center py-8">
                                         <div className="text-gray-500">
@@ -361,7 +385,6 @@ export default function Citation() {
                                         {uniqueReferences.map((ref) => {
                                             const details = paperDetails[ref.paper_id]
                                             const isExpanded = expandedPapers[ref.paper_id] || false
-                                            const hasError = details?.error
                                             
                                             return (
                                                 <div key={ref.paper_id} className="border-b border-gray-100 pb-4 last:border-0">
@@ -385,11 +408,6 @@ export default function Citation() {
                                                                     {details.authors.slice(0, 3).join(', ')}
                                                                     {details.authors.length > 3 && ' et al.'}
                                                                     {details.year && ` • ${details.year}`}
-                                                                </p>
-                                                            )}
-                                                            {hasError && (
-                                                                <p className="text-sm text-red-500 mt-1">
-                                                                    Could not load full details
                                                                 </p>
                                                             )}
                                                         </div>

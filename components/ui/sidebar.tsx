@@ -91,7 +91,7 @@ export const DesktopSidebar = ({
       layout
       className={cn(
         "h-full px-4 py-4 hidden md:flex md:flex-col bg-white dark:bg-gray-900",
-        "border-r border-gray-200 dark:border-gray-700 overflow-hidden", // fully hide overflow
+        "border-r border-gray-200 dark:border-gray-700 overflow-hidden scrollbar-none", // fully hide overflow
         className
       )}
       animate={{
@@ -118,7 +118,7 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-white dark:bg-gray-900 w-full overflow-x-hidden", // hide both axes
+          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-white dark:bg-gray-900 w-full overflow-x-hidden scrollbar-none", // hide both axes
           className
         )}
         {...props}
@@ -195,11 +195,11 @@ export const SidebarLink = ({
         }}
         transition={{ duration: 0.2 }}
         className={cn(
-          "inline-block text-neutral-700 dark:text-neutral-200 text-sm whitespace-pre",
-          "overflow-hidden",
+          "inline-block text-neutral-700 dark:text-neutral-200 text-sm",
+          "overflow-hidden text-ellipsis whitespace-nowrap",
           !open && "w-0",
-          "group-hover/sidebar:translate-x-1 transition-transform duration-150"
         )}
+        title={link.label}
       >
         {link.label}
       </motion.span>

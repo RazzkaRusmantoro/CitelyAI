@@ -122,17 +122,11 @@ export default function Pricing() {
           </div>
         </FadeInOnScroll>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           {tiers.map((tier) => (
             <FadeInOnScroll key={tier.name}>
-              <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-                <Card
-                  className={`h-full flex flex-col ${
-                    tier.featured
-                      ? "border-2 border-amber-400 shadow-lg"
-                      : "border-gray-200"
-                  }`}
-                >
+              <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }} className="h-full">
+                <Card className={`h-full flex flex-col ${tier.featured ? "border-2 border-amber-400 shadow-lg" : "border-gray-200"}`}>
                   <CardHeader>
                     <div className="flex items-center gap-3">
                       {tier.icon}

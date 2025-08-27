@@ -1,4 +1,4 @@
-// app/api/process-docx/route.ts
+// app/api/cite/route.ts
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 import { getUser } from '@/app/auth/getUser';
@@ -55,11 +55,108 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    
+    const { fileId } = await request.json();
 
     try {
-        // 1. Get file metadata from Supabase
-        const { fileId } = await request.json();
+        // First check if user has sufficient credits
+        const { data: subscription, error: subscriptionError } = await supabase
+            .from('Subscriptions')
+            .select('credits')
+            .eq('user_id', user.id)
+            .single();
+
+        if (subscriptionError || !subscription) {
+            // Update status to indicate subscription issue
+            await supabase
+                .from('files')
+                .update({ 
+                    processing_status: 'failed', 
+                })
+                .eq('id', fileId);
+            
+            return NextResponse.json({ 
+                error: 'Subscription not found',
+                details: subscriptionError?.message 
+            }, { status: 404 });
+        }
+
+        if (subscription.credits < 1000) {
+            // Update status to indicate insufficient credits
+            await supabase
+                .from('files')
+                .update({ 
+                    processing_status: 'failed', 
+                })
+                .eq('id', fileId);
+            
+            return NextResponse.json({ 
+                error: 'Insufficient credits',
+                available: subscription.credits,
+                required: 1000
+            }, { status: 402 });
+        }
+
+        // Deduct the credits
+        const { error: deductError } = await supabase
+            .from('Subscriptions')
+            .update({ credits: subscription.credits - 1000 })
+            .eq('user_id', user.id);
+
+        if (deductError) {
+            console.error('Error deducting credits:', deductError);
+            
+            // Update status to indicate payment failure
+            await supabase
+                .from('files')
+                .update({ 
+                    processing_status: 'failed', 
+                })
+                .eq('id', fileId);
+            
+            return NextResponse.json({ 
+                error: 'Failed to process payment',
+                details: deductError.message 
+            }, { status: 500 });
+        }
+
+
+    } catch (error) {
+        console.error('Credit deduction error:', error);
+        
+        // Update status for unexpected errors
+        await supabase
+            .from('files')
+            .update({ 
+                processing_status: 'failed', 
+            })
+            .eq('id', fileId);
+        
+        return NextResponse.json({ 
+            error: 'Credit processing failed',
+            details: error instanceof Error ? error.message : 'Unknown error'
+        }, { status: 500 });
+    }
+
+    const { data: fileStatus, error: statusError } = await supabase
+        .from('files')
+        .select('processing_status')
+        .eq('id', fileId)
+        .single();
+    
+    if (statusError) {
+        return NextResponse.json({ error: 'File not found' }, { status: 404 });
+    }
+
+    const { error: processingError } = await supabase
+        .from('files')
+        .update({ processing_status: 'processing' })
+        .eq('id', fileId);
+
+    if (processingError) {
+        console.error('Error saving references to Supabase:', processingError);
+    }
+
+    try {
         const { data: fileData, error: fileError } = await supabase
             .from('files')
             .select('file_path_docx, id, filename, file_path_pdf')
@@ -67,6 +164,14 @@ export async function POST(request: Request) {
             .single();
 
         if (fileError || !fileData) {
+            // Update status for file not found
+            await supabase
+                .from('files')
+                .update({ 
+                    processing_status: 'failed', 
+                })
+                .eq('id', fileId);
+            
             return NextResponse.json({ error: 'File not found' }, { status: 404 });
         }
 
@@ -215,7 +320,6 @@ export async function POST(request: Request) {
             console.error('Error saving references to Supabase:', supabaseError);
         }
 
-                
         // 5. Add citations by reconstructing paragraphs
         let modificationsMade = 0;
         const failedMatches: string[] = [];
@@ -403,8 +507,6 @@ export async function POST(request: Request) {
                 });
         }
 
-        
-
         // 10. Supbase Adjustments
         try {
             const pdfFileName = fileData.file_path_pdf.split('/').pop() || 
@@ -412,7 +514,7 @@ export async function POST(request: Request) {
 
             await supabase.storage
                 .from('user-uploads')
-                .remove([fileData.file_path_pdf]); // Note: changed to array
+                .remove([fileData.file_path_pdf]);
 
             console.log(`Removed old PDF!`);
 
@@ -475,9 +577,9 @@ export async function POST(request: Request) {
                 .update({ 
                     file_path_pdf: fileData.file_path_pdf,
                     file_url: publicUrl,
+                    processing_status: 'complete',
                     completion: "complete",
                     opened_at: new Date().toISOString()
-
                 })
                 .eq('id', fileData.id);
 
@@ -489,10 +591,16 @@ export async function POST(request: Request) {
 
         } catch (error) {
             console.error('PDF Conversion Error:', error);
-            // Consider adding error to the response or handling it appropriately
+            // Update status for conversion failure
+            await supabase
+                .from('files')
+                .update({ 
+                    processing_status: 'failed', 
+                })
+                .eq('id', fileId);
+            
+            throw error;
         }
-
-        
 
         return NextResponse.json({ 
             success: true,
@@ -509,6 +617,15 @@ export async function POST(request: Request) {
 
     } catch (error) {
         console.error('DOCX Processing Error:', error);
+        
+        // Update status for processing failures
+        await supabase
+            .from('files')
+            .update({ 
+                processing_status: 'failed', 
+            })
+            .eq('id', fileId);
+        
         return NextResponse.json(
             { 
                 error: 'Processing failed',

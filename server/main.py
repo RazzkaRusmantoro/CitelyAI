@@ -21,6 +21,12 @@ app.register_blueprint(keyword_extraction_bp, url_prefix='/api')
 from app.routes.cite import cite_bp
 app.register_blueprint(cite_bp, url_prefix = '/api')
 
+from app.routes.recite import recite_bp
+app.register_blueprint(recite_bp, url_prefix = '/api')
+
+from app.routes.rephrase import rephrase_bp
+app.register_blueprint(rephrase_bp, url_prefix = '/api')
+
 from app.routes.cite_link import cite_link_bp
 app.register_blueprint(cite_link_bp, url_prefix='/api')
 

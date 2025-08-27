@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 
   try {
     const priceId = price === 900 ? STRIPE_PRICE_IDS.basic : STRIPE_PRICE_IDS.pro;
-    const planType = price === 900 ? 'basic' : 'pro';
+    const planType = price === 900 ? 'Basic' : 'Pro';
     const planName = price === 900 ? 'Basic' : 'Pro';
 
     const session = await stripe.checkout.sessions.create({
@@ -79,6 +79,15 @@ export async function POST(request: Request) {
     
   //   console.log("hey")
   //   if (subError) throw subError;
+
+    const { error: subError } = await supabase
+      .from('Subscriptions')
+      .update({
+        stripe_session_id: session.id,
+      })
+      .eq('user_id', userId);
+    
+    if (subError) throw subError;
 
     console.log("yes")
 

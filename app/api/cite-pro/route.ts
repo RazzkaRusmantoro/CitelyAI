@@ -28,13 +28,13 @@ export async function POST(request: Request) {
     const textContent = fileData.content
     
     // Split into paragraphs (double newlines)
-    const paragraphs = textContent.split(/\n\s*\n/).filter(p => p.trim().length > 0)
+    const paragraphs = textContent.split(/\n\s*\n/).filter((p: any) => p.trim().length > 0)
     const sentences: Array<{
       text: string
       paragraph_index: number
     }> = []
 
-    paragraphs.forEach((paragraph, paraIndex) => {
+    paragraphs.forEach((paragraph: string, paraIndex: number) => {
       // Clean up paragraph text
       const cleanParagraph = paragraph.replace(/\s+/g, ' ').trim()
       
@@ -75,7 +75,11 @@ export async function POST(request: Request) {
     }
 
     const { results: citations } = await flaskResponse.json()
-    const citedSentences = citations.map((c: any) => c.cited_sentence).filter(Boolean)
+    const citedSentences = citations.map((c: any) => ({
+      original: c.original_sentence,
+      text: c.cited_sentence,
+      paper_id: c.paper_id
+    })).filter((c: any) => c.text)
     const citationTexts = citations.map((c: any) => c.citation).filter(Boolean)
 
     // 4. Apply citations to the original content
@@ -86,7 +90,7 @@ export async function POST(request: Request) {
     }> = []
 
     // Process citations by paragraph
-    paragraphs.forEach((originalPara, paraIndex) => {
+    paragraphs.forEach((originalPara: string, paraIndex: number) => {
       const paraCitations = citations.filter((c: any) => c.paragraph_index === paraIndex)
       if (paraCitations.length === 0) return
 
@@ -126,6 +130,7 @@ export async function POST(request: Request) {
         content: modifiedContent,
         completion: 'complete',
         citations: citationTexts,
+        cited_sentences: citedSentences,
         references: citations.map((c: any) => ({
           cited_sentence: c.cited_sentence,
           paper_id: c.paper_id,

@@ -1,4 +1,3 @@
-// app/api/stripe-webhook/route.ts
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@/utils/supabase/server';
@@ -12,8 +11,6 @@ export async function POST(request: Request) {
   const payload = await request.text();
   const signature = request.headers.get('stripe-signature')!;
   const supabase = await createClient();
-  
-  
 
   let event;
   try {
@@ -33,7 +30,7 @@ export async function POST(request: Request) {
             status: 'active',
             stripe_subscription_id: session.subscription,
             current_period_end: new Date(
-            (session.expires_at ?? 0) * 1000
+                (session.expires_at ?? 0) * 1000
             ).toISOString(),
         })
         .eq('stripe_session_id', session.id);
@@ -45,19 +42,26 @@ export async function POST(request: Request) {
     case 'customer.subscription.created': {
         const subscription = event.data.object as Stripe.Subscription;
 
-        console.log("Customer subscription creating.")
+        console.log("Customer subscription creating.");
 
+        const planType = subscription.metadata.plan_type;
+        const userId = subscription.metadata.user_id;
+        let subscriptionName = planType;
+
+        console.log('This is the subscription name:', subscriptionName);
+
+        // Update using either stripe_subscription_id OR user_id
         await supabase
-        .from('Subscriptions')
-        .update({
-            status: subscription.status,
-            current_period_end: new Date(
-                subscription.items.data[0].current_period_end * 1000
-            ).toISOString(),
-        })
-        .eq('stripe_subscription_id', subscription.id);
+            .from('Subscriptions')
+            .update({
+                subscription: subscriptionName,
+                current_period_end: new Date(
+                    subscription.items.data[0].current_period_end * 1000
+                ).toISOString(),
+            })
+            .or(`stripe_subscription_id.eq.${subscription.id},user_id.eq.${userId}`);
 
-        console.log("Customer subscription created.")
+        console.log("Customer subscription created.");
 
         break;
     }
@@ -65,6 +69,8 @@ export async function POST(request: Request) {
     // Subscription updated (renewal, plan change, pause, etc.)
     case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
+
+        // TODO: Change subscription plan if plan change
 
         await supabase
         .from('Subscriptions')
