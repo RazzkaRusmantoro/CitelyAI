@@ -158,6 +158,7 @@ export default function Register() {
                     Already have an account?
                     </span>
                 </Link>
+                
 
                 <div className="relative flex items-center w-full my-3 md:my-4">
                     <div className="flex-grow border-t border-gray-300"></div>
