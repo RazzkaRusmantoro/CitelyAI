@@ -1,4 +1,3 @@
-// app/api/apply-rephrase/route.ts
 import { createClient } from '@/utils/supabase/server'
 import { NextRequest, NextResponse } from 'next/server';
 

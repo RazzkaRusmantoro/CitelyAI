@@ -1,4 +1,3 @@
-// app/api/cite/route.ts
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 import { getUser } from '@/app/auth/getUser';

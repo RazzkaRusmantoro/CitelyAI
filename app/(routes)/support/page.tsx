@@ -139,6 +139,34 @@ export default function Support() {
     return isValid;
   };
 
+  const sendEmailNotification = async (supabaseId: string) => {
+    try {
+      const response = await fetch('/api/send-support-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          category: formData.category,
+          message: formData.message,
+          supabaseId: supabaseId, // Pass the Supabase ID
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email notification');
+      }
+
+      console.log('Email notification sent successfully');
+    } catch (error) {
+      console.error('Error sending email notification:', error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -171,6 +199,16 @@ export default function Support() {
       }
 
       console.log("Data inserted successfully:", data);
+      
+      // Get the inserted row ID
+      const insertedId = data?.[0]?.id;
+      if (!insertedId) {
+        throw new Error('Failed to get inserted record ID');
+      }
+      
+      // Send email notification with the Supabase ID
+      await sendEmailNotification(insertedId);
+      
       setIsSubmitted(true);
       
       // Reset form after successful submission

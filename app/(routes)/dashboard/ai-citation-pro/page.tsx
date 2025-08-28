@@ -1,4 +1,3 @@
-// app/dashboard/citation/page.tsx
 import { TipTapEditor } from '@/components/tiptap-editor'
 import UploadBox from '@/components/upload-pro'
 import Link from 'next/link'
