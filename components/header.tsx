@@ -34,6 +34,7 @@ import { useRouter } from "next/navigation";
 
 
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { CarouselShowcase } from "./CarouselShowcase";
 
 export default function Header() {
   const router = useRouter();
@@ -362,8 +363,7 @@ export default function Header() {
         </FadeInOnScroll>
 
         <FadeInOnScroll>
-          {/* Place the Carousel Here */}
-          Carousel
+          <CarouselShowcase className="mb-20" />
         </FadeInOnScroll>
 {/* 
         <FadeInOnScroll>
