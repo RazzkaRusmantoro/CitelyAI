@@ -7,6 +7,12 @@ import { v4 as uuidv4 } from 'uuid';
 const stripe = new Stripe(process.env.NEXT_STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
+const PLAN_CREDITS = {
+  'Free': 5000,        // Example: Free plan gets 5000 credits
+  'Basic': 30000,      // Example: Basic plan gets 30000 credits
+  'Pro': 50000,        // Example: Pro plan gets 50000 credits
+};
+
 export async function POST(request: Request) {
   const payload = await request.text();
   const signature = request.headers.get('stripe-signature')!;
@@ -69,18 +75,35 @@ export async function POST(request: Request) {
     // Subscription updated (renewal, plan change, pause, etc.)
     case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
+        const userId = subscription.metadata.user_id;
+
+        const planType = subscription.metadata.plan_type;
+        let subscriptionName = planType;
 
         // TODO: Change subscription plan if plan change
 
         await supabase
         .from('Subscriptions')
         .update({
+            subscription: subscriptionName,
             status: subscription.status,
             current_period_end: new Date(
                 subscription.items.data[0].current_period_end * 1000
             ).toISOString(),
         })
         .eq('stripe_subscription_id', subscription.id);
+
+        const credits = PLAN_CREDITS[subscriptionName as keyof typeof PLAN_CREDITS] || PLAN_CREDITS.Free;
+
+        console.log("This is the credits", credits)
+
+
+        await supabase
+        .from('Subscriptions')
+        .update({
+          credits: credits,
+        })
+        .eq('user_id', userId);
 
         break;
     }
@@ -128,6 +151,17 @@ export async function POST(request: Request) {
             amount_paid: invoice.amount_paid / 100,
             stripe_invoice_id: invoice.id,
         });
+
+        const planType = subscription.metadata.plan_type;
+        const credits = PLAN_CREDITS[planType as keyof typeof PLAN_CREDITS] || PLAN_CREDITS.Free;
+        console.log("This is the credits", credits)
+
+        await supabase
+        .from('Subscriptions')
+        .update({
+          credits: credits
+        })
+        .eq('user_id', userId);
 
         console.log("Confirming invoice payment successful")
         console.log("This is the userId", userId)
