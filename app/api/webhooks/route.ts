@@ -116,7 +116,8 @@ export async function POST(request: Request) {
         .from('Subscriptions')
         .update({
             status: 'cancelled',
-            subscription: 'Free'
+            subscription: 'Free',
+            refresh_date: new Date().toISOString()
         })
         .eq('stripe_subscription_id', subscription.id);
 

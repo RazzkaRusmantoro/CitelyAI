@@ -151,6 +151,8 @@ export default function Login() {
                           {errors.password && (
                             <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
                           )}
+
+                          
                       </div>
 
                       {/* Email verification notice */}
@@ -189,10 +191,17 @@ export default function Login() {
                       </button>
                   </form>
                   <Link href ="/register" className = "text-base mt-5">
-                      <span className="mt-5 relative cursor-pointer after:block mb-15 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full">
+                      <span className="mt-5 relative cursor-pointer after:block mb-0 after:h-[2px] after:w-0 after:bg-black after:transition-all after:duration-300 hover:after:w-full">
                           Don't have an account?
                       </span>
                   </Link>
+
+                  <Link href ="/forgot-password" className = "text-sm mt-1">
+                      <span className="mt-5 relative cursor-pointer after:block mb-0 after:transition-all after:duration-300 hover:after:w-full text-gray-600">
+                          Forgot password?
+                      </span>
+                  </Link>
+
 
                   <div className="relative flex items-center w-full my-4">
                     <div className="flex-grow border-t border-gray-300"></div>
