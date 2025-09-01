@@ -7,6 +7,8 @@ export async function POST(request: Request) {
     const user = await getUser();
     const userId = user?.id;
 
+    console.log(user)
+
     if (!user) {
         return NextResponse.json(
             { error: 'Authentication required' },

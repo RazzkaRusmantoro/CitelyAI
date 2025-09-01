@@ -2,10 +2,10 @@ import { DocumentCard } from '@/components/document';
 import UploadBox from '@/components/upload';
 import Link from 'next/link';
 import { getUser } from "@/app/auth/getUser";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function DashboardCitation() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const user = await getUser();
   const userId = user?.id;
 

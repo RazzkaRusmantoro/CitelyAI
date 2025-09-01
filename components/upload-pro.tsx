@@ -1,6 +1,5 @@
 'use client';
 import { useState, useCallback, ChangeEvent, useEffect } from 'react';
-import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 
 export default function UploadBox() {

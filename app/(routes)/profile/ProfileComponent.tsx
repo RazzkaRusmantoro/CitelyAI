@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
 
-export function ProfileComponent() {
+import { getUser } from "@/app/auth/getUser";
+
+export async function ProfileComponent() {
+  const user = await getUser();
+  const userId = user?.id;
+  
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);

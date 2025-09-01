@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/client'
+import { createClient } from '@/utils/supabase/server'
 import { NextRequest } from 'next/server';
 import { getUser } from '@/app/auth/getUser';
 
 export async function POST(request: Request) {
+    console.log("test")
     try {
-        const supabase = createClient();
+        const supabase = await createClient();
         const user = await getUser();
         const userId = user?.id;
 
@@ -111,6 +112,8 @@ export async function POST(request: Request) {
                     throw errorDOCX;
                 }
 
+                console.log("test")
+
                 const { data: urlData } = supabase.storage
                     .from('user-uploads')
                     .getPublicUrl(filePathPDF);
@@ -135,6 +138,8 @@ export async function POST(request: Request) {
                         .remove([filePathDOCX, filePathPDF]);
                     throw insertError;
                 }
+
+                console.log("test 3")
 
                 return NextResponse.json({
                     path: dataDOCX.path,

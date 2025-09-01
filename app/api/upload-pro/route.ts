@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/utils/supabase/client'
+import { createClient } from '@/utils/supabase/server'
 import { getUser } from '@/app/auth/getUser';
 import * as mammoth from 'mammoth';
 
 export async function POST(request: Request) {
     try {
-        const supabase = createClient();
+        const supabase = await createClient();
         const user = await getUser();
         const userId = user?.id;
 
