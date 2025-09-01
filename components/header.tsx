@@ -33,6 +33,7 @@ import { useRouter } from "next/navigation";
 
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { CarouselShowcase } from "./CarouselShowcase";
+import { BackgroundPaths } from "./ui/background-paths";
 
 export default function Header() {
   const router = useRouter();
@@ -139,7 +140,7 @@ export default function Header() {
         <div className="w-full px-6 relative overflow-hidden">
           {/* Background Beams */}
           <div className="absolute inset-0 -z-10">
-            <BackgroundBeams />
+            <BackgroundPaths />
           </div>
 
           <section className="mx-auto flex flex-col md:flex-row items-center justify-between py-16 md:py-24 gap-12 max-w-7xl relative z-10">
