@@ -812,6 +812,7 @@ export default function Citation() {
 
     return (
         <main className='relative flex min-h-screen bg-[#F6F5F1] p-4 overflow-hidden'>
+            <Suspense fallback={<div>Loading editor tool...</div>}>
             <div className='flex w-full gap-6 h-[calc(100vh-2rem)]'>
                 {/* Tiptap Editor */}
                 <div className='w-[70%] rounded-lg overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none]'>
@@ -820,9 +821,7 @@ export default function Citation() {
                         display: none;
                     }
                     `}</style>
-                    <Suspense fallback={<div>Loading editor tool...</div>}>
-                        <Tiptap ref={tiptapRef} />
-                    </Suspense>
+                    <Tiptap ref={tiptapRef} />
                 </div>
                 
                 {/* Right Panel */}
@@ -1208,6 +1207,7 @@ export default function Citation() {
                     `}</style>
                 </div>
             )}
+            </Suspense>
         </main>
     )
 }
