@@ -22,8 +22,8 @@ interface TiptapProps {
 type ProcessingStatus = 'idle' | 'processing' | 'complete' | 'failed';
 
 const Tiptap = forwardRef(({ processingComplete }: TiptapProps, ref) => {
-  const searchParams = useSearchParams()
-  const fileId = searchParams.get('fileId')
+  // const searchParams = useSearchParams()
+  const fileId = "34aca7a4-0388-48f9-99d4-f7574acb6a29"
   const [isLoading, setIsLoading] = useState(!!fileId)
   const [citedSentences, setCitedSentences] = useState<HighlightedSentence[]>([])
   const supabase = createClient()

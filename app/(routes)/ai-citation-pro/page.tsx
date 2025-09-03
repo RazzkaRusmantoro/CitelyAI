@@ -34,8 +34,8 @@ interface HighlightedSentence {
 }
 
 export default function Citation() {
-    const searchParams = useSearchParams()
-    const fileId = searchParams.get('fileId')
+    // const searchParams = useSearchParams()
+    const fileId = "34aca7a4-0388-48f9-99d4-f7574acb6a29"
     const supabase = createClient()
     const [uniqueReferences, setUniqueReferences] = useState<Reference[]>([])
     const [paperDetails, setPaperDetails] = useState<Record<string, PaperDetails>>({})
