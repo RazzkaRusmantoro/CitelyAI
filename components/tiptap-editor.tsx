@@ -6,8 +6,8 @@ import { TextStyleKit } from '@tiptap/extension-text-style'
 import type { Editor } from '@tiptap/react'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { ImportDocx } from '@tiptap-pro/extension-import-docx'
-import { ExportDocx } from '@tiptap-pro/extension-export-docx'
+// import { ImportDocx } from '@tiptap-pro/extension-import-docx'
+// import { ExportDocx } from '@tiptap-pro/extension-export-docx'
 import React, { useEffect, useState } from 'react'
 
 const extensions = [TextStyleKit, StarterKit]
