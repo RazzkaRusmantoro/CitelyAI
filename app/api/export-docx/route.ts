@@ -44,18 +44,22 @@ class StructurePreservingEditor {
     // 1. First pass: distribute text to existing runs
     while (runIndex < runs.length && currentPosition < newText.length) {
       const run = runs[runIndex]
-      const textNode = this.select('.//w:t', run)[0] as Element | null
-      
+
+      // Explicitly treat it as an array of Nodes
+      const nodes = this.select('.//w:t', run) as Node[]
+      const textNode = nodes.length > 0 ? (nodes[0] as Element) : null
+
       if (textNode) {
         const originalText = textNode.textContent || ''
         const lengthToTake = Math.min(originalText.length, newText.length - currentPosition)
-        
+
         textNode.textContent = newText.substring(currentPosition, currentPosition + lengthToTake)
         currentPosition += lengthToTake
       }
-      
+
       runIndex++
     }
+
     
     // 2. Handle remaining text
     if (currentPosition < newText.length && runs.length > 0) {
@@ -71,10 +75,15 @@ class StructurePreservingEditor {
     // 3. Handle case where we have more runs than needed
     while (runIndex < runs.length) {
       const run = runs[runIndex]
-      const textNode = this.select('.//w:t', run)[0] as Element | null
+
+      // Ensure result is treated as an array of Nodes
+      const nodes = this.select('.//w:t', run) as Node[]
+      const textNode = (nodes[0] as Element) ?? null
+
       if (textNode) {
         textNode.textContent = '' // Clear but preserve the run
       }
+
       runIndex++
     }
   }
@@ -124,7 +133,9 @@ export async function POST(request: Request) {
       compression: 'DEFLATE',
     })
 
-    return new NextResponse(outputBuffer, {
+    const uint8Array = new Uint8Array(outputBuffer)
+
+    return new NextResponse(uint8Array, {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'Content-Disposition': `attachment; filename="${fileName || 'edited'}.docx"`,
