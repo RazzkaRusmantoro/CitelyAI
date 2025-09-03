@@ -22,8 +22,8 @@ interface TiptapProps {
 type ProcessingStatus = 'idle' | 'processing' | 'complete' | 'failed';
 
 const Tiptap = forwardRef(({ processingComplete }: TiptapProps, ref) => {
-  // const searchParams = useSearchParams()
-  const fileId = "34aca7a4-0388-48f9-99d4-f7574acb6a29"
+  const searchParams = useSearchParams()
+  const fileId = searchParams.get('fileId')
   const [isLoading, setIsLoading] = useState(!!fileId)
   const [citedSentences, setCitedSentences] = useState<HighlightedSentence[]>([])
   const supabase = createClient()
@@ -505,12 +505,15 @@ const Tiptap = forwardRef(({ processingComplete }: TiptapProps, ref) => {
         )}
         
         {/* Color Highlight Popover */}
+        
         {editor && (
+          <Suspense fallback={<div>Loading editor tool...</div>}>
           <ColorHighlightPopover
             editor={editor}
             hideWhenUnavailable={true}
             onApplied={({ color, label }) => console.log(`Applied highlight: ${label} (${color})`)}
           />
+          </Suspense>
         )}
         
         <EditorContent editor={editor} role="presentation" />
