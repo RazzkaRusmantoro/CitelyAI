@@ -27,11 +27,12 @@ export default function SuccessPage() {
   const sessionId = searchParams.get('session_id');
   const [receipt, setReceipt] = useState<ReceiptData | null>(null);
   const [loading, setLoading] = useState(true);
+  
+  const supabase = createClient();
 
   useEffect(() => {
     if (sessionId) {
       const fetchReceipt = async () => {
-        const supabase = createClient();
         const { data, error } = await supabase
           .from('receipts')
           .select('*')
