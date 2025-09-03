@@ -821,7 +821,9 @@ export default function Citation() {
                         display: none;
                     }
                     `}</style>
-                    <Tiptap ref={tiptapRef} />
+                    <Suspense fallback={<div>Loading editor tool...</div>}>
+                        <Tiptap ref={tiptapRef} />
+                    </Suspense>
                 </div>
                 
                 {/* Right Panel */}

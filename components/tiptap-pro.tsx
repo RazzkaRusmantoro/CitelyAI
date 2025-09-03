@@ -3,7 +3,7 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
-import { forwardRef, useImperativeHandle, useEffect, useState, useRef } from 'react'
+import { forwardRef, useImperativeHandle, useEffect, useState, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { ColorHighlightPopover } from '@/components/tiptap-ui/color-highlight-popover'
@@ -480,6 +480,7 @@ const Tiptap = forwardRef(({ processingComplete }: TiptapProps, ref) => {
   };
 
   return (
+    <Suspense fallback={<div>Loading editor tool...</div>}>
     <EditorContext.Provider value={{ editor }}>
       <div 
         ref={editorRef}
@@ -515,6 +516,7 @@ const Tiptap = forwardRef(({ processingComplete }: TiptapProps, ref) => {
         <EditorContent editor={editor} role="presentation" />
       </div>
     </EditorContext.Provider>
+    </Suspense>
   )
 })
 
