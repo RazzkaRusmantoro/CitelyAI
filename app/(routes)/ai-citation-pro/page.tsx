@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, Suspense } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useSearchParams } from 'next/navigation'
 import Tiptap from '@/components/tiptap-pro'
@@ -820,7 +820,9 @@ export default function Citation() {
                         display: none;
                     }
                     `}</style>
-                    <Tiptap ref={tiptapRef} />
+                    <Suspense fallback={<div>Loading editor tool...</div>}>
+                        <Tiptap ref={tiptapRef} />
+                    </Suspense>
                 </div>
                 
                 {/* Right Panel */}
