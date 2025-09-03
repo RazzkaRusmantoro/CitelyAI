@@ -5,9 +5,6 @@ import { createClient } from '@/utils/supabase/server'
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Create Supabase client
-const supabase = await createClient();
-
 interface SupportRequest {
   firstName: string;
   lastName: string;
@@ -20,6 +17,7 @@ interface SupportRequest {
 
 export async function POST(req: NextRequest) {
   try {
+
     const body: SupportRequest = await req.json();
     const { firstName, lastName, email, phone, category, message, supabaseId } = body;
     const ticketId = `CT-${supabaseId}`;
