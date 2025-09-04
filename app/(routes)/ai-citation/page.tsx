@@ -3,7 +3,12 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useSearchParams } from 'next/navigation'
-import ExistingPDFViewer from '@/components/ExistingPDFViewer';
+import dynamic from "next/dynamic";
+
+const ExistingPDFViewer = dynamic(() => import('@/components/ExistingPDFViewer'), {
+  ssr: false,
+});
+
 import { ChevronDown, ChevronRight, ExternalLink, Copy, Highlighter } from 'lucide-react';
 
 interface Reference {
