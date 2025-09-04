@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { CheckCircle2, Receipt, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -22,7 +22,7 @@ const fadeIn = {
   visible: { opacity: 1, y: 0 }
 };
 
-export default function SuccessPage() {
+function SuccessPage() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
   const [receipt, setReceipt] = useState<ReceiptData | null>(null);
@@ -158,4 +158,12 @@ export default function SuccessPage() {
       </motion.div>
     </div>
   );
+}
+
+export default function SuccessFinal() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <SuccessPage />
+        </Suspense>
+    )
 }

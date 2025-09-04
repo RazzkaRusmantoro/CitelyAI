@@ -4,7 +4,7 @@
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 
@@ -13,7 +13,7 @@ interface FormData {
   confirmPassword: string;
 }
 
-export default function UpdatePassword() {
+function UpdatePassword() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
   const router = useRouter();
@@ -149,4 +149,12 @@ export default function UpdatePassword() {
       </div>
     </main>
   );
+}
+
+export default function UpdatePasswordFinal() {
+    return (
+        <Suspense>
+            <UpdatePassword />
+        </Suspense>
+    )
 }

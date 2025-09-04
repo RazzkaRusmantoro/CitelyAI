@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { FiSearch, FiChevronLeft, FiChevronRight, FiChevronDown, FiChevronUp, FiCopy, FiX, FiBookmark } from 'react-icons/fi';
 import PaperItem from '@/components/paper-item';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ type FilterOptions = {
     selectedAuthors: string[];
 };
 
-export default function SearchResults() {
+function SearchResults() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const query = searchParams.get('q');
@@ -575,4 +575,12 @@ export default function SearchResults() {
             </div>
         </div>
     );
+}
+
+export default function SearchFinal() {
+    return (
+        <Suspense>
+            <SearchResults />
+        </Suspense>
+    )
 }
