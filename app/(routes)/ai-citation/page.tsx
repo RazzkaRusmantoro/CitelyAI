@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useSearchParams } from 'next/navigation'
 import dynamic from "next/dynamic";
@@ -29,7 +29,7 @@ interface PaperDetails {
 
 type CitationStyle = 'APA' | 'MLA' | 'Chicago' | 'Harvard';
 
-export default function Citation() {
+function Citation() {
     const searchParams = useSearchParams()
     const [highlightEnabled, setHighlightEnabled] = useState(true);
     const fileId = searchParams.get('fileId')
@@ -514,5 +514,13 @@ export default function Citation() {
                 </div>
             </div>
         </main>
+    )
+}
+
+export default function CitationFinal() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <Citation />
+        </Suspense>
     )
 }
