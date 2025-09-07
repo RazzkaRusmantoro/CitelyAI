@@ -51,7 +51,7 @@ export default function DashboardSummarizer() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/summarize', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/summarize`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export default function DashboardSummarizer() {
     setShowUrlInput(false);
 
     try {
-      const response = await fetch('http://localhost:5000/api/summarize-link', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/summarize-link`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -42,7 +42,7 @@ export default function UploadBox() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:5000/api/extract-keywords', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/extract-keywords`, {
         method: 'POST',
         body: formData
       });

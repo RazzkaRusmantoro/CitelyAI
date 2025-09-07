@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const pythonRes = await fetch("http://localhost:5000/api/cite-link", {
+    const pythonRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/cite-link`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -20,15 +20,15 @@ export function CarouselShowcase({ className }: CarouselShowcaseProps) {
 
   const steps = [
     {
-      title: "Reference Verification",
+      title: "Automated Citations",
       description:
-        "Instantly verify the authenticity of academic references and citations.",
+        "Quickly generate and validate academic references for your papers with accuracy and ease.",
       image: "/ss1.png",
     },
     {
-      title: "Source Discovery",
+      title: "Source Verification",
       description:
-        "Find credible academic sources for your research topics automatically.",
+        "Instantly verify the authenticity of any source.",
       image: "/ss2.png",
     },
     {

@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
     const { citedSentence } = await request.json();
 
     // Call the Flask backend
-    const flaskResponse = await fetch('http://localhost:5000/api/rephrase', {
+    const flaskResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rephrase`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

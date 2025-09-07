@@ -282,7 +282,7 @@ export async function POST(request: Request) {
         }
 
         // 4. Call Flask API for citations
-        const flaskResponse = await fetch('http://localhost:5000/api/cite-openai', {
+        const flaskResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/cite-openai`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

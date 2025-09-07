@@ -38,7 +38,7 @@ export default function DashboardCredibility() {
       setError('');
       setResults(null);
       
-      const response = await fetch('http://localhost:5000/api/source_checker', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/source_checker`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

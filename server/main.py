@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import threading
+import time
+import psutil
+import humanize
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -13,6 +17,39 @@ load_dotenv(dotenv_path=env_path)
 app = Flask(__name__)
 CORS(app)
 print("Life")
+
+# Memory monitoring function
+def monitor_memory():
+    """Continuously monitor and print memory usage every second"""
+    process = psutil.Process(os.getpid())
+    
+    while True:
+        try:
+            # Get memory info
+            memory_info = process.memory_info()
+            rss_mb = memory_info.rss / (1024 * 1024)  # RSS in MB
+            rss_gb = memory_info.rss / (1024 * 1024 * 1024)  # RSS in GB
+            
+            # Get virtual memory
+            virtual_memory = psutil.virtual_memory()
+            
+            print(f"\n=== Memory Usage ===")
+            print(f"Process RSS: {rss_mb:.2f} MB ({rss_gb:.3f} GB)")
+            print(f"Total System Memory: {humanize.naturalsize(virtual_memory.total)}")
+            print(f"Available System Memory: {humanize.naturalsize(virtual_memory.available)}")
+            print(f"Memory Percent Used: {virtual_memory.percent}%")
+            print("====================\n")
+            
+            time.sleep(1)
+            
+        except Exception as e:
+            print(f"Error monitoring memory: {e}")
+            time.sleep(5)
+
+# Start memory monitoring in a daemon thread
+memory_thread = threading.Thread(target=monitor_memory, daemon=True)
+memory_thread.start()
+
 
 # Keyword Extraction API
 from app.routes.key_bert_upload import keyword_extraction_bp

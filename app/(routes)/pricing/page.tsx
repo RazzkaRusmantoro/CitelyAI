@@ -74,7 +74,7 @@ export default function Pricing() {
       icon: <Zap className="w-6 h-6 text-blue-500" />,
       features: [
         "All Previous Plan's Benefits",
-        "30 documents per day (DOCX/PDF)",
+        "30,000 Credits Monthly",
         "Bibliography manager",
         "Academic Source Finder",
         "Source Credibility Checker",
@@ -92,6 +92,7 @@ export default function Pricing() {
       icon: <Rocket className="w-6 h-6 text-purple-500" />,
       features: [
         "All Previous Plan's Benefits",
+        "50,000 Credits Monthly",
         "Priority AI processing",
         "Premium AI Citation Assistant Interactive Tool",
         "Advanced bibliography manager with folders",

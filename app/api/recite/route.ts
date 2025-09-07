@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     console.log(citedSentence, fileId)
     
     // Call the Flask backend
-    const flaskResponse = await fetch('http://localhost:5000/api/recite', {
+    const flaskResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/recite`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

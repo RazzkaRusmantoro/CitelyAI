@@ -84,7 +84,7 @@ export default function Header() {
       icon: <Zap className="w-6 h-6 text-blue-500" />,
       features: [
         "All Previous Plan's Benefits",
-        "30 documents per day (DOCX/PDF)",
+        "30,000 Credits Monthly",
         "Bibliography manager",
         "Academic Source Finder",
         "Source Credibility Checker",
@@ -102,6 +102,7 @@ export default function Header() {
       icon: <Rocket className="w-6 h-6 text-purple-500" />,
       features: [
         "All Previous Plan's Benefits",
+        "50,000 Credits Monthly",
         "Priority AI processing",
         "Premium AI Citation Assistant Interactive Tool",
         "Advanced bibliography manager with folders",
@@ -458,14 +459,6 @@ export default function Header() {
         <FadeInOnScroll>
           <div className="py-20 ">
             <div className="max-w-5xl mx-auto px-6">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-semibold text-white mb-4">
-                  What People Are Saying
-                </h2>
-                <p className="text-xl text-white max-w-2xl mx-auto">
-                  Hear from users who transformed their research workflow
-                </p>
-              </div>
 
               {/* <div className="relative">
                 Decorative elements
@@ -596,12 +589,12 @@ export default function Header() {
             </div>
           </div>
         </FadeInOnScroll>
-        <FadeInOnScroll>
+        {/* <FadeInOnScroll>
           <div className="border-t border-gray-200 py-20 bg-white"></div>
         </FadeInOnScroll>
         <FadeInOnScroll>
           <div className="border-t border-gray-200 py-20 bg-gray-50"></div>
-        </FadeInOnScroll>
+        </FadeInOnScroll> */}
         <FadeInOnScroll>
           <div className="border-t border-gray-200 py-20 bg-white">
             <div className="relative overflow-hidden flex flex-col">
@@ -617,21 +610,12 @@ export default function Header() {
                   </div>
                 </FadeInOnScroll>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch"> {/* Add items-stretch here */}
                   {tiers.map((tier) => (
                     <FadeInOnScroll key={tier.name}>
-                      <motion.div
-                        whileHover={{ y: -5 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Card
-                          className={`h-full flex flex-col ${
-                            tier.featured
-                              ? "border-2 border-amber-400 shadow-lg"
-                              : "border-gray-200"
-                          }`}
-                        >
-                          <CardHeader>
+                      <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.2 }} className="h-full">
+                        <Card className={`h-full flex flex-col ${tier.featured ? "border-2 border-amber-400 shadow-lg" : "border-gray-200"}`}>
+                          <CardHeader className="flex-shrink-0"> {/* Prevent header from growing */}
                             <div className="flex items-center gap-3">
                               {tier.icon}
                               <CardTitle className="text-2xl font-bold text-gray-900">
@@ -650,19 +634,17 @@ export default function Header() {
                               )}
                             </div>
                           </CardHeader>
-                          <CardContent className="flex-grow">
+                          <CardContent className="flex-grow"> {/* This will grow to fill space */}
                             <ul className="space-y-3">
                               {tier.features.map((feature) => (
                                 <li key={feature} className="flex items-start">
                                   <Check className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                                  <span className="text-gray-700">
-                                    {feature}
-                                  </span>
+                                  <span className="text-gray-700">{feature}</span>
                                 </li>
                               ))}
                             </ul>
                           </CardContent>
-                          <CardFooter>
+                          <CardFooter className="flex-shrink-0"> {/* Prevent footer from growing */}
                             <Button
                               size="lg"
                               className={`w-full hover:cursor-pointer ${
@@ -671,11 +653,8 @@ export default function Header() {
                                   : "bg-gray-900 hover:bg-gray-800"
                               }`}
                               onClick={() => {
-                                if (tier.priceValue) {
-                                  handleCheckout(tier.priceValue);
-                                }
+                                router.push("/pricing");
                               }}
-                              disabled={!tier.priceValue}
                             >
                               {tier.cta}
                             </Button>

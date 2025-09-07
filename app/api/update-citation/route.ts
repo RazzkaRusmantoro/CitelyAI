@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     }
 
     // Call your Python backend API
-    const pythonResponse = await fetch("http://localhost:5000/update-citation", {
+    const pythonResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/update-citation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
