@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 from sentence_transformers import SentenceTransformer, util
+import numpy as np
 from keybert import KeyBERT
 import spacy
 import requests
-import torch
 from openai import OpenAI
 import json
 import os
@@ -14,8 +14,8 @@ cite_bp = Blueprint('cite', __name__)
 
 # Initialize models once
 nlp = spacy.load("en_core_web_sm")
-kw_model = KeyBERT('all-MiniLM-L6-v2')
-sbert_model = SentenceTransformer('all-MiniLM-L6-v2').to('cuda' if torch.cuda.is_available() else 'cpu')
+kw_model = KeyBERT('paraphrase-MiniLM-L3-v2')
+sbert_model = SentenceTransformer('paraphrase-MiniLM-L3-v2')
 
 # Load environment variables
 env_path = Path(__file__).resolve().parents[3] / '.env.local'
@@ -72,7 +72,7 @@ def cite():
         matched_pairs = []
         essay_embeddings = sbert_model.encode(
             [s['text'] for s in sentences],
-            convert_to_tensor=True
+            convert_to_tensor=False
         )
         
         # For each sentence, find the best matching paper
@@ -82,10 +82,11 @@ def cite():
             if not abstract_sents:
                 continue
                 
-            abstract_embeddings = sbert_model.encode(abstract_sents, convert_to_tensor=True)
+            abstract_embeddings = sbert_model.encode(abstract_sents, convert_to_tensor=False)
             author = paper.get("authors", [{}])[0].get("name", "").split()[-1] if paper.get("authors") else "Author"
             year = paper.get("year", "n.d.")
             
+            abstract_embeddings = sbert_model.encode(abstract_sents, convert_to_tensor=False)
             paper_data.append({
                 "embeddings": abstract_embeddings,
                 "sentences": abstract_sents,
@@ -105,11 +106,11 @@ def cite():
                     essay_embeddings[sent_idx:sent_idx+1], 
                     paper["embeddings"]
                 )
-                max_score = torch.max(similarities).item()
+                max_score = np.max(similarities)
                 
                 if max_score > best_score:
                     best_score = max_score
-                    best_abstract_sent = paper["sentences"][torch.argmax(similarities).item()]
+                    best_abstract_sent = paper["sentences"][np.argmax(similarities)]
                     
                     best_match = {
                         "original_sentence": sentence['text'],

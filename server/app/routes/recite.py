@@ -3,7 +3,7 @@ from sentence_transformers import SentenceTransformer, util
 from keybert import KeyBERT
 import spacy
 import requests
-import torch
+import numpy as np
 from openai import OpenAI
 import json
 import os
@@ -15,8 +15,8 @@ recite_bp = Blueprint('recite', __name__)
 
 # Initialize models once
 nlp = spacy.load("en_core_web_sm")
-kw_model = KeyBERT('all-MiniLM-L6-v2')
-sbert_model = SentenceTransformer('all-MiniLM-L6-v2').to('cuda' if torch.cuda.is_available() else 'cpu')
+kw_model = KeyBERT('paraphrase-MiniLM-L3-v2')
+sbert_model = SentenceTransformer('paraphrase-MiniLM-L3-v2')
 
 # Load environment variables
 env_path = Path(__file__).resolve().parents[3] / '.env.local'
@@ -160,22 +160,22 @@ def cite():
                 unique_papers.append(paper)
         
         # Sort by combined score
-        unique_papers = sorted(unique_papers, key=lambda x: x.get('combined_score', 0), reverse=True)
+        unique_papers = sorted(unique_papers, key=lambda x: x.get('combined_score', 0), reverse=False)
         
         print(f"Found {len(unique_papers)} unique papers")
         
         # 3. Always return the best match, even if similarity is low
         if unique_papers:
             # Encode the sentence
-            sentence_embedding = sbert_model.encode([base_sentence], convert_to_tensor=True)
+            sentence_embedding = sbert_model.encode([base_sentence], convert_to_tensor=False)
             
             # Encode paper abstracts (top 10 by combined score)
             paper_abstracts = [paper['abstract'] for paper in unique_papers[:10]]
-            paper_embeddings = sbert_model.encode(paper_abstracts, convert_to_tensor=True)
+            paper_embeddings = sbert_model.encode(paper_abstracts, convert_to_tensor=False)
             
             # Calculate similarities
             similarities = util.cos_sim(sentence_embedding, paper_embeddings)[0]
-            best_match_idx = torch.argmax(similarities).item()
+            best_match_idx = np.argmax(similarities)
             best_paper = unique_papers[best_match_idx]
             similarity_score = similarities[best_match_idx].item()
             

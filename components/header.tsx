@@ -211,7 +211,7 @@ export default function Header() {
                         </div>
                         <div>
                           <div className="font-medium text-gray-900">
-                            Razzka daddy
+                            Jordan Gakam
                           </div>
                           <div className="text-xs text-gray-500">
                             March 15, 2023
