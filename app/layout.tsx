@@ -22,6 +22,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Citera",
   description: "Citera",
+  verification: {
+    google: '4SrDilKx8TYDb8wugk88bqQ15Whn0ct7qB3HFMQXZoI',
+    
+  }
 };
 
 export default function RootLayout({
