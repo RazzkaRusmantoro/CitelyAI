@@ -202,47 +202,6 @@ export default function Header() {
                       afterClassName="bg-gray-50 rounded-xl"
                       slideMode="hover"
                     />
-
-                    {/* Rating div positioned bottom-left of TextCompare */}
-                    <div className="absolute z-50 -bottom-15 -left-4 w-64 bg-white rounded-xl group shadow-lg border border-gray-200 p-4 transition-all duration-300 hover:shadow-xl hover:scale-105">
-                      <div className="flex items-center mb-2">
-                        <div className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold mr-3">
-                          RD
-                        </div>
-                        <div>
-                          <div className="font-medium text-gray-900">
-                            Jordan Gakam
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            March 15, 2023
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex mb-2">
-                        {[...Array(5)].map((_, i) => (
-                          <svg
-                            key={i}
-                            className="w-5 h-5 text-yellow-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                      </div>
-
-                      <div className="relative overflow-hidden">
-                        <p className="text-sm text-gray-700">
-                          omg this app is{" "}
-                          <span className="relative">
-                            <span className="relative z-10">soooooo good</span>
-                            <span className="absolute left-0 top-0 h-full w-0 bg-yellow-500 opacity-40 transition-all duration-500 ease-in-out group-hover:w-full"></span>
-                          </span>{" "}
-                          i wouldnt be able to live without it
-                        </p>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -370,9 +329,9 @@ export default function Header() {
               </div>
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                 <div className="text-4xl font-bold text-green-600 mb-2">
-                  50k+
+                  500+
                 </div>
-                <div className="text-gray-600">Happy Abdur Rahmans</div>
+                <div className="text-gray-600">Satisfied Users</div>
               </div>
             </div>
           </div>
